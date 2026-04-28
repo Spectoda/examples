@@ -1,0 +1,62 @@
+{
+  "controller": {
+    "name": "Z19",
+    "led": 19,
+    "!button": 22
+  },
+  "temperature": {
+    "type": "NTC",
+    "pin": 35,
+    "resistance": 47000
+  },
+  "io": {
+    "IO21": {
+      "type": "GPIO",
+      "pin": 21
+    },
+    "IO25": {
+      "type": "GPIO",
+      "pin": 25
+    },
+    "IO26": {
+      "type": "GPIO",
+      "pin": 26
+    },
+    "IO32": {
+      "type": "ADC",
+      "pin": 32
+    },
+    "IO33": {
+      "type": "ADC",
+      "pin": 33
+    },
+    "DALI": {
+      "type": "DALI",
+      "mapping": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "order": "W",
+      "tx": 23,
+      "!rx": 18,
+      "fadetime": 700,
+      "faderate": 358,
+      "poweronlevel": 10
+    }
+  },
+  "segments": {
+    "WHITE": {
+      "io": "DALI",
+      "from": 1,
+      "to": 2
+    },
+    "RED": {
+      "io": "DALI",
+      "from": 3,
+      "to": 4
+    }
+  }
+}
+
