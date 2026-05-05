@@ -1,4 +1,4 @@
-# Module overlay: examples — AGENTS.md
+# AGENTS.md — `modules/examples`
 
 Tento modul je public repo pro ukázky použití Spectoda kontrolerů, Berry
 scriptů, projektových patternů a integračních snippetů.
@@ -32,4 +32,3 @@ scriptů, projektových patternů a integračních snippetů.
   To zůstává v `modules/products/` a `modules/pricebook/`.
 - Příklad může odkazovat na firmware nebo dokumentaci, ale nemá duplikovat
   dlouhé interní reference.
-
