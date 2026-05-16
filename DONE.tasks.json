@@ -1,0 +1,10 @@
+{
+  "schema_version": "companiesascode.done_tasks.v1",
+  "scope": {
+    "id": "spectoda-modules-examples",
+    "name": "Spectoda examples",
+    "path": "modules/examples",
+    "owner": "module-owner"
+  },
+  "tasks": []
+}
