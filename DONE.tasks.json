@@ -8,18 +8,53 @@
   },
   "tasks": [
     {
-      "id": "done-2026-05-20-4i-group-toggle",
+      "id": "task-2026-05-20-921",
       "title": "Add 4I group toggle DALI zones example",
       "status": "done",
-      "completed_at": "2026-05-20",
+      "priority": "medium",
+      "priority_rank": 50,
       "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Public controller examples help technicians reuse proven DALI/Berry patterns without copying from private support context.",
+      "created_at": "2026-05-20",
+      "updated_at": "2026-05-20",
+      "tags": [
+        "examples",
+        "controller",
+        "dali",
+        "berry"
+      ],
       "summary": "Added a public-safe example derived from a controller support case: one 4-input button controller input toggles a list of `EVS(\"toggl\", id)` targets as a single logical group.",
+      "risk_notes": [
+        "The example is public-safe and uses illustrative controller and DALI segment IDs only.",
+        "Technicians still need to adapt IO names and stable IDs to the actual controller config."
+      ],
+      "acceptance_criteria": [
+        "The example has a dedicated README and copyable Berry/TNGL snippets.",
+        "Module README, CHANGELOG and done task ledger reference the new example.",
+        "No secrets, private network keys or customer-specific data are included."
+      ],
+      "links": [],
+      "completed_at": "2026-05-20",
+      "completed_by": "codex",
       "outcome": "The example includes the reusable `OnClickToggleGroup(...)` Berry helper, mirrored `4I_01`/`4I_02` usage snippets, and a compact TNGL project fragment for DALI zones `ID1..ID12`.",
       "evidence": [
-        "controller-4i-group-toggle-dali-zones/README.md",
-        "controller-4i-group-toggle-dali-zones/on-click-toggle-group.be",
-        "controller-4i-group-toggle-dali-zones/usage-two-4i-controllers.tngl",
-        "controller-4i-group-toggle-dali-zones/final-project.tngl"
+        {
+          "label": "Example README",
+          "path": "controller-4i-group-toggle-dali-zones/README.md"
+        },
+        {
+          "label": "Reusable Berry helper",
+          "path": "controller-4i-group-toggle-dali-zones/on-click-toggle-group.be"
+        },
+        {
+          "label": "Two-controller usage snippet",
+          "path": "controller-4i-group-toggle-dali-zones/usage-two-4i-controllers.tngl"
+        },
+        {
+          "label": "Compact final TNGL fragment",
+          "path": "controller-4i-group-toggle-dali-zones/final-project.tngl"
+        }
       ]
     }
   ]
