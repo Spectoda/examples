@@ -12,6 +12,9 @@ developer can see why the pieces are connected that way.
 - `controller-analog-potentiometer-dali-red-white/` - two analog
   potentiometers mapped to `white` and `red` EventStates for a two-room DALI
   setup.
+- `controller-4i-group-toggle-dali-zones/` - a 4-input button controller
+  pattern that toggles multiple `toggl` EventStates as one group, useful for
+  DALI zones split across several controllers.
 
 ## Example Rules
 
@@ -26,4 +29,3 @@ Each example should include:
 
 Do not commit secrets, client credentials, private network keys, or
 customer-specific data that is not meant to be public.
-

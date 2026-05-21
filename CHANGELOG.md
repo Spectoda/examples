@@ -2,6 +2,24 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260520
+
+### Added
+
+- Added a 4-input controller example for group toggling multiple DALI zone
+  EventStates with one click.
+- Added the reusable `OnClickToggleGroup(...)` Berry helper.
+- Added mirrored `4I_01` and `4I_02` usage snippets for `SW1` and `SW2`.
+- Added a compact TNGL project fragment showing `ID1..ID12` DALI segment
+  mapping.
+
+### Impact
+
+- Technicians can copy a group toggle pattern that normalizes mixed on/off
+  states instead of swapping them between IDs.
+- Repeated single-target `OnClickToggle(...)` calls can now be replaced by one
+  logical group toggle per button input.
+
 ## 20260428
 
 ### Added

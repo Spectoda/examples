@@ -1,0 +1,33 @@
+// Right side wall controller
+defController($4I_01, {
+    BERRY(`
+    OnClickToggleGroup({
+        "in": io["SW2"],
+        "evs": [EVS("toggl", ID1), EVS("toggl", ID3), EVS("toggl", ID5), EVS("toggl", ID7), EVS("toggl", ID9), EVS("toggl", ID11)]
+    })
+    `);
+
+    BERRY(`
+    OnClickToggleGroup({
+        "in": io["SW1"],
+        "evs": [EVS("toggl", ID2), EVS("toggl", ID4), EVS("toggl", ID6), EVS("toggl", ID8), EVS("toggl", ID10), EVS("toggl", ID12)]
+    })
+    `);
+});
+
+// Left side wall controller
+defController($4I_02, {
+    BERRY(`
+    OnClickToggleGroup({
+        "in": io["SW2"],
+        "evs": [EVS("toggl", ID1), EVS("toggl", ID3), EVS("toggl", ID5), EVS("toggl", ID7), EVS("toggl", ID9), EVS("toggl", ID11)]
+    })
+    `);
+
+    BERRY(`
+    OnClickToggleGroup({
+        "in": io["SW1"],
+        "evs": [EVS("toggl", ID2), EVS("toggl", ID4), EVS("toggl", ID6), EVS("toggl", ID8), EVS("toggl", ID10), EVS("toggl", ID12)]
+    })
+    `);
+});

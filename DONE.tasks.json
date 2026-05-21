@@ -6,5 +6,21 @@
     "path": "modules/examples",
     "owner": "module-owner"
   },
-  "tasks": []
+  "tasks": [
+    {
+      "id": "done-2026-05-20-4i-group-toggle",
+      "title": "Add 4I group toggle DALI zones example",
+      "status": "done",
+      "completed_at": "2026-05-20",
+      "assignee": "agent",
+      "summary": "Added a public-safe example derived from a controller support case: one 4-input button controller input toggles a list of `EVS(\"toggl\", id)` targets as a single logical group.",
+      "outcome": "The example includes the reusable `OnClickToggleGroup(...)` Berry helper, mirrored `4I_01`/`4I_02` usage snippets, and a compact TNGL project fragment for DALI zones `ID1..ID12`.",
+      "evidence": [
+        "controller-4i-group-toggle-dali-zones/README.md",
+        "controller-4i-group-toggle-dali-zones/on-click-toggle-group.be",
+        "controller-4i-group-toggle-dali-zones/usage-two-4i-controllers.tngl",
+        "controller-4i-group-toggle-dali-zones/final-project.tngl"
+      ]
+    }
+  ]
 }
