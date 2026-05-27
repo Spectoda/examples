@@ -15,6 +15,9 @@ developer can see why the pieces are connected that way.
 - `controller-4i-group-toggle-dali-zones/` - a 4-input button controller
   pattern that toggles multiple `toggl` EventStates as one group, useful for
   DALI zones split across several controllers.
+- `controller-toggle-button-hold-dim-dali/` - a single digital toggle button
+  pattern that ramps DALI brightness while pressed or latched on, stops on
+  release, and reverses dimming direction on the next press.
 
 ## Example Rules
 

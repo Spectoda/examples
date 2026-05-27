@@ -2,6 +2,24 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260527
+
+### Added
+
+- Added a toggle button hold-dimming example for one DALI lamp zone.
+- Added the reusable `ToggleButtonDimmer(...)` Berry helper.
+- Added a copyable single-controller usage snippet and illustrative controller
+  config.
+- Added a compact TNGL project fragment showing `brigh` EventState brightness
+  control.
+
+### Impact
+
+- Technicians can reuse one digital lamp-style toggle input for gradual dimming
+  instead of only simple on/off control.
+- The helper preserves the current brightness on release and reverses direction
+  on the next press, including endpoint handling at `0%` and `100%`.
+
 ## 20260520
 
 ### Added

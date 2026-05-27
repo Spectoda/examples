@@ -1,0 +1,127 @@
+import controller
+
+controller.ups = 50
+
+def ClampPercentage(value, min_pct, max_pct)
+    var pct = int(value)
+
+    if pct < min_pct
+        return min_pct
+    elif pct > max_pct
+        return max_pct
+    end
+
+    return pct
+end
+
+def ToggleButtonDimmer(S)
+    var input = S["in"]
+    var brigh = S["brigh"]
+    var toggl = S.find("toggl", nil)
+    var min_pct = S.find("min", 0)
+    var max_pct = S.find("max", 100)
+    var step_pct = S.find("step_pct", 1)
+    var step_ms = S.find("step_ms", 80)
+    var direction = S.find("direction", 1)
+    var level = S.find("initial", min_pct)
+    var last_input = input.read() == 0 ? 0 : 1
+    var active = false
+    var last_step = controller.millis()
+    var last_emit = nil
+
+    min_pct = ClampPercentage(min_pct, 0, 100)
+    max_pct = ClampPercentage(max_pct, 0, 100)
+
+    if max_pct < min_pct
+        var tmp = min_pct
+        min_pct = max_pct
+        max_pct = tmp
+    end
+
+    if step_pct < 1
+        step_pct = 1
+    end
+
+    if step_ms < 20
+        step_ms = 20
+    end
+
+    direction = direction < 0 ? -1 : 1
+    level = ClampPercentage(level, min_pct, max_pct)
+
+    try
+        level = ClampPercentage(brigh.get(PERCENTAGE), min_pct, max_pct)
+    except ..
+    end
+
+    if level <= min_pct
+        direction = 1
+    elif level >= max_pct
+        direction = -1
+    end
+
+    return Plugin(def()
+        var now = controller.millis()
+        var pressed = input.read() == 0 ? 0 : 1
+
+        if pressed != last_input
+            last_input = pressed
+
+            if active
+                active = false
+
+                if level <= min_pct
+                    direction = 1
+                elif level >= max_pct
+                    direction = -1
+                else
+                    direction = -direction
+                end
+            else
+                try
+                    level = ClampPercentage(brigh.get(PERCENTAGE), min_pct, max_pct)
+                except ..
+                end
+
+                if level <= min_pct
+                    direction = 1
+                elif level >= max_pct
+                    direction = -1
+                end
+
+                active = true
+                last_step = now - step_ms
+            end
+        end
+
+        if !active
+            return
+        end
+
+        if now - last_step < step_ms
+            return
+        end
+
+        last_step = now
+        level = level + direction * step_pct
+
+        if level >= max_pct
+            level = max_pct
+            active = false
+            direction = -1
+        elif level <= min_pct
+            level = min_pct
+            active = false
+            direction = 1
+        end
+
+        if last_emit == nil || level != last_emit
+            last_emit = level
+            brigh.set(level, PERCENTAGE)
+
+            if toggl != nil
+                toggl.set(level > min_pct ? 100 : 0, PERCENTAGE)
+            end
+        end
+    end)
+end

@@ -1,0 +1,35 @@
+{
+  "controller": {
+    "name": "SC_LAMP_DIMMER",
+    "led": 19,
+    "!button": 22
+  },
+  "io": {
+    "SW1": {
+      "type": "GPI",
+      "!pin+": 27
+    },
+    "DALI": {
+      "type": "DALI",
+      "mapping": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "order": "W",
+      "tx": 23,
+      "!rx": 18,
+      "fadetime": 700,
+      "faderate": 358,
+      "poweronlevel": 10
+    }
+  },
+  "segments": {
+    "DALI_LAMP": {
+      "io": "DALI",
+      "from": 1,
+      "to": 4
+    }
+  }
+}

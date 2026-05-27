@@ -8,6 +8,61 @@
   },
   "tasks": [
     {
+      "id": "task-2026-05-27-527",
+      "title": "Add toggle button hold-dimming DALI example",
+      "status": "done",
+      "priority": "medium",
+      "priority_rank": 50,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Public controller examples help technicians reuse proven DALI/Berry patterns for simple physical wall controls.",
+      "created_at": "2026-05-27",
+      "updated_at": "2026-05-27",
+      "tags": [
+        "examples",
+        "controller",
+        "dali",
+        "berry",
+        "dimming"
+      ],
+      "summary": "Added a public-safe example for one digital lamp-style toggle input that ramps `EVS(\"brigh\", id)` while pressed, stops on release, and reverses dimming direction on the next press.",
+      "risk_notes": [
+        "The example is public-safe and uses illustrative controller, pin and DALI segment IDs only.",
+        "Technicians still need to adapt IO names, physical input polarity and stable IDs to the actual controller config."
+      ],
+      "acceptance_criteria": [
+        "The example has a dedicated README and copyable Berry/TNGL snippets.",
+        "Module README, CHANGELOG and done task ledger reference the new example.",
+        "No secrets, private network keys or customer-specific data are included."
+      ],
+      "links": [],
+      "completed_at": "2026-05-27",
+      "completed_by": "codex",
+      "outcome": "The example includes the reusable `ToggleButtonDimmer(...)` Berry helper, a single-controller usage snippet, an illustrative controller config and a compact TNGL fragment for one DALI lamp zone.",
+      "evidence": [
+        {
+          "label": "Example README",
+          "path": "controller-toggle-button-hold-dim-dali/README.md"
+        },
+        {
+          "label": "Reusable Berry helper",
+          "path": "controller-toggle-button-hold-dim-dali/toggle-button-dimmer.be"
+        },
+        {
+          "label": "Single-controller usage snippet",
+          "path": "controller-toggle-button-hold-dim-dali/usage-single-controller.be"
+        },
+        {
+          "label": "Illustrative controller config",
+          "path": "controller-toggle-button-hold-dim-dali/controller-config.json"
+        },
+        {
+          "label": "Compact final TNGL fragment",
+          "path": "controller-toggle-button-hold-dim-dali/final-project.tngl"
+        }
+      ]
+    },
+    {
       "id": "task-2026-05-20-921",
       "title": "Add 4I group toggle DALI zones example",
       "status": "done",
