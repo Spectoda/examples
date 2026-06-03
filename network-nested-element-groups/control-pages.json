@@ -1,0 +1,125 @@
+[
+  {
+    "id": "DIMMA",
+    "name": "Brightness",
+    "eventControlPage": {
+      "id": "brightness-control-page",
+      "config": {
+        "columns": 1,
+        "maxWidth": "default"
+      },
+      "eventControls": [
+        {
+          "id": "brightness-slider",
+          "name": "Brightness",
+          "type": "slider",
+          "EVS": {
+            "type": 30,
+            "label": "brigh"
+          },
+          "config": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "icon": "SunIcon"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "AMBER",
+    "name": "Warm White",
+    "eventControlPage": {
+      "id": "warm-white-control-page",
+      "config": {
+        "columns": 1,
+        "maxWidth": "default"
+      },
+      "eventControls": [
+        {
+          "id": "warm-white-brightness-slider",
+          "name": "Brightness",
+          "type": "slider",
+          "EVS": {
+            "type": 30,
+            "label": "brigh"
+          },
+          "config": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "icon": "SunIcon"
+          }
+        },
+        {
+          "id": "warm-white-temperature-slider",
+          "name": "Temperature",
+          "type": "slider",
+          "EVS": {
+            "type": 30,
+            "label": "tempe"
+          },
+          "config": {
+            "min": -100,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "icon": "SunIcon",
+            "variant": "temperature"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "COLOR",
+    "name": "Color",
+    "eventControlPage": {
+      "id": "color-control-page",
+      "config": {
+        "columns": 1,
+        "maxWidth": "default"
+      },
+      "eventControls": [
+        {
+          "id": "color-picker",
+          "name": "Color",
+          "type": "colorPickers",
+          "config": {
+            "columns": 1,
+            "variant": "large"
+          },
+          "colorPickers": [
+            {
+              "id": "primary-color",
+              "name": "Color",
+              "EVS": {
+                "type": 26,
+                "label": "color"
+              }
+            }
+          ]
+        },
+        {
+          "id": "color-brightness-slider",
+          "name": "Brightness",
+          "type": "slider",
+          "EVS": {
+            "type": 30,
+            "label": "brigh"
+          },
+          "config": {
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "icon": "SunIcon"
+          }
+        }
+      ]
+    }
+  }
+]

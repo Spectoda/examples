@@ -2,6 +2,23 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260603
+
+### Added
+
+- Added a public `network-nested-element-groups` example for Spectoda App
+  `elementsJson`, `controlPages`, and homepage section authoring.
+- Added copyable `elements-json.json`, `control-pages.json`, and
+  `network-fragment.json` files for group -> groups -> devices navigation.
+
+### Impact
+
+- Integrators can reuse a validated nested element-group pattern without
+  copying customer-specific network data.
+- The example documents the `expandedElements` rule that each inline child must
+  be a direct `childElementIds` entry and must expose the referenced control
+  page.
+
 ## 20260527
 
 ### Added

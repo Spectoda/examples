@@ -1,0 +1,433 @@
+{
+  "name": "Nested Element Groups Demo",
+  "homepage": {
+    "sections": [
+      {
+        "id": "deco-all",
+        "layout": "grid-relaxed",
+        "source": {
+          "type": "element",
+          "element": {
+            "id": "element-group-all-deco"
+          }
+        }
+      },
+      {
+        "id": "deco-stage",
+        "layout": "grid-tight",
+        "source": {
+          "type": "element",
+          "element": {
+            "id": "element-group-stage"
+          }
+        }
+      },
+      {
+        "id": "deco-bar",
+        "layout": "grid-tight",
+        "source": {
+          "type": "element",
+          "element": {
+            "id": "element-group-bar"
+          }
+        }
+      }
+    ]
+  },
+  "topLevelElement": {
+    "name": "All Deco Blocks",
+    "isVisible": false,
+    "controlPageRefs": [
+      {
+        "id": "DIMMA"
+      }
+    ]
+  },
+  "elementsJson": [
+    {
+      "id": "element-group-all-deco",
+      "icon": "lightbulb",
+      "name": "All Deco Blocks",
+      "childElementIds": [
+        "element-group-stage",
+        "element-group-bar",
+        "element-logo-tower"
+      ],
+      "controlPageRefs": [
+        {
+          "id": "DIMMA",
+          "expandedElements": [
+            {
+              "id": "element-group-stage",
+              "controlPageRef": {
+                "id": "DIMMA"
+              }
+            },
+            {
+              "id": "element-group-bar",
+              "controlPageRef": {
+                "id": "DIMMA"
+              }
+            },
+            {
+              "id": "element-logo-tower",
+              "controlPageRef": {
+                "id": "COLOR"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element-group-stage",
+      "icon": "lightbulb",
+      "name": "Stage",
+      "childElementIds": [
+        "element-group-stage-left",
+        "element-group-stage-right",
+        "element-backdrop-rgb"
+      ],
+      "controlPageRefs": [
+        {
+          "id": "DIMMA",
+          "expandedElements": [
+            {
+              "id": "element-group-stage-left",
+              "controlPageRef": {
+                "id": "DIMMA"
+              }
+            },
+            {
+              "id": "element-group-stage-right",
+              "controlPageRef": {
+                "id": "DIMMA"
+              }
+            },
+            {
+              "id": "element-backdrop-rgb",
+              "controlPageRef": {
+                "id": "COLOR"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element-group-stage-left",
+      "icon": "lightbulb",
+      "name": "Stage Left",
+      "childElementIds": [
+        "element-stage-left-main",
+        "element-stage-left-ambient"
+      ],
+      "controlPageRefs": [
+        {
+          "id": "DIMMA",
+          "expandedElements": [
+            {
+              "id": "element-stage-left-main",
+              "controlPageRef": {
+                "id": "DIMMA"
+              }
+            },
+            {
+              "id": "element-stage-left-ambient",
+              "controlPageRef": {
+                "id": "AMBER"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element-group-stage-right",
+      "icon": "lightbulb",
+      "name": "Stage Right",
+      "childElementIds": [
+        "element-stage-right-main",
+        "element-stage-right-ambient"
+      ],
+      "controlPageRefs": [
+        {
+          "id": "DIMMA",
+          "expandedElements": [
+            {
+              "id": "element-stage-right-main",
+              "controlPageRef": {
+                "id": "DIMMA"
+              }
+            },
+            {
+              "id": "element-stage-right-ambient",
+              "controlPageRef": {
+                "id": "AMBER"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element-group-bar",
+      "icon": "lightbulb",
+      "name": "Bar",
+      "childElementIds": [
+        "element-bar-front-white",
+        "element-bar-back-rgb",
+        "element-bar-logo-ambient"
+      ],
+      "controlPageRefs": [
+        {
+          "id": "DIMMA",
+          "expandedElements": [
+            {
+              "id": "element-bar-front-white",
+              "controlPageRef": {
+                "id": "DIMMA"
+              }
+            },
+            {
+              "id": "element-bar-back-rgb",
+              "controlPageRef": {
+                "id": "COLOR"
+              }
+            },
+            {
+              "id": "element-bar-logo-ambient",
+              "controlPageRef": {
+                "id": "AMBER"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element-stage-left-main",
+      "icon": "lightbulb",
+      "name": "Stage Left Main",
+      "spectodaId": 11,
+      "controlPageRefs": [
+        {
+          "id": "DIMMA"
+        }
+      ]
+    },
+    {
+      "id": "element-stage-left-ambient",
+      "icon": "lightbulb",
+      "name": "Stage Left Ambient",
+      "spectodaId": 12,
+      "controlPageRefs": [
+        {
+          "id": "AMBER"
+        }
+      ]
+    },
+    {
+      "id": "element-stage-right-main",
+      "icon": "lightbulb",
+      "name": "Stage Right Main",
+      "spectodaId": 13,
+      "controlPageRefs": [
+        {
+          "id": "DIMMA"
+        }
+      ]
+    },
+    {
+      "id": "element-stage-right-ambient",
+      "icon": "lightbulb",
+      "name": "Stage Right Ambient",
+      "spectodaId": 14,
+      "controlPageRefs": [
+        {
+          "id": "AMBER"
+        }
+      ]
+    },
+    {
+      "id": "element-backdrop-rgb",
+      "icon": "lightbulb",
+      "name": "Backdrop RGB",
+      "spectodaId": 15,
+      "controlPageRefs": [
+        {
+          "id": "COLOR"
+        }
+      ]
+    },
+    {
+      "id": "element-bar-front-white",
+      "icon": "lightbulb",
+      "name": "Bar Front White",
+      "spectodaId": 21,
+      "controlPageRefs": [
+        {
+          "id": "DIMMA"
+        }
+      ]
+    },
+    {
+      "id": "element-bar-back-rgb",
+      "icon": "lightbulb",
+      "name": "Bar Back RGB",
+      "spectodaId": 22,
+      "controlPageRefs": [
+        {
+          "id": "COLOR"
+        }
+      ]
+    },
+    {
+      "id": "element-bar-logo-ambient",
+      "icon": "lightbulb",
+      "name": "Bar Logo Ambient",
+      "spectodaId": 23,
+      "controlPageRefs": [
+        {
+          "id": "AMBER"
+        }
+      ]
+    },
+    {
+      "id": "element-logo-tower",
+      "icon": "lightbulb",
+      "name": "Logo Tower",
+      "spectodaId": 31,
+      "controlPageRefs": [
+        {
+          "id": "COLOR"
+        }
+      ]
+    }
+  ],
+  "controlPages": [
+    {
+      "id": "DIMMA",
+      "name": "Brightness",
+      "eventControlPage": {
+        "id": "brightness-control-page",
+        "config": {
+          "columns": 1,
+          "maxWidth": "default"
+        },
+        "eventControls": [
+          {
+            "id": "brightness-slider",
+            "name": "Brightness",
+            "type": "slider",
+            "EVS": {
+              "type": 30,
+              "label": "brigh"
+            },
+            "config": {
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "unit": "%",
+              "icon": "SunIcon"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "AMBER",
+      "name": "Warm White",
+      "eventControlPage": {
+        "id": "warm-white-control-page",
+        "config": {
+          "columns": 1,
+          "maxWidth": "default"
+        },
+        "eventControls": [
+          {
+            "id": "warm-white-brightness-slider",
+            "name": "Brightness",
+            "type": "slider",
+            "EVS": {
+              "type": 30,
+              "label": "brigh"
+            },
+            "config": {
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "unit": "%",
+              "icon": "SunIcon"
+            }
+          },
+          {
+            "id": "warm-white-temperature-slider",
+            "name": "Temperature",
+            "type": "slider",
+            "EVS": {
+              "type": 30,
+              "label": "tempe"
+            },
+            "config": {
+              "min": -100,
+              "max": 100,
+              "step": 1,
+              "unit": "%",
+              "icon": "SunIcon",
+              "variant": "temperature"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "COLOR",
+      "name": "Color",
+      "eventControlPage": {
+        "id": "color-control-page",
+        "config": {
+          "columns": 1,
+          "maxWidth": "default"
+        },
+        "eventControls": [
+          {
+            "id": "color-picker",
+            "name": "Color",
+            "type": "colorPickers",
+            "config": {
+              "columns": 1,
+              "variant": "large"
+            },
+            "colorPickers": [
+              {
+                "id": "primary-color",
+                "name": "Color",
+                "EVS": {
+                  "type": 26,
+                  "label": "color"
+                }
+              }
+            ]
+          },
+          {
+            "id": "color-brightness-slider",
+            "name": "Brightness",
+            "type": "slider",
+            "EVS": {
+              "type": 30,
+              "label": "brigh"
+            },
+            "config": {
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "unit": "%",
+              "icon": "SunIcon"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
