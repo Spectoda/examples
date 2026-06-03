@@ -1,0 +1,14 @@
+// Copy gledopto-direct-indirect.be into the same Controller Berry script
+// before this call. Replace the MAC placeholder with the physical remote MAC,
+// or remove "mac" while discovering the remote.
+
+BERRY(`
+GledoptoRemote({
+    "direct": ID1,
+    "indirect": ID2,
+    "mac": "AA:BB:CC:DD:EE:FF",
+    "brigh": 50,
+    "brighStep": 10,
+    "tempeStep": 10
+})
+`);

@@ -18,6 +18,9 @@ developer can see why the pieces are connected that way.
 - `controller-toggle-button-hold-dim-dali/` - a single digital toggle button
   pattern that ramps DALI brightness while pressed or latched on, stops on
   release, and reverses dimming direction on the next press.
+- `gledopto-gl-rc-001wl-espnow-remote/` - Berry `espnow.rx` examples for a
+  GLEDOPTO GL-RC-001WL remote controlling either one Spectoda ID or a
+  direct/indirect two-ID light setup.
 - `network-nested-element-groups/` - a Spectoda App `elementsJson` and
   `controlPages` pattern for group -> groups -> devices navigation with inline
   expanded child controls.
