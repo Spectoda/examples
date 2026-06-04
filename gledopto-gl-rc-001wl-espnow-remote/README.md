@@ -77,7 +77,9 @@ Button behavior:
 
 - ON writes `EVS("toggl", id)` to `100%`.
 - OFF writes `EVS("toggl", id)` to `0%`.
-- Brightness +/- writes `EVS("brigh", id)` and turns the ID on.
+- Brightness +/- writes `EVS("brigh", id)` and keeps `toggl` in sync with the
+  resulting brightness; when `brigh` reaches `0%`, `toggl` is also set to
+  `0%`.
 - Preset 1 and preset 2 both toggle the same ID.
 - Night, warmer, and colder are ignored unless `debug` is enabled.
 
@@ -101,7 +103,9 @@ GledoptoRemote({
 Button behavior:
 
 - ON/OFF writes `toggl` for both IDs.
-- Brightness +/- writes `brigh` for both IDs and turns both IDs on.
+- Brightness +/- writes `brigh` for both IDs and keeps both `toggl` states in
+  sync with the resulting brightness; when shared `brigh` reaches `0%`, both
+  `toggl` states are also set to `0%`.
 - Night turns direct off, indirect on, and sets both `tempe` values warm.
 - Preset 1 toggles indirect.
 - Preset 2 toggles direct.

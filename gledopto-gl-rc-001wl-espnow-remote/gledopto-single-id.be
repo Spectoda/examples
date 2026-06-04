@@ -91,20 +91,21 @@ def GledoptoRemoteSingle(S)
             tg.set(0, 30)
 
         # 9 = brightness plus. bs comes from S.brighStep and is clamped to
-        # 0..100 before emitting brigh. Brightness actions also force ON.
+        # 0..100 before emitting brigh. toggl follows the resulting brigh:
+        # b > 0 means ON, b == 0 means OFF.
         elif k == 9
             b = z(b + bs, 0, 100)
             bg.set(b, 30)
-            o = 100
-            tg.set(100, 30)
+            o = b > 0 ? 100 : 0
+            tg.set(o, 30)
 
-        # 8 = brightness minus. This mirrors the previous ESPNOWRADIO behavior:
-        # a brightness button wakes the target ID even when it was off.
+        # 8 = brightness minus. When the dimming reaches 0%, toggl is also set
+        # to 0% so the App does not show "on with zero brightness".
         elif k == 8
             b = z(b - bs, 0, 100)
             bg.set(b, 30)
-            o = 100
-            tg.set(100, 30)
+            o = b > 0 ? 100 : 0
+            tg.set(o, 30)
 
         # 16 = preset 1: toggle the same single target ID.
         elif k == 16

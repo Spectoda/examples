@@ -111,26 +111,27 @@ def GledoptoRemote(S)
             ti.set(0, 30)
 
         # 9 = brightness plus for both zones. bs comes from S.brighStep and is
-        # clamped to 0..100 before emitting brigh.
+        # clamped to 0..100 before emitting brigh. toggl follows the resulting
+        # shared brigh: b > 0 means both ON, b == 0 means both OFF.
         elif k == 9
             b = z(b + bs, 0, 100)
             bd.set(b, 30)
             bi.set(b, 30)
-            od = 100
-            oi = 100
-            td.set(100, 30)
-            ti.set(100, 30)
+            od = b > 0 ? 100 : 0
+            oi = od
+            td.set(od, 30)
+            ti.set(oi, 30)
 
-        # 8 = brightness minus for both zones. Brightness buttons also force
-        # both toggles ON, matching the previous ESPNOWRADIO behavior.
+        # 8 = brightness minus for both zones. When shared brigh reaches 0%,
+        # both toggl states are also set to 0%.
         elif k == 8
             b = z(b - bs, 0, 100)
             bd.set(b, 30)
             bi.set(b, 30)
-            od = 100
-            oi = 100
-            td.set(100, 30)
-            ti.set(100, 30)
+            od = b > 0 ? 100 : 0
+            oi = od
+            td.set(od, 30)
+            ti.set(oi, 30)
 
         # 3 = night: direct OFF, indirect ON, both tempe warm. The old script
         # used this as a warm indirect night scene, so we preserve it.
