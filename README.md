@@ -15,6 +15,12 @@ developer can see why the pieces are connected that way.
 - `controller-4i-group-toggle-dali-zones/` - a 4-input button controller
   pattern that toggles multiple `toggl` EventStates as one group, useful for
   DALI zones split across several controllers.
+- `controller-latching-switch-state-dali/` - a normal on/off wall switch
+  pattern for SC 4i inputs that maps connected/disconnected switch state to
+  `toggl` EventStates.
+- `controller-push-button-click-hold-dim-dali/` - a momentary push-button
+  pattern where a short click toggles on/off and holding the button dims the
+  `brigh` EventState.
 - `controller-toggle-button-hold-dim-dali/` - a single digital toggle button
   pattern that ramps DALI brightness while pressed or latched on, stops on
   release, and reverses dimming direction on the next press.

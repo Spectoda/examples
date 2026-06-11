@@ -1,0 +1,36 @@
+// SC 4i latching wall switch usage.
+// Paste this after latching-switch-state.be is available in the project.
+
+defController($4I_01, {
+  BERRY(`
+  LatchingSwitchState({
+      "in": io["SW1"],
+      "evs": [EVS("toggl", ID1)],
+      "on_value": 1
+  })
+  `);
+
+  BERRY(`
+  LatchingSwitchState({
+      "in": io["SW2"],
+      "evs": [EVS("toggl", ID2)],
+      "on_value": 1
+  })
+  `);
+
+  BERRY(`
+  LatchingSwitchState({
+      "in": io["SW3"],
+      "evs": [EVS("toggl", ID3), EVS("toggl", ID4)],
+      "on_value": 1
+  })
+  `);
+
+  BERRY(`
+  LatchingSwitchState({
+      "in": io["SW4"],
+      "evs": [EVS("toggl", ID5)],
+      "on_value": 1
+  })
+  `);
+});

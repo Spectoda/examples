@@ -1,0 +1,247 @@
+import controller
+
+controller.ups = 50
+
+def ClampPercentage(value, min_pct, max_pct)
+    var pct = int(value)
+
+    if pct < min_pct
+        return min_pct
+    elif pct > max_pct
+        return max_pct
+    end
+
+    return pct
+end
+
+def PushButtonClickHoldDimmer(S)
+    var input = S["in"]
+    var brigh = S["brigh"]
+    var toggl = S.find("toggl", nil)
+    var pressed_value = S.find("pressed_value", 1)
+    var min_pct = S.find("min", 0)
+    var max_pct = S.find("max", 100)
+    var dim_min = S.find("dim_min", nil)
+    var on_pct = S.find("on_pct", 100)
+    var step_pct = S.find("step_pct", 1)
+    var step_ms = S.find("step_ms", 80)
+    var hold_ms = S.find("hold_ms", 600)
+    var debounce_ms = S.find("debounce_ms", 30)
+    var direction = S.find("direction", 1)
+
+    min_pct = ClampPercentage(min_pct, 0, 100)
+    max_pct = ClampPercentage(max_pct, 0, 100)
+
+    if max_pct < min_pct
+        var tmp = min_pct
+        min_pct = max_pct
+        max_pct = tmp
+    end
+
+    if dim_min == nil
+        dim_min = min_pct < max_pct ? min_pct + 1 : min_pct
+    end
+
+    dim_min = ClampPercentage(dim_min, min_pct, max_pct)
+
+    if dim_min <= min_pct && max_pct > min_pct
+        dim_min = min_pct + 1
+    end
+
+    on_pct = ClampPercentage(on_pct, min_pct, max_pct)
+
+    if on_pct <= min_pct
+        on_pct = max_pct
+    end
+
+    if step_pct < 1
+        step_pct = 1
+    end
+
+    if step_ms < 20
+        step_ms = 20
+    end
+
+    if debounce_ms < 0
+        debounce_ms = 0
+    end
+
+    if hold_ms < debounce_ms + 20
+        hold_ms = debounce_ms + 20
+    end
+
+    direction = direction < 0 ? -1 : 1
+
+    var now = controller.millis()
+    var raw = (input.read() == 0 ? 0 : 1) == pressed_value ? 1 : 0
+    var last_raw = raw
+    var stable = raw
+    var raw_changed_at = now
+    var press_started_at = stable ? now : 0
+    var last_step = now
+    var dimming = 0
+    var dimmed_this_press = 0
+    var ignore_until_release = stable ? 1 : 0
+    var level = on_pct
+    var last_on = on_pct
+
+    try
+        level = ClampPercentage(brigh.get(PERCENTAGE), min_pct, max_pct)
+    except ..
+    end
+
+    if level > dim_min
+        last_on = level
+    end
+
+    if level <= dim_min
+        direction = 1
+    elif level >= max_pct
+        direction = -1
+    end
+
+    return Plugin(def()
+        now = controller.millis()
+        raw = (input.read() == 0 ? 0 : 1) == pressed_value ? 1 : 0
+
+        if raw != last_raw
+            last_raw = raw
+            raw_changed_at = now
+        end
+
+        if raw != stable && now - raw_changed_at >= debounce_ms
+            stable = raw
+
+            if stable
+                if ignore_until_release
+                    return
+                end
+
+                press_started_at = now
+                dimming = 0
+                dimmed_this_press = 0
+
+                try
+                    level = ClampPercentage(brigh.get(PERCENTAGE), min_pct, max_pct)
+                except ..
+                end
+
+                if level > dim_min
+                    last_on = level
+                end
+
+                if level <= dim_min
+                    direction = 1
+                elif level >= max_pct
+                    direction = -1
+                end
+            else
+                if ignore_until_release
+                    ignore_until_release = 0
+                    return
+                end
+
+                ignore_until_release = 0
+
+                if dimming
+                    dimming = 0
+
+                    if level > dim_min
+                        last_on = level
+                    end
+
+                    if level <= dim_min
+                        direction = 1
+                    elif level >= max_pct
+                        direction = -1
+                    else
+                        direction = -direction
+                    end
+                elif !dimmed_this_press
+                    try
+                        level = ClampPercentage(brigh.get(PERCENTAGE), min_pct, max_pct)
+                    except ..
+                    end
+
+                    if level > min_pct
+                        level = min_pct
+                    else
+                        level = last_on
+
+                        if level <= min_pct
+                            level = on_pct
+                        end
+                    end
+
+                    brigh.set(level, PERCENTAGE)
+
+                    if toggl != nil
+                        toggl.set(level > min_pct ? 100 : 0, PERCENTAGE)
+                    end
+
+                    if level > dim_min
+                        last_on = level
+                    end
+
+                    direction = level <= min_pct ? 1 : -1
+                end
+            end
+        end
+
+        if !stable
+            return
+        end
+
+        if ignore_until_release
+            return
+        end
+
+        if !dimming
+            if dimmed_this_press || now - press_started_at < hold_ms
+                return
+            end
+
+            dimming = 1
+            dimmed_this_press = 1
+            last_step = now - step_ms
+
+            try
+                level = ClampPercentage(brigh.get(PERCENTAGE), min_pct, max_pct)
+            except ..
+            end
+
+            if level <= dim_min
+                direction = 1
+            elif level >= max_pct
+                direction = -1
+            end
+        end
+
+        if now - last_step < step_ms
+            return
+        end
+
+        last_step = now
+        level = level + direction * step_pct
+
+        if level >= max_pct
+            level = max_pct
+            dimming = 0
+            direction = -1
+        elif level <= dim_min
+            level = dim_min
+            dimming = 0
+            direction = 1
+        end
+
+        brigh.set(level, PERCENTAGE)
+
+        if toggl != nil
+            toggl.set(level > min_pct ? 100 : 0, PERCENTAGE)
+        end
+
+        if level > dim_min
+            last_on = level
+        end
+    end)
+end

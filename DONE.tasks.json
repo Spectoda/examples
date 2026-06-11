@@ -8,6 +8,108 @@
   },
   "tasks": [
     {
+      "id": "task-2026-06-11-612",
+      "title": "Add push-button click-and-hold dimmer example",
+      "status": "done",
+      "priority": "medium",
+      "priority_rank": 50,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Technicians need one reusable Berry pattern for a spring-return wall button that supports both short-click on/off and hold-to-dim behavior.",
+      "created_at": "2026-06-11",
+      "updated_at": "2026-06-11",
+      "tags": [
+        "examples",
+        "controller",
+        "dali",
+        "berry",
+        "dimming"
+      ],
+      "summary": "Added a public-safe DALI example that maps one momentary push button to short-click `toggl` control and long-hold `brigh` dimming with a configurable non-zero dimming floor and a longer click/hold threshold.",
+      "risk_notes": [
+        "The example is public-safe and uses illustrative controller, pin and DALI segment IDs only.",
+        "Technicians still need to adapt IO names, input polarity, stable IDs and project brightness layers to the actual controller config."
+      ],
+      "acceptance_criteria": [
+        "The example has a dedicated README and copyable Berry/TNGL snippets.",
+        "Module README, CHANGELOG and done task ledger reference the new example.",
+        "No secrets, private network keys or customer-specific data are included."
+      ],
+      "links": [],
+      "completed_at": "2026-06-11",
+      "completed_by": "codex",
+      "outcome": "The example includes the reusable `PushButtonClickHoldDimmer(...)` Berry helper, a single-controller usage snippet and a compact TNGL fragment for one DALI lamp zone. Hold-dimming stops at `dim_min` while short-click off can still write `0%`; short-click ON restores the last brightness above `dim_min` and the default click/hold threshold is `600 ms`.",
+      "evidence": [
+        {
+          "label": "Example README",
+          "path": "controller-push-button-click-hold-dim-dali/README.md"
+        },
+        {
+          "label": "Reusable Berry helper",
+          "path": "controller-push-button-click-hold-dim-dali/push-button-click-hold-dimmer.be"
+        },
+        {
+          "label": "Single-controller usage snippet",
+          "path": "controller-push-button-click-hold-dim-dali/usage-single-controller.be"
+        },
+        {
+          "label": "Compact final TNGL fragment",
+          "path": "controller-push-button-click-hold-dim-dali/final-project.tngl"
+        }
+      ]
+    },
+    {
+      "id": "task-2026-06-11-411",
+      "title": "Add SC 4i latching switch state example",
+      "status": "done",
+      "priority": "medium",
+      "priority_rank": 50,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Technicians need a reusable Berry pattern for normal wall switches that have a stable connected/disconnected state rather than a momentary click.",
+      "created_at": "2026-06-11",
+      "updated_at": "2026-06-11",
+      "tags": [
+        "examples",
+        "controller",
+        "dali",
+        "berry",
+        "sc-4i"
+      ],
+      "summary": "Added a public-safe SC 4i example that maps latching wall switch state to one or more `EVS(\"toggl\", id)` targets.",
+      "risk_notes": [
+        "The example is public-safe and uses illustrative controller and DALI segment IDs only.",
+        "Technicians still need to adapt IO names, input polarity and stable IDs to the actual controller config."
+      ],
+      "acceptance_criteria": [
+        "The example has a dedicated README and copyable Berry/TNGL snippets.",
+        "Module README, CHANGELOG and done task ledger reference the new example.",
+        "No secrets, private network keys or customer-specific data are included."
+      ],
+      "links": [],
+      "completed_at": "2026-06-11",
+      "completed_by": "codex",
+      "outcome": "The example includes the reusable `LatchingSwitchState(...)` Berry helper, an SC 4i `SW1..SW4` usage snippet and a compact TNGL fragment for illustrative DALI zones.",
+      "evidence": [
+        {
+          "label": "Example README",
+          "path": "controller-latching-switch-state-dali/README.md"
+        },
+        {
+          "label": "Reusable Berry helper",
+          "path": "controller-latching-switch-state-dali/latching-switch-state.be"
+        },
+        {
+          "label": "SC 4i usage snippet",
+          "path": "controller-latching-switch-state-dali/usage-sc-4i.tngl"
+        },
+        {
+          "label": "Compact final TNGL fragment",
+          "path": "controller-latching-switch-state-dali/final-project.tngl"
+        }
+      ]
+    },
+    {
       "id": "task-2026-05-27-527",
       "title": "Add toggle button hold-dimming DALI example",
       "status": "done",

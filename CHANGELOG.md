@@ -2,6 +2,37 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260611
+
+### Added
+
+- Added an SC 4i latching wall switch example for mapping stable on/off switch
+  state to `EVS("toggl", id)`.
+- Added the reusable `LatchingSwitchState(...)` Berry helper.
+- Added a copyable SC 4i usage snippet for `SW1..SW4` and a compact TNGL
+  project fragment with illustrative DALI zones.
+- Added a push-button click-and-hold DALI dimmer example where short clicks
+  toggle on/off and long holds change `brigh`.
+- Added the reusable `PushButtonClickHoldDimmer(...)` Berry helper.
+- Added `dim_min` support so hold-dimming can stop above `0%` while short-click
+  off still writes `0%`.
+- Raised the default click/hold threshold for the push-button dimmer to
+  `600 ms` and kept the remembered ON brightness above `dim_min`.
+
+### Impact
+
+- Technicians can use normal wall switches without spring return as stateful
+  Spectoda controls instead of treating them as momentary click buttons.
+- The helper writes on script start and on physical switch changes, while
+  avoiding continuous loop rewrites of unchanged values.
+- Technicians can use one spring-return wall button for both simple on/off and
+  gradual brightness control without combining multiple helpers on the same
+  input.
+- Hold-dimming can avoid turning the light fully off at the bottom of the
+  brightness range.
+- Short-click ON now restores the last brightness above the dimming floor
+  instead of returning to `dim_min`.
+
 ## 20260603
 
 ### Added
