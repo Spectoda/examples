@@ -1,0 +1,39 @@
+schemaVersion: example.v2
+slug: controller-push-button-click-hold-dim-dali
+title: Push Button Click and Hold Dimmer for DALI
+category: controller
+summary: >-
+  Map one momentary wall push button to light control with short-click toggle
+  and hold-to-dim behavior. Short clicks toggle the light on or off, holding the
+  button starts dimming after a configurable delay, and releasing stops at the
+  current brightness. The next hold moves in the opposite dimming direction.
+tags:
+  - dali
+  - push-button
+  - dimming
+  - click-hold
+  - toggle
+hardware: >-
+  Assumes a spring-return momentary push button (not a latching switch) wired to
+  controller input SW1 that reads 1 when pressed and 0 when released. The button
+  controls a DALI-connected lamp segment. The controller runs at 50 updates per
+  second (configurable via controller.ups). Button behavior is configurable via
+  debounce, hold threshold, and dimming step parameters.
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: push-button-click-hold-dimmer.be
+    role: Berry helper
+    language: berry
+  - path: usage-single-controller.be
+    role: usage snippet
+    language: berry
+  - path: final-project.tngl
+    role: final commissioning project
+    language: tngl
+related:
+  - controller-toggle-button-hold-dim-dali
+  - controller-latching-switch-state-dali
+  - controller-4i-group-toggle-dali-zones
+  - controller-analog-potentiometer-dali-red-white

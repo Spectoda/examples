@@ -18,8 +18,15 @@ scriptů, projektových patternů a integračních snippetů.
   zákaznická data, která nejsou výslovně public.
 - Pokud příklad vychází z reálné instalace, anonymizuj klienta a ponech jen
   technický pattern.
-- Každý příklad má mít vlastní složku s `README.md` a soubory, které jdou
-  zkopírovat do controller setupu.
+- Každý příklad má mít vlastní složku v `data/v2/examples/<slug>/` s `README.md`,
+  kopírovatelnými soubory a `example.yaml` metadata sidecarem (title, category,
+  summary, tags, hardware, seznam souborů). `data/v2/` je source of truth;
+  obsahový model a postup přidání příkladu drží `data/v2/README.md`.
+- `app/v2/` je prohlížecí appka Examples v2 (React + Vite + TS, Launchpad port
+  `5305`). Čte `data/v2` build-time přes `import.meta.glob`. Je read-only:
+  autoring příkladů zůstává Git-native, ne přes appku.
+- Lehký obsahový model záměrně NEpoužívá striktní `module-data.v2.json`
+  yaml-only kolekci — ta by odmítla kopírovatelné `.be`/`.tngl`/`.json` soubory.
 - U controller příkladů vždy uveď config předpoklady a firmware/runtime
   gotchas. Například analog 0-3.3 V na ESP32 se čte přes `type: "ADC"`, ne přes
   zatím neimplementované `GPI` + `variant: "ANALOG"`.

@@ -1,0 +1,50 @@
+schemaVersion: example.v2
+slug: gledopto-gl-rc-001wl-espnow-remote
+title: GLEDOPTO GL-RC-001WL ESP-NOW Remote Control
+category: espnow-remote
+summary: >-
+  Map raw ESP-NOW packets from a GLEDOPTO GL-RC-001WL wireless remote to Spectoda
+  EventStates through Berry espnow.rx() callbacks. Supports both single-ID
+  control (toggle and brightness) and two-zone direct/indirect lighting control
+  with temperature adjustment, while keeping normal mesh-based
+  controller-to-controller ESP-NOW communication active.
+tags:
+  - espnow
+  - gledopto
+  - remote-control
+  - wireless
+  - toggle
+  - dimming
+  - brightness
+  - temperature-control
+  - multi-zone
+  - berry-plugin
+hardware: >-
+  The controller must run firmware 0.12.11 or newer with the native Berry
+  ESP-NOW API (espnow.rx filter and callback). Normal ESP-NOW mesh communication
+  remains active for controller-to-controller messaging. The example filter
+  accepts GLEDOPTO GL-RC-001WL 13-byte payloads with magic bytes 0x81 or 0x91.
+  Optional remote MAC address locking accepts packets from a single physical
+  remote only. No additional wiring is required; the remote communicates
+  wirelessly and the controller decodes packets in Berry to write toggle and
+  brightness EventStates to one or two Spectoda IDs, and optionally
+  temperature/color-temperature values.
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: gledopto-single-id.be
+    role: Berry helper
+    language: berry
+  - path: gledopto-direct-indirect.be
+    role: Berry helper
+    language: berry
+  - path: usage-single-id.tngl
+    role: usage snippet
+    language: tngl
+  - path: usage-direct-indirect.tngl
+    role: usage snippet
+    language: tngl
+related:
+  - controller-toggle-button-hold-dim-dali
+  - controller-push-button-click-hold-dim-dali
