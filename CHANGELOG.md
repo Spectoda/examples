@@ -10,9 +10,12 @@ Date-based versions use `YYYYMMDD`.
   Spectoda Launchpad on port `5305`. It lets Spectoda people browse the examples
   by category, filter by name/tag/keyword, read each example's notes, and copy
   its source files.
-- Styled the app in the Spectoda design system: dark `#0B0E14` surface with the
-  brand purple hero glow, Manrope typography, brand-gradient headings and badge,
-  and glassmorphic cards — mirroring the production website brand tokens.
+- Styled the app in the Spectoda design system, aligned with the Marketing v2
+  app: dark `#0B0E14` surface with the brand purple hero glow, the official
+  Spectoda brand mark, Manrope typography, a `color-mix` surface/token system,
+  gradient hero heading, and translucent panels and cards. The licensed Baste
+  display font is intentionally not bundled (public repo); Manrope weight 300
+  carries the display headings.
 - Moved the example source of truth into `data/v2/examples/<slug>/` and added an
   `example.yaml` metadata sidecar to each example (title, category, summary,
   tags, hardware notes, file list).

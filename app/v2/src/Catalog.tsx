@@ -33,14 +33,15 @@ export function Catalog() {
 
   return (
     <>
-      <div className="page-head">
-        <div>
-          <h1>Examples</h1>
-          <p className="dim">
-            {all.length} copyable Spectoda examples — controller setups, Berry scripts,
-            TNGL snippets and Spectoda App patterns. Pick one, read the notes, copy the files.
-          </p>
-        </div>
+      <section className="hero">
+        <p className="eyebrow">Public · copyable</p>
+        <h1>
+          Spectoda <span className="gradient-text">examples</span>
+        </h1>
+        <p className="lead">
+          {all.length} copyable examples — controller setups, Berry scripts, TNGL
+          snippets and Spectoda App patterns. Pick one, read the notes, copy the files.
+        </p>
         <input
           className="search"
           type="search"
@@ -49,46 +50,48 @@ export function Catalog() {
           onChange={(e) => setQuery(e.target.value)}
           aria-label="Filter examples"
         />
-      </div>
+      </section>
 
       {filtered.length === 0 && (
-        <div className="card empty">No example matches “{query}”.</div>
+        <div className="panel empty">No example matches “{query}”.</div>
       )}
 
-      {CATEGORY_ORDER.map((category) => {
-        const items = byCategory[category];
-        if (!items || items.length === 0) return null;
-        return (
-          <section key={category} className="category-section">
-            <h2 className="category-title">
-              {CATEGORY_LABELS[category as ExampleCategory]}
-              <span className="count">{items.length}</span>
-            </h2>
-            <div className="example-grid">
-              {items.map((ex) => (
-                <a
-                  key={ex.slug}
-                  className="example-card"
-                  href={`#example/${encodeURIComponent(ex.slug)}`}
-                >
-                  <strong>{ex.title}</strong>
-                  <span className="dim">{ex.summary}</span>
-                  <div className="tag-row">
-                    {ex.tags.slice(0, 5).map((tag) => (
-                      <span key={tag} className="tag-chip">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="file-count">
-                    {ex.files.length + 1} file{ex.files.length === 0 ? '' : 's'}
-                  </span>
-                </a>
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      <div className="catalog">
+        {CATEGORY_ORDER.map((category) => {
+          const items = byCategory[category];
+          if (!items || items.length === 0) return null;
+          return (
+            <section key={category} className="category-section">
+              <h2 className="category-title">
+                {CATEGORY_LABELS[category as ExampleCategory]}
+                <span className="count">{items.length}</span>
+              </h2>
+              <div className="example-grid">
+                {items.map((ex) => (
+                  <a
+                    key={ex.slug}
+                    className="example-card"
+                    href={`#example/${encodeURIComponent(ex.slug)}`}
+                  >
+                    <strong>{ex.title}</strong>
+                    <span className="summary">{ex.summary}</span>
+                    <div className="tag-row">
+                      {ex.tags.slice(0, 5).map((tag) => (
+                        <span key={tag} className="chip">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="file-count">
+                      {ex.files.length + 1} file{ex.files.length === 0 ? '' : 's'}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
     </>
   );
 }

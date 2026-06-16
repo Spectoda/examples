@@ -34,7 +34,7 @@ function FileBlock({ file }: { file: ExampleFile }) {
       <div className="file-head">
         <code className="file-name">{file.path}</code>
         <span className="lang-badge">{file.language}</span>
-        <span className="file-role dim">{file.role}</span>
+        <span className="file-role">{file.role}</span>
         <CopyButton text={file.content} />
       </div>
       <pre className="code">
@@ -55,43 +55,41 @@ export function Detail({ slug }: { slug: string }) {
 
   if (!example) {
     return (
-      <>
+      <div className="detail">
         <a className="back-link" href="#">
           ← Back to examples
         </a>
-        <div className="card empty">Example “{slug}” not found.</div>
-      </>
+        <div className="panel empty">Example “{slug}” not found.</div>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="detail">
       <a className="back-link" href="#">
         ← Back to examples
       </a>
 
-      <div className="page-head">
-        <div>
-          <span className="category-pill">{CATEGORY_LABELS[example.category]}</span>
-          <h1>{example.title}</h1>
-          <p className="dim">{example.summary}</p>
-          <div className="tag-row">
-            {example.tags.map((tag) => (
-              <span key={tag} className="tag-chip">
-                {tag}
-              </span>
-            ))}
-          </div>
+      <div className="detail-head">
+        <span className="status-chip">{CATEGORY_LABELS[example.category]}</span>
+        <h1>{example.title}</h1>
+        <p className="lead">{example.summary}</p>
+        <div className="tag-row">
+          {example.tags.map((tag) => (
+            <span key={tag} className="chip">
+              {tag}
+            </span>
+          ))}
         </div>
       </div>
 
-      <section className="card hardware-panel">
+      <section className="panel hardware-panel">
         <h2>Hardware &amp; config</h2>
         <p>{example.hardware}</p>
       </section>
 
       {example.readme && (
-        <section className="card">
+        <section className="panel">
           <div
             className="markdown"
             // README markdown is rendered with marked and sanitized with
@@ -109,17 +107,21 @@ export function Detail({ slug }: { slug: string }) {
       </section>
 
       {example.related.length > 0 && (
-        <section className="card">
+        <section className="panel">
           <h2>Related examples</h2>
           <div className="related-row">
             {example.related.map((rel) => (
-              <a key={rel} className="link-card" href={`#example/${encodeURIComponent(rel)}`}>
-                <strong>{rel}</strong>
+              <a
+                key={rel}
+                className="related-link"
+                href={`#example/${encodeURIComponent(rel)}`}
+              >
+                {rel}
               </a>
             ))}
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

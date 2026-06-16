@@ -34,18 +34,19 @@ export default function App() {
   }, []);
 
   return (
-    <div className="shell">
-      <div className="version-badge">Examples v2</div>
-      <nav className="topbar">
-        <button type="button" className="logo logo-btn" onClick={goHome}>
-          Spectoda Examples
+    <main className="app-shell">
+      <header className="topbar">
+        <button type="button" className="brand brand-link" onClick={goHome}>
+          <img className="brand-mark" src="/spectoda-favicon.svg" alt="Spectoda" />
+          <span className="brand-name">Spectoda</span>
+          <span className="brand-sep">/</span>
+          <span className="brand-app">Examples</span>
         </button>
-        <span className="dim topbar-sub">Public, copyable controller &amp; Berry examples</span>
-      </nav>
-      <main className="content">
-        {route.name === 'catalog' && <Catalog />}
-        {route.name === 'example' && <Detail slug={route.slug} />}
-      </main>
-    </div>
+        <span className="pill">Examples v2</span>
+      </header>
+
+      {route.name === 'catalog' && <Catalog />}
+      {route.name === 'example' && <Detail slug={route.slug} />}
+    </main>
   );
 }
