@@ -1,0 +1,45 @@
+schemaVersion: example.v2
+slug: controller-toggle-button-hold-dim-dali
+title: Toggle Button Hold Dimmer for DALI
+category: controller
+summary: >-
+  A toggle button dimmer that uses a single physical wall button to control DALI
+  lamp brightness. Pressing the button starts dimming in the current direction,
+  pressing again stops at the current value, and the direction reverses on the
+  next press. Brightness ranges from 0% to 100% with configurable stepping speed
+  and direction control.
+tags:
+  - dali
+  - toggle
+  - dimming
+  - push-button
+  - gpi
+  - brightness
+  - single-control
+  - berry-plugin
+hardware: >-
+  Requires an SC-series controller (Spectoda Lamp Dimmer) with one
+  general-purpose input (GPI) configured for a dry-contact wall button wired to
+  ground with inverted polarity and pull-up (pin 27), and one DALI output (pins
+  23/18) supporting 4 DALI addresses. The button must read 1 when pressed/latched
+  on and 0 when released/latched off. DALI drivers should be configured with an
+  appropriate fade time (700 ms typical) and power-on level (10% minimum).
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: toggle-button-dimmer.be
+    role: Berry helper
+    language: berry
+  - path: usage-single-controller.be
+    role: usage snippet
+    language: berry
+  - path: controller-config.json
+    role: controller config
+    language: json
+  - path: final-project.tngl
+    role: final commissioning project
+    language: tngl
+related:
+  - controller-push-button-click-hold-dim-dali
+  - controller-latching-switch-state-dali

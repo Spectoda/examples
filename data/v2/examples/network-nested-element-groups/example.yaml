@@ -1,0 +1,36 @@
+schemaVersion: example.v2
+slug: network-nested-element-groups
+title: Nested Element Groups in Spectoda App JSON
+category: network-pattern
+summary: >-
+  Configure nested element groups (hierarchical group-to-group-to-device
+  structures) in the Spectoda App using elementsJson and controlPages. Shows how
+  to use childElementIds for tree composition and expandedElements for inline
+  card rendering at each hierarchy level.
+tags:
+  - element-groups
+  - app-elementsJson
+  - app-controlPages
+  - hierarchy
+  - network-configuration
+hardware: >-
+  A pure application JSON configuration example with no hardware wiring or
+  controller prerequisites. It demonstrates a logical element tree (event
+  decoration blocks organized by physical location: Stage, Bar, Logo Tower) with
+  leaf devices mapped to spectodaIds in the range 0-255. All configuration is
+  contained in the JSON files; no physical hardware setup is required to
+  understand or copy the pattern.
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: elements-json.json
+    role: App elementsJson
+    language: json
+  - path: control-pages.json
+    role: control pages
+    language: json
+  - path: network-fragment.json
+    role: network fragment
+    language: json
+related: []

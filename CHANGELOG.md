@@ -2,6 +2,35 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260616
+
+### Added
+
+- Added the **Examples v2** browsing app (`app/v2/`), launchable from the
+  Spectoda Launchpad on port `5305`. It lets Spectoda people browse the examples
+  by category, filter by name/tag/keyword, read each example's notes, and copy
+  its source files.
+- Styled the app in the Spectoda design system, aligned with the Marketing v2
+  app: dark `#0B0E14` surface with the brand purple hero glow, the official
+  Spectoda brand mark, Manrope typography, a `color-mix` surface/token system,
+  gradient hero heading, and translucent panels and cards. The licensed Baste
+  display font is intentionally not bundled (public repo); Manrope weight 300
+  carries the display headings.
+- Moved the example source of truth into `data/v2/examples/<slug>/` and added an
+  `example.yaml` metadata sidecar to each example (title, category, summary,
+  tags, hardware notes, file list).
+- Added `data/v2/README.md` documenting the lightweight content model and how to
+  add a new example.
+
+### Impact
+
+- Spectoda people can now find and copy controller, Berry, TNGL and App-pattern
+  examples from a single Launchpad app instead of digging through repo folders.
+- Example files stay copyable and Git-native; the app is read-only and authoring
+  an example is unchanged (add a folder + `example.yaml` under `data/v2`).
+- The restructure preserves every existing example and its files (Git-tracked
+  renames); the public-safety rules are unchanged.
+
 ## 20260611
 
 ### Added

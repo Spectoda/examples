@@ -1,0 +1,39 @@
+schemaVersion: example.v2
+slug: controller-latching-switch-state-dali
+title: Latching Wall Switch State for DALI
+category: controller
+summary: >-
+  Map a normal latching on/off wall switch (without spring return) to Spectoda
+  toggl EventStates. Closed switch position writes 100%, open position writes
+  0%, and the current state is emitted on startup and whenever the physical
+  switch position changes.
+tags:
+  - dali
+  - sc-4i
+  - latching-switch
+  - toggle
+  - wall-switch
+  - state-mapping
+hardware: >-
+  SC 4i controller with digital inputs SW1-SW4 exposed via io[]. Wall switch
+  wired between Lsw and the selected SWx input. The helper reads 1 when the
+  switch is closed and 0 when open (polarity configurable via the on_value
+  parameter). Target DALI segments are controlled through toggl EventState
+  writes that drive DALI dimming to either 100% (on) or 0% (off).
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: latching-switch-state.be
+    role: Berry helper
+    language: berry
+  - path: usage-sc-4i.tngl
+    role: usage snippet
+    language: tngl
+  - path: final-project.tngl
+    role: final commissioning project
+    language: tngl
+related:
+  - controller-4i-group-toggle-dali-zones
+  - controller-push-button-click-hold-dim-dali
+  - controller-toggle-button-hold-dim-dali

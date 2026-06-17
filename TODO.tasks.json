@@ -33,6 +33,309 @@
       ],
       "links": [],
       "legacy_markdown": "Review migrated legacy TODO notes for modules/examples.\n\n# Examples TODO\n\n## Current Focus\n\n- Establish the repository as the public place for Spectoda controller and\n  scripting examples.\n- Add the first documented example for analog potentiometers controlling DALI\n  `white` and `red` channels through EventStates.\n\n## Next Steps\n\n- Add more controller examples from real support and commissioning cases.\n- Decide a lightweight naming convention for hardware families and example\n  categories.\n- Link selected examples from public documentation when they become stable.\n\n## Findings\n\n- Analog ESP32 inputs for 0-3.3 V potentiometers should use controller IO\n  `type: \"ADC\"` and Berry `read(1)` for 11 dB attenuation.\n- `GPI` with `variant: \"ANALOG\"` is not a working analog path in the current\n  firmware parser.\n- For the ABCDE extension terminal used in this example, the expected mapping\n  is `A=3V3`, `B=IO33`, `C=IO32`, `D=GND`, and `E=NC/spare`.\n- ADC readings can jitter around integer percentage boundaries; the Berry\n  helper now uses a configurable `deadband` to suppress adjacent-value spam.\n- If DALI drivers are already configured for linear dimming, keep\n  project-level `LOGARITHMIC CORRECTION` blocks disabled so the potentiometer\n  percentage maps directly to driver brightness.\n- The final working project is captured as `final-project.tngl`; future\n  examples should include the same kind of complete final artifact when\n  available."
+    },
+    {
+      "id": "task-2026-06-16-001",
+      "title": "Examples: Restructure příkladů do data/v2 + example.yaml metadata",
+      "status": "open",
+      "priority": "high",
+      "priority_rank": 50,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Přesunout 7 stávajících příkladů ze složek v rootu do `modules/examples/data/v2/examples/<slug>/` se zachovanými soubory; přidat per-příklad `example.yaml` (id, title, category, summary, tags, hardware předpoklady,…",
+      "created_at": "2026-06-16",
+      "updated_at": "2026-06-16",
+      "tags": [
+        "DEV-6378",
+        "mission-control",
+        "examples",
+        "data-v2",
+        "restructure"
+      ],
+      "dev_code": "DEV-6378",
+      "summary": "Přesunout 7 stávajících příkladů ze složek v rootu do `modules/examples/data/v2/examples/<slug>/` se zachovanými soubory; přidat per-příklad `example.yaml` (id, title, category, summary, tags, hardware předpoklady, files[] s rolí a jazykem) a `data/v2/README.md`.",
+      "risk_notes": [
+        "Lehký model nesmí sklouznout do striktního moduleDataV2 kontraktu: pokud by se examples deklarovaly jako yaml-only `format: yaml` kolekce, validátor by odmítl kopírovatelné `.be`/`.tngl` soubory. Zdrojové soubory zůstávají v složce příkladu vedle `example.yaml`, ne embeddované v YAML.",
+        "Public-safety: examples je veřejné repo. Žádné metadata, screenshoty ani odvozené read-modely nesmí zanést zákaznický kontext, MAC adresy nebo klíče.",
+        "`example.yaml` sidecary se musí udržovat v souladu se skutečnými soubory ve složce; rozjetí metadat vs. soubory by mátlo prohlížeč. Validace seznamu souborů v `example.yaml` proti obsahu složky je vhodný follow-up.",
+        "`dataSource: filesystem-db-v2` v registry je label pro „čte data/v2 build-time\"; examples ale nemá `module-data.v2.json`. Ověřit, že registry testy tento standalone v2 (bez variantOf) akceptují, případně zvolit label `static`."
+      ],
+      "acceptance_criteria": [
+        "Každý příklad je složka v data/v2/examples/<slug>/ se zachovaným README a zdrojovými soubory.",
+        "example.yaml nese validní metadata a seznam souborů s rolí a jazykem.",
+        "data/v2/README.md vysvětluje obsahový model a jak přidat nový příklad.",
+        "Žádné public-safety porušení (žádná zákaznická data, MAC, klíče)."
+      ],
+      "links": [
+        {
+          "label": "Mission Control plan",
+          "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml"
+        },
+        {
+          "label": "Referenční v2 app (general)",
+          "path": "modules/general/app/v2"
+        },
+        {
+          "label": "Datasheets engineering app plan (analogický precedent)",
+          "path": "mission-control/plans/2026/06/DEV-6377-datasheets-engineering-app.yaml"
+        },
+        {
+          "label": "Launchpad app registry",
+          "path": "launchpad/app/v1/core/apps/registry.ts"
+        },
+        {
+          "label": "Examples module instructions",
+          "path": "modules/examples/AGENTS.md"
+        }
+      ],
+      "planning": {
+        "plan_id": "mcplan-dev-6378",
+        "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml",
+        "source": "mission-control",
+        "role": "planning_source"
+      },
+      "source": "mission-control"
+    },
+    {
+      "id": "task-2026-06-16-002",
+      "title": "Examples: Scaffold app/v2 (Vite + React + TS) a data loader",
+      "status": "open",
+      "priority": "high",
+      "priority_rank": 51,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Vytvořit `modules/examples/app/v2` zrcadlením `modules/general/app/v2` (package.json, vite.config, tsconfig, index.html, main.tsx, index.css) a data loader, který build-time přes import.meta.glob načte example.yaml a…",
+      "created_at": "2026-06-16",
+      "updated_at": "2026-06-16",
+      "tags": [
+        "DEV-6378",
+        "mission-control",
+        "examples",
+        "app-scaffold",
+        "vite"
+      ],
+      "dev_code": "DEV-6378",
+      "summary": "Vytvořit `modules/examples/app/v2` zrcadlením `modules/general/app/v2` (package.json, vite.config, tsconfig, index.html, main.tsx, index.css) a data loader, který build-time přes import.meta.glob načte example.yaml a zdrojové soubory z data/v2 do typovaného snapshotu.",
+      "risk_notes": [
+        "Lehký model nesmí sklouznout do striktního moduleDataV2 kontraktu: pokud by se examples deklarovaly jako yaml-only `format: yaml` kolekce, validátor by odmítl kopírovatelné `.be`/`.tngl` soubory. Zdrojové soubory zůstávají v složce příkladu vedle `example.yaml`, ne embeddované v YAML.",
+        "Public-safety: examples je veřejné repo. Žádné metadata, screenshoty ani odvozené read-modely nesmí zanést zákaznický kontext, MAC adresy nebo klíče.",
+        "`example.yaml` sidecary se musí udržovat v souladu se skutečnými soubory ve složce; rozjetí metadat vs. soubory by mátlo prohlížeč. Validace seznamu souborů v `example.yaml` proti obsahu složky je vhodný follow-up.",
+        "`dataSource: filesystem-db-v2` v registry je label pro „čte data/v2 build-time\"; examples ale nemá `module-data.v2.json`. Ověřit, že registry testy tento standalone v2 (bez variantOf) akceptují, případně zvolit label `static`."
+      ],
+      "acceptance_criteria": [
+        "bun install && bun run build projde (tsc -b + vite build).",
+        "Data loader načte všech 7 příkladů a jejich soubory build-time bez runtime fetch.",
+        "App běží na portu 5305 přes bun run dev."
+      ],
+      "links": [
+        {
+          "label": "Mission Control plan",
+          "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml"
+        },
+        {
+          "label": "Referenční v2 app (general)",
+          "path": "modules/general/app/v2"
+        },
+        {
+          "label": "Datasheets engineering app plan (analogický precedent)",
+          "path": "mission-control/plans/2026/06/DEV-6377-datasheets-engineering-app.yaml"
+        },
+        {
+          "label": "Launchpad app registry",
+          "path": "launchpad/app/v1/core/apps/registry.ts"
+        },
+        {
+          "label": "Examples module instructions",
+          "path": "modules/examples/AGENTS.md"
+        }
+      ],
+      "planning": {
+        "plan_id": "mcplan-dev-6378",
+        "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml",
+        "source": "mission-control",
+        "role": "planning_source"
+      },
+      "source": "mission-control"
+    },
+    {
+      "id": "task-2026-06-16-003",
+      "title": "Examples: UI katalog + detail příkladu",
+      "status": "open",
+      "priority": "high",
+      "priority_rank": 52,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Postavit katalog seskupený podle kategorie s textovým filtrem a detail příkladu (vyrenderovaný README, zdrojové soubory s „kopírovat\", metadata a hardware předpoklady), badge „Examples v2\", hash routing.",
+      "created_at": "2026-06-16",
+      "updated_at": "2026-06-16",
+      "tags": [
+        "DEV-6378",
+        "mission-control",
+        "examples",
+        "ui"
+      ],
+      "dev_code": "DEV-6378",
+      "summary": "Postavit katalog seskupený podle kategorie s textovým filtrem a detail příkladu (vyrenderovaný README, zdrojové soubory s „kopírovat\", metadata a hardware předpoklady), badge „Examples v2\", hash routing.",
+      "risk_notes": [
+        "Lehký model nesmí sklouznout do striktního moduleDataV2 kontraktu: pokud by se examples deklarovaly jako yaml-only `format: yaml` kolekce, validátor by odmítl kopírovatelné `.be`/`.tngl` soubory. Zdrojové soubory zůstávají v složce příkladu vedle `example.yaml`, ne embeddované v YAML.",
+        "Public-safety: examples je veřejné repo. Žádné metadata, screenshoty ani odvozené read-modely nesmí zanést zákaznický kontext, MAC adresy nebo klíče.",
+        "`example.yaml` sidecary se musí udržovat v souladu se skutečnými soubory ve složce; rozjetí metadat vs. soubory by mátlo prohlížeč. Validace seznamu souborů v `example.yaml` proti obsahu složky je vhodný follow-up.",
+        "`dataSource: filesystem-db-v2` v registry je label pro „čte data/v2 build-time\"; examples ale nemá `module-data.v2.json`. Ověřit, že registry testy tento standalone v2 (bez variantOf) akceptují, případně zvolit label `static`."
+      ],
+      "acceptance_criteria": [
+        "Katalog vypíše příklady seskupené dle kategorie s funkčním filtrem.",
+        "Detail ukáže README render, soubory s rolí/jazykem a tlačítkem kopírovat.",
+        "Badge „Examples v2\" je viditelný v UI chrome."
+      ],
+      "links": [
+        {
+          "label": "Mission Control plan",
+          "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml"
+        },
+        {
+          "label": "Referenční v2 app (general)",
+          "path": "modules/general/app/v2"
+        },
+        {
+          "label": "Datasheets engineering app plan (analogický precedent)",
+          "path": "mission-control/plans/2026/06/DEV-6377-datasheets-engineering-app.yaml"
+        },
+        {
+          "label": "Launchpad app registry",
+          "path": "launchpad/app/v1/core/apps/registry.ts"
+        },
+        {
+          "label": "Examples module instructions",
+          "path": "modules/examples/AGENTS.md"
+        }
+      ],
+      "planning": {
+        "plan_id": "mcplan-dev-6378",
+        "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml",
+        "source": "mission-control",
+        "role": "planning_source"
+      },
+      "source": "mission-control"
+    },
+    {
+      "id": "task-2026-06-16-004",
+      "title": "Launchpad: Zaregistrovat Examples v2 appku",
+      "status": "open",
+      "priority": "high",
+      "priority_rank": 53,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Přidat záznam do `launchpad/app/v1/core/apps/registry.ts` (id examples, port 5305, dataSource filesystem-db-v2), UI metadata do `web/app.js` (APP_COPY, APP_ICON_STYLES, APP_GROUPS skupina knowledge) a preview záznam do…",
+      "created_at": "2026-06-16",
+      "updated_at": "2026-06-16",
+      "tags": [
+        "DEV-6378",
+        "mission-control",
+        "launchpad",
+        "registry"
+      ],
+      "dev_code": "DEV-6378",
+      "summary": "Přidat záznam do `launchpad/app/v1/core/apps/registry.ts` (id examples, port 5305, dataSource filesystem-db-v2), UI metadata do `web/app.js` (APP_COPY, APP_ICON_STYLES, APP_GROUPS skupina knowledge) a preview záznam do `.claude/launch.json`.",
+      "risk_notes": [
+        "Lehký model nesmí sklouznout do striktního moduleDataV2 kontraktu: pokud by se examples deklarovaly jako yaml-only `format: yaml` kolekce, validátor by odmítl kopírovatelné `.be`/`.tngl` soubory. Zdrojové soubory zůstávají v složce příkladu vedle `example.yaml`, ne embeddované v YAML.",
+        "Public-safety: examples je veřejné repo. Žádné metadata, screenshoty ani odvozené read-modely nesmí zanést zákaznický kontext, MAC adresy nebo klíče.",
+        "`example.yaml` sidecary se musí udržovat v souladu se skutečnými soubory ve složce; rozjetí metadat vs. soubory by mátlo prohlížeč. Validace seznamu souborů v `example.yaml` proti obsahu složky je vhodný follow-up.",
+        "`dataSource: filesystem-db-v2` v registry je label pro „čte data/v2 build-time\"; examples ale nemá `module-data.v2.json`. Ověřit, že registry testy tento standalone v2 (bez variantOf) akceptují, případně zvolit label `static`."
+      ],
+      "acceptance_criteria": [
+        "App je v registry a projde tests/apps-registry.test.ts i tests/repos.test.ts.",
+        "App se zobrazí ve skupině „Podklady, web a návody\" a spustí se na 5305.",
+        ".claude/launch.json má preview záznam pro QA smoke."
+      ],
+      "links": [
+        {
+          "label": "Mission Control plan",
+          "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml"
+        },
+        {
+          "label": "Referenční v2 app (general)",
+          "path": "modules/general/app/v2"
+        },
+        {
+          "label": "Datasheets engineering app plan (analogický precedent)",
+          "path": "mission-control/plans/2026/06/DEV-6377-datasheets-engineering-app.yaml"
+        },
+        {
+          "label": "Launchpad app registry",
+          "path": "launchpad/app/v1/core/apps/registry.ts"
+        },
+        {
+          "label": "Examples module instructions",
+          "path": "modules/examples/AGENTS.md"
+        }
+      ],
+      "planning": {
+        "plan_id": "mcplan-dev-6378",
+        "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml",
+        "source": "mission-control",
+        "role": "planning_source"
+      },
+      "source": "mission-control"
+    },
+    {
+      "id": "task-2026-06-16-005",
+      "title": "Examples: Srovnat modulovou dokumentaci a ledger",
+      "status": "open",
+      "priority": "medium",
+      "priority_rank": 104,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "Aktualizovat `README.md`, `ARCHITECTURE.md`, `AGENTS.md`, `CHANGELOG.md` a task ledger modulu tak, aby data/v2 layout a app/v2 byly popsané jako current runtime; přesunout splněné TODO do DONE.",
+      "created_at": "2026-06-16",
+      "updated_at": "2026-06-16",
+      "tags": [
+        "DEV-6378",
+        "mission-control",
+        "examples",
+        "docs"
+      ],
+      "dev_code": "DEV-6378",
+      "summary": "Aktualizovat `README.md`, `ARCHITECTURE.md`, `AGENTS.md`, `CHANGELOG.md` a task ledger modulu tak, aby data/v2 layout a app/v2 byly popsané jako current runtime; přesunout splněné TODO do DONE.",
+      "risk_notes": [
+        "Lehký model nesmí sklouznout do striktního moduleDataV2 kontraktu: pokud by se examples deklarovaly jako yaml-only `format: yaml` kolekce, validátor by odmítl kopírovatelné `.be`/`.tngl` soubory. Zdrojové soubory zůstávají v složce příkladu vedle `example.yaml`, ne embeddované v YAML.",
+        "Public-safety: examples je veřejné repo. Žádné metadata, screenshoty ani odvozené read-modely nesmí zanést zákaznický kontext, MAC adresy nebo klíče.",
+        "`example.yaml` sidecary se musí udržovat v souladu se skutečnými soubory ve složce; rozjetí metadat vs. soubory by mátlo prohlížeč. Validace seznamu souborů v `example.yaml` proti obsahu složky je vhodný follow-up.",
+        "`dataSource: filesystem-db-v2` v registry je label pro „čte data/v2 build-time\"; examples ale nemá `module-data.v2.json`. Ověřit, že registry testy tento standalone v2 (bez variantOf) akceptují, případně zvolit label `static`."
+      ],
+      "acceptance_criteria": [
+        "README/ARCHITECTURE popisují data/v2 layout a app/v2 jako current.",
+        "CHANGELOG má technician-facing záznam o nové prohlížecí appce.",
+        "TODO/DONE ledger reflektuje doručený scope s evidence cestami."
+      ],
+      "links": [
+        {
+          "label": "Mission Control plan",
+          "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml"
+        },
+        {
+          "label": "Referenční v2 app (general)",
+          "path": "modules/general/app/v2"
+        },
+        {
+          "label": "Datasheets engineering app plan (analogický precedent)",
+          "path": "mission-control/plans/2026/06/DEV-6377-datasheets-engineering-app.yaml"
+        },
+        {
+          "label": "Launchpad app registry",
+          "path": "launchpad/app/v1/core/apps/registry.ts"
+        },
+        {
+          "label": "Examples module instructions",
+          "path": "modules/examples/AGENTS.md"
+        }
+      ],
+      "planning": {
+        "plan_id": "mcplan-dev-6378",
+        "path": "mission-control/plans/2026/06/DEV-6378-examples-v2-browsing-app.yaml",
+        "source": "mission-control",
+        "role": "planning_source"
+      },
+      "source": "mission-control"
     }
   ]
 }

@@ -1,0 +1,40 @@
+schemaVersion: example.v2
+slug: controller-4i-group-toggle-dali-zones
+title: 4I Group Toggle for DALI Zones
+category: controller
+summary: >-
+  Use a single 4-input controller button to toggle multiple DALI EventStates as
+  one cohesive group. Instead of toggling each ID independently from its own
+  state, the group toggle checks whether any ID is on and then sets all IDs to
+  the same target: off if any are on, on if all are off.
+tags:
+  - sc-4i
+  - dali
+  - toggle
+  - dimming
+  - push-button
+  - element-groups
+hardware: >-
+  Assumes a 4-input wall controller (SC 4i) with digital inputs exposed as
+  io["SW1"] and io["SW2"]. DALI output is wired through three DALI controllers
+  (SC_01, SC_02, SC_03) using DADT6 segment definitions, each controlling 4
+  addressable DALI IDs (ID1-ID12 total). Each DALI controller is paired to a
+  logical zone group. The Berry helper OnClickToggleGroup is available after the
+  Spectoda App core ClickCounter class is loaded.
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: on-click-toggle-group.be
+    role: Berry helper
+    language: berry
+  - path: usage-two-4i-controllers.tngl
+    role: usage snippet
+    language: tngl
+  - path: final-project.tngl
+    role: final commissioning project
+    language: tngl
+related:
+  - controller-push-button-click-hold-dim-dali
+  - controller-toggle-button-hold-dim-dali
+  - network-nested-element-groups

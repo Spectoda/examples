@@ -1,0 +1,52 @@
+schemaVersion: example.v2
+slug: controller-analog-potentiometer-dali-red-white
+title: Analog Potentiometers to DALI Red/White EventStates
+category: controller
+summary: >-
+  Map two 0-3.3 V analog potentiometers on a Spectoda controller to percentage
+  EventStates for independent red and white DALI channel control. Each
+  room/controller has its own potentiometers wired to ADC inputs with
+  hysteresis-based event emission, driving separate DALI segments via brightness
+  modifiers.
+tags:
+  - dali
+  - analog
+  - potentiometer
+  - adc
+  - brightness
+  - dimming
+  - eventstate
+  - sc-4i
+hardware: >-
+  SC Industry controller with two 10 kOhm linear potentiometers wired as voltage
+  dividers to ADC inputs IO32 and IO33 (signal range 0-3.3 V). Wiring through
+  the ABCDE terminal: 3V3 (A) to pot outer legs, red pot wiper to IO33 (B),
+  white pot wiper to IO32 (C), GND (D) to pot other legs. DALI drivers handle
+  addresses 1-2 (white segment) and 3-4 (red segment). Configure IO32 and IO33
+  as type ADC in the controller config (not GPI with ANALOG variant). Do not
+  connect external supplies, DALI, mains, or 5/10 V to ADC inputs; keep voltage
+  within 0-3.3 V.
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: analog-pot-event.be
+    role: Berry helper
+    language: berry
+  - path: controller-config-z19.json
+    role: controller config
+    language: json
+  - path: usage-z19.be
+    role: usage snippet
+    language: berry
+  - path: usage-z22.be
+    role: usage snippet
+    language: berry
+  - path: final-project.tngl
+    role: final commissioning project
+    language: tngl
+related:
+  - controller-4i-group-toggle-dali-zones
+  - controller-push-button-click-hold-dim-dali
+  - controller-toggle-button-hold-dim-dali
+  - network-nested-element-groups
