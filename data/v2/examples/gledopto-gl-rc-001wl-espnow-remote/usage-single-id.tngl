@@ -1,11 +1,12 @@
 // Copy gledopto-single-id.be into the same Controller Berry script before
-// this call. Replace the MAC placeholder with the physical remote MAC, or
-// remove "mac" while discovering the remote.
+// this call. While discovering the remote, remove "mac" and set "debug": true;
+// Studio then shows MAC chunks as LABEL EventStates mac1/mac2/mac3 on ID1.
 
 BERRY(`
 GledoptoRemoteSingle({
     "id": ID1,
     "mac": "AA:BB:CC:DD:EE:FF",
+    # "debug": true,
     "brigh": 50,
     "brighStep": 10
 })

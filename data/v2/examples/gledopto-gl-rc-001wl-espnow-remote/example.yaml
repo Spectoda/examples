@@ -4,10 +4,10 @@ title: GLEDOPTO GL-RC-001WL ESP-NOW Remote Control
 category: espnow-remote
 summary: >-
   Map raw ESP-NOW packets from a GLEDOPTO GL-RC-001WL wireless remote to Spectoda
-  EventStates through Berry espnow.rx() callbacks. Supports both single-ID
-  control (toggle and brightness) and two-zone direct/indirect lighting control
-  with temperature adjustment, while keeping normal mesh-based
-  controller-to-controller ESP-NOW communication active.
+  EventStates through Berry espnow.rx() callbacks. Supports single-ID control,
+  two-zone direct/indirect lighting control, and an S1/S2/S3/S4 two-ID selection
+  mode, while keeping normal mesh-based controller-to-controller ESP-NOW
+  communication active.
 tags:
   - espnow
   - gledopto
@@ -26,9 +26,8 @@ hardware: >-
   accepts GLEDOPTO GL-RC-001WL 13-byte payloads with magic bytes 0x81 or 0x91.
   Optional remote MAC address locking accepts packets from a single physical
   remote only. No additional wiring is required; the remote communicates
-  wirelessly and the controller decodes packets in Berry to write toggle and
-  brightness EventStates to one or two Spectoda IDs, and optionally
-  temperature/color-temperature values.
+  wirelessly and the controller decodes packets in Berry to write toggle,
+  brightness, D_ena, and optionally temperature/color-temperature EventStates.
 files:
   - path: README.md
     role: readme
@@ -39,10 +38,19 @@ files:
   - path: gledopto-direct-indirect.be
     role: Berry helper
     language: berry
+  - path: gledopto-two-id-select.be
+    role: Berry helper
+    language: berry
+  - path: upload-two-id-select.be
+    role: standalone Controller Berry script
+    language: berry
   - path: usage-single-id.tngl
     role: usage snippet
     language: tngl
   - path: usage-direct-indirect.tngl
+    role: usage snippet
+    language: tngl
+  - path: usage-two-id-select.tngl
     role: usage snippet
     language: tngl
 related:

@@ -1,0 +1,17 @@
+// Copy gledopto-two-id-select.be into the same Controller Berry script before
+// this call. This is the discovery mode: no MAC filter, debug event output on.
+// Studio shows MAC chunks as LABEL EventStates mac1/mac2/mac3 on ID1 and ID101.
+// After discovery, uncomment "mac", paste the real MAC and set "debug": false.
+
+BERRY(`
+GledoptoRemoteTwoIdSelect({
+    "id1": ID1,
+    "id2": ID101,
+    # "mac": "AA:BB:CC:DD:EE:FF",
+    "debug": true,
+    "brigh": 50,
+    "brighStep": 10,
+    "brighMin": 0,
+    "brighMax": 100
+})
+`);

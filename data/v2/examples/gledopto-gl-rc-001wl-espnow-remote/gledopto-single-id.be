@@ -22,7 +22,8 @@ def GledoptoRemoteSingle(S)
 
     # m = allowed remote MAC. mf = whether to reject packets from other MACs.
     # mf defaults to true when m is set, so GledoptoRemoteSingle({"mac": "..."})
-    # automatically locks to one physical remote. dbg enables packet logging.
+    # automatically locks to one physical remote. dbg enables packet logging and
+    # Studio-visible MAC chunks through LABEL EventStates mac1/mac2/mac3.
     # bs is brighStep; the short name saves bytes in both brightness branches.
     var m = S.find("mac", "")
     var mf = S.find("macFilter", m != "")
@@ -77,6 +78,11 @@ def GledoptoRemoteSingle(S)
         var k = x.get(6)
 
         if dbg
+            # LABEL values are label_t-sized. Split AA:BB:CC:DD:EE:FF into
+            # mac1=AABB, mac2=CCDD, mac3=EEFF without importing string helpers.
+            EVS.emit("mac1", a[0..1] + a[3..4], id, 31)
+            EVS.emit("mac2", a[6..7] + a[9..10], id, 31)
+            EVS.emit("mac3", a[12..13] + a[15..16], id, 31)
             print("GLEDOPTO single", a, "btn", k, "rssi", r, "ch", ch, x.tohex())
         end
 

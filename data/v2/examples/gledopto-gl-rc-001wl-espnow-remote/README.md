@@ -13,8 +13,15 @@ must keep normal Controller-to-Controller ESP-NOW communication enabled.
   `toggl` and `brigh`.
 - `gledopto-direct-indirect.be` - compact Berry plugin for a two-zone
   direct/indirect light setup with `toggl`, `brigh`, and `tempe`.
+- `gledopto-two-id-select.be` - compact Berry plugin where S1/S2/S3/S4 select
+  whether brightness buttons control ID1, ID101, or both.
+- `upload-two-id-select.be` - standalone raw Controller Berry script for the
+  S1/S2/S3/S4 two-ID selection variant. Paste this file directly into the
+  Controller Berry script editor.
 - `usage-single-id.tngl` - minimal TNGL call for one ID.
 - `usage-direct-indirect.tngl` - minimal TNGL call for two IDs.
+- `usage-two-id-select.tngl` - minimal TNGL call for the S1/S2/S3/S4 selection
+  variant.
 
 ## Firmware Assumptions
 
@@ -73,6 +80,19 @@ packets from that remote are accepted. Replace the placeholder MAC with the
 remote printed by a debug/smoke script, or remove the field while discovering
 the remote.
 
+Set `"debug": true` while discovering the remote MAC. The single-ID plugin keeps
+the serial `print()` output and also writes the last accepted sender MAC into
+three Studio-visible LABEL EventStates on the target ID:
+
+| Label | Example value |
+|---|---|
+| `mac1` | `AABB` |
+| `mac2` | `CCDD` |
+| `mac3` | `EEFF` |
+
+Read them as `AA:BB:CC:DD:EE:FF`. The value is split because Spectoda LABEL
+values are short `label_t` identifiers, not arbitrary long strings.
+
 Button behavior:
 
 - ON writes `EVS("toggl", id)` to `100%`.
@@ -111,6 +131,49 @@ Button behavior:
 - Preset 2 toggles direct.
 - Preset 3/4 moves `tempe` warmer/colder for both IDs.
 
+## Two-ID Selection Variant
+
+Use `GledoptoRemoteTwoIdSelect(S)` when S1/S2/S3/S4 should select which IDs
+the brightness buttons control.
+
+For direct upload into the Controller Berry script editor, use
+`upload-two-id-select.be`. Do not paste `usage-two-id-select.tngl` into the raw
+Berry editor; that file is a TNGL snippet and contains `BERRY(...)` plus `//`
+comments, which are not raw Berry syntax.
+
+Copy `gledopto-two-id-select.be` into the controller Berry script, then call:
+
+```berry
+GledoptoRemoteTwoIdSelect({
+    "id1": ID1,
+    "id2": ID101,
+    # "mac": "AA:BB:CC:DD:EE:FF",
+    "debug": true,
+    "brigh": 50,
+    "brighStep": 10,
+    "brighMin": 0,
+    "brighMax": 100
+})
+```
+
+Leave `mac` commented out while discovering the remote. Otherwise a placeholder
+MAC filter can reject every real packet before the script emits any EventState.
+
+Button behavior:
+
+- Any accepted button press writes `EVS("D_ena", ID1)` and
+  `EVS("D_ena", ID101)` to `0%`.
+- With `"debug": true`, any accepted packet also writes the sender MAC to
+  `mac1`/`mac2`/`mac3` LABEL EventStates on both ID1 and ID101.
+- S1 selects ID1 for brightness +/-.
+- S2 selects ID101 for brightness +/-.
+- S3 and S4 select both ID1 and ID101 for brightness +/-.
+- Brightness +/- writes `brigh` only for the selected ID group and writes
+  `toggl` to `100%` for the same selected IDs.
+- ON ignores the selected S group and writes `brighMax` to ID1 and ID101.
+- OFF ignores the selected S group and writes `brighMin` to ID1 and ID101.
+- Moon intentionally does nothing beyond the shared `D_ena` disable event.
+
 ## Config Map Reference
 
 Single-ID `S` map:
@@ -119,8 +182,8 @@ Single-ID `S` map:
 |---|---:|---|
 | `id` | `1` | Spectoda ID controlled by the remote |
 | `mac` | `""` | optional remote MAC address |
-| `macFilter` | `mac != ""` | whether to reject packets from other MACs |
-| `debug` | `false` | print accepted packets and ignored buttons |
+| `macFilter` | real `mac` set | whether to reject packets from other MACs |
+| `debug` | `false` | print accepted packets; single-ID also emits `mac1`/`mac2`/`mac3` |
 | `brigh` | `50` | initial local brightness cache |
 | `brighStep` | `10` | brightness change per button press |
 
@@ -131,20 +194,37 @@ Direct/indirect `S` map:
 | `direct` | `1` | Spectoda ID for the direct zone |
 | `indirect` | `2` | Spectoda ID for the indirect zone |
 | `mac` | `""` | optional remote MAC address |
-| `macFilter` | `mac != ""` | whether to reject packets from other MACs |
+| `macFilter` | real `mac` set | whether to reject packets from other MACs |
 | `debug` | `false` | print accepted packets and ignored buttons |
 | `brigh` | `50` | initial shared brightness cache |
 | `brighStep` | `10` | brightness change per button press |
 | `tempeStep` | `10` | temperature change per button press |
 
+Two-ID selection `S` map:
+
+| Key | Default | Meaning |
+|---|---:|---|
+| `id1` | `1` | first Spectoda ID controlled by S1 |
+| `id2` | `101` | second Spectoda ID controlled by S2 |
+| `group` | `3` | initial selected group: `1` id1, `2` id2, `3` both |
+| `mac` | `""` | optional remote MAC address |
+| `macFilter` | `mac != ""` | whether to reject packets from other MACs |
+| `debug` | `false` | print accepted packets and emit `mac1`/`mac2`/`mac3` on both IDs |
+| `brigh` | `50` | initial brightness cache for both IDs |
+| `brigh1` | `brigh` | optional initial brightness cache for id1 |
+| `brigh2` | `brigh` | optional initial brightness cache for id2 |
+| `brighStep` | `10` | brightness change per button press |
+| `brighMin` | `0` | brightness written to both IDs by OFF |
+| `brighMax` | `100` | brightness written to both IDs by ON |
+
 ## Smoke Test
 
 1. Upload the plugin and one usage call as a TNGL/Berry script to a controller
    with ESP-NOW enabled.
-2. Set `"debug": true` while discovering the remote MAC.
+2. Remove `"mac"` and set `"debug": true` while discovering the remote MAC.
 3. Press ON, OFF, brightness +, and brightness -.
-4. Watch the controller log or Spectoda App EventStates for `toggl` and
-   `brigh` changes.
+4. Watch the controller log, or in Studio read `mac1`/`mac2`/`mac3` on the
+   target ID and combine them into the full MAC address.
 
 After the remote MAC is known, set `"mac"` and leave `"debug": false` for the
 installation script.
