@@ -2,6 +2,26 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260702
+
+### Added
+
+- Added the GLEDOPTO GL-RC-001WL ESP-NOW remote example to the `data/v2`
+  catalog, including single-ID, direct/indirect, and S1/S2/S3/S4 two-ID
+  selection Berry helpers.
+- Added copyable TNGL usage snippets, a standalone Controller Berry upload
+  script for the two-ID selection variant, and `example.yaml` metadata for the
+  Examples v2 browsing app.
+
+### Impact
+
+- Technicians can map the GLEDOPTO remote through
+  `espnow.rx(filter, callback)` while keeping normal Controller-to-Controller
+  ESP-NOW communication active.
+- The example documents safe bring-up with placeholder MACs, optional MAC
+  locking, and debug `mac1`/`mac2`/`mac3` LABEL EventStates for reading the
+  physical remote MAC during commissioning.
+
 ## 20260616
 
 ### Added
