@@ -8,7 +8,8 @@
     "dev:filesystem": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host localhost --port 5305 --strictPort",
     "dev:production": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host localhost --port 5305 --strictPort",
     "build": "tsc -b && bun ./node_modules/vite/bin/vite.js build",
-    "preview": "bun ./node_modules/vite/bin/vite.js preview --host localhost --port 5305 --strictPort"
+    "preview": "bun ./node_modules/vite/bin/vite.js preview --host localhost --port 5305 --strictPort",
+    "dev:launchpad": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host 127.0.0.1 --port 5314 --strictPort"
   },
   "dependencies": {
     "dompurify": "^3.2.4",
@@ -24,5 +25,25 @@
     "@vitejs/plugin-react": "^6.0.0",
     "typescript": "~5.9.3",
     "vite": "^8.0.0"
+  },
+  "companyascode": {
+    "app": {
+      "schema_version": "companyascode.launchpad_app.v1",
+      "id": "spectoda-examples-v2",
+      "title": "Examples v2",
+      "company": "Spectoda",
+      "module": "examples",
+      "surface": "public-preview",
+      "port": 5314,
+      "host": "127.0.0.1",
+      "health_path": "/",
+      "dev_script": "dev:launchpad",
+      "build_script": "build",
+      "tags": [
+        "examples",
+        "filesystem-db-v2",
+        "public-preview"
+      ]
+    }
   }
 }
