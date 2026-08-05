@@ -54,5 +54,8 @@ remains the authority and provides its normal later synchronization. Use
 `SEB.emit` only in a different design with one explicitly authoritative Player
 source.
 
-One SEB segment is limited to 65,535 ms and 240 records. Split longer or denser
-Tracks in the outer Project list instead of changing the native format.
+One SEB segment is limited to 65,535 ms and 340 records (4,092 bytes within one
+4,096-byte LittleFS data-block budget). One atomic due contribution is still
+limited to the 240-event runtime queue, so split simultaneous dense windows.
+Split longer or denser Tracks in the outer Project list instead of changing the
+native format.
