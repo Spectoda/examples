@@ -1,0 +1,33 @@
+schemaVersion: example.v2
+slug: seb-causal-scene-recall
+title: Causal NetworkStorage Scene Recall with SEB
+category: controller
+summary: >-
+  Expand a LABEL EventState such as scene=sce01 into a mixed-ID, zero-duration
+  SEB scene stored in NetworkStorage. Every prepared Controller lands the scene
+  through EventStore at the exact local-millis token of the trigger event.
+tags:
+  - berry-plugin
+  - eventstore
+  - networkstorage
+  - scene
+  - seb
+  - synchronized-events
+hardware: >-
+  Requires exactly firmware 0.12.11 with the final SEB v1 component. Install
+  the same Project Berry script and sce01.seb bytes on every Controller that
+  should land the scene simultaneously. The example uses synthetic EventStates
+  brigh[ID255] and color[ID1]. It contains no Network key, MAC address or
+  customer data.
+files:
+  - path: README.md
+    role: readme
+    language: markdown
+  - path: scene-recall.be
+    role: copy-ready Project Berry plugin
+    language: berry
+  - path: sce01.seb.json
+    role: exact NetworkStorage artifact bytes and decoded reference
+    language: json
+related:
+  - seb-segmented-id-track-player

@@ -1,0 +1,49 @@
+{
+  "schema": "spectoda.seb.artifact-set.v1",
+  "firmware": "0.12.11",
+  "encoding": "hex",
+  "track": {
+    "identifier": "brigh",
+    "id": 1
+  },
+  "files": [
+    {
+      "filename": "brigh-000.seb",
+      "timelineStartMs": 0,
+      "durationMs": 500,
+      "hex": "534542010c000300f4010c000b000000c8914802000001000b8c8647c8914802640001020b105e5fc8914802f4010100",
+      "values": [
+        { "offsetMs": 0, "percentage": 0, "priority": 0 },
+        { "offsetMs": 100, "percentage": 75, "priority": 2 },
+        { "offsetMs": 500, "percentage": 100, "priority": 0 }
+      ]
+    },
+    {
+      "filename": "brigh-001.seb",
+      "timelineStartMs": 500,
+      "durationMs": 500,
+      "hex": "534542010c000300f4010c000b84d717c8914802000001000b08af2fc8914802fa0001000b8c8647c8914802f4010100",
+      "values": [
+        { "offsetMs": 0, "percentage": 25, "priority": 0 },
+        { "offsetMs": 250, "percentage": 50, "priority": 0 },
+        { "offsetMs": 500, "percentage": 75, "priority": 0 }
+      ]
+    },
+    {
+      "filename": "brigh-cp-000.seb",
+      "seekTimelineMs": 0,
+      "nextSegment": 0,
+      "nextCursor": 1,
+      "hex": "534542010c00010000000c000b000000c891480200000100",
+      "state": { "percentage": 0 }
+    },
+    {
+      "filename": "brigh-cp-500.seb",
+      "seekTimelineMs": 500,
+      "nextSegment": 1,
+      "nextCursor": 1,
+      "hex": "534542010c00010000000c000b84d717c891480200000100",
+      "state": { "percentage": 25 }
+    }
+  ]
+}

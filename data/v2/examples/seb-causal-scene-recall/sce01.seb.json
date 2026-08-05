@@ -1,0 +1,24 @@
+{
+  "schema": "spectoda.seb.artifact.v1",
+  "firmware": "0.12.11",
+  "filename": "sce01.seb",
+  "encoding": "hex",
+  "hex": "534542010c00020000000c000b08af2fc89148020000ff003f332211d2c33c0300000107",
+  "durationMs": 0,
+  "records": [
+    {
+      "value": { "type": "percentage", "value": 50 },
+      "identifier": "brigh",
+      "offsetMs": 0,
+      "id": 255,
+      "priority": 0
+    },
+    {
+      "value": { "type": "color", "value": "#112233" },
+      "identifier": "color",
+      "offsetMs": 0,
+      "id": 1,
+      "priority": 7
+    }
+  ]
+}
