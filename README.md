@@ -33,7 +33,9 @@ data/v2/examples/
 ├── controller-push-button-click-hold-dim-dali/      # momentary push button: short click toggles, hold dims brigh
 ├── controller-toggle-button-hold-dim-dali/          # single toggle button ramps DALI brightness, reverses on press
 ├── gledopto-gl-rc-001wl-espnow-remote/              # Berry espnow.rx examples for a GLEDOPTO GL-RC-001WL remote
-└── network-nested-element-groups/                   # App elementsJson + controlPages group → groups → devices pattern
+├── network-nested-element-groups/                   # App elementsJson + controlPages group → groups → devices pattern
+├── seb-causal-scene-recall/                         # recall a mixed-ID SEB scene at the causal event time
+└── seb-segmented-id-track-player/                   # play an ordered one-ID Track from bounded SEB segments
 ```
 
 ## Example Rules
