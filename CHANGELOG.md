@@ -7,7 +7,7 @@ Date-based versions use `YYYYMMDD`.
 ### Added
 
 - Added a copy-ready firmware 0.12.11 Project Berry Player for per-ID SPT
-  snapshot Tracks selected through an A/B SPM manifest.
+  Tracks with complete Cues selected through an A/B SPM manifest.
 - Added a synthetic preferred/fallback bundle corpus, a host Berry lifecycle
   regression, and an isolated-DEVKIT runner with exact NetworkStorage and TNGL
   readback evidence.

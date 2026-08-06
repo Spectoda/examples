@@ -1,12 +1,13 @@
 schemaVersion: example.v2
-slug: player-bundle-ab-snapshot-tracks
-title: A/B Snapshot Track Event Player
+slug: player-bundle-ab-complete-cue-tracks
+title: A/B Complete-Cue Track Event Player
 category: controller
 summary: >-
   Copy-ready firmware 0.12.11 Project Berry player for SPM/SPT v1 bundles. It
   selects a complete preferred or fallback generation, automatically lands the
-  global ID255 Track plus configured local-ID snapshot Tracks, and follows the
-  shared timeline through play, pause, seek, rewind, and loop.
+  global ID255 Track plus configured local-ID Tracks, and follows the shared
+  timeline through play, pause, seek, rewind, and loop. Each Track defines
+  stable typed tracked events, and every Cue supplies all their values.
 tags:
   - berry
   - event-player

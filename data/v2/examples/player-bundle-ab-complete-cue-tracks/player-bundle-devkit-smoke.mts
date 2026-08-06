@@ -42,7 +42,7 @@ type ObservedEvent = {
   timestamp: number;
 };
 
-type ObservedSnapshot = {
+type ObservedCue = {
   global: ObservedEvent;
   local: ObservedEvent;
 };
@@ -382,13 +382,13 @@ const main = async (): Promise<void> => {
     );
   };
 
-  const waitSnapshot = async (
+  const waitCue = async (
     start: number,
     brightness: number,
     color: string,
     afterTimestamp = -1,
     timeout = options.pollTimeout,
-  ): Promise<ObservedSnapshot> => {
+  ): Promise<ObservedCue> => {
     const deadline = Date.now() + timeout;
     while (Date.now() < deadline) {
       const window = observed
@@ -414,15 +414,15 @@ const main = async (): Promise<void> => {
       await sleep(250);
     }
     throw new Error(
-      `Timed out waiting for one causal snapshot color[ID255]=${color} + brigh[ID1]=${brightness}; new events=${JSON.stringify(observed.slice(start))}`,
+      `Timed out waiting for one causal Cue color[ID255]=${color} + brigh[ID1]=${brightness}; new events=${JSON.stringify(observed.slice(start))}`,
     );
   };
 
-  const snapshotEvidence = (
+  const cueEvidence = (
     timelineMillis: number,
     brightness: number,
     color: string,
-    snapshot: ObservedSnapshot,
+    cue: ObservedCue,
   ): Record<string, unknown> => ({
     timelineMillis,
     expected: {
@@ -432,18 +432,18 @@ const main = async (): Promise<void> => {
     },
     observed: {
       global: {
-        label: snapshot.global.label,
-        id: snapshot.global.id,
-        value: normalizeColor(snapshot.global.value),
-        clock: snapshot.global.timestamp,
+        label: cue.global.label,
+        id: cue.global.id,
+        value: normalizeColor(cue.global.value),
+        clock: cue.global.timestamp,
       },
       local: {
-        label: snapshot.local.label,
-        id: snapshot.local.id,
-        value: snapshot.local.value,
-        clock: snapshot.local.timestamp,
+        label: cue.local.label,
+        id: cue.local.id,
+        value: cue.local.value,
+        clock: cue.local.timestamp,
       },
-      causalClockEqual: snapshot.global.timestamp === snapshot.local.timestamp,
+      causalClockEqual: cue.global.timestamp === cue.local.timestamp,
     },
   });
 
@@ -487,7 +487,7 @@ const main = async (): Promise<void> => {
   const exerciseTransport = async (
     generationName: string,
     values: { at0: number; at1000: number; at2000: number },
-    publishedSnapshot?: ObservedSnapshot,
+    publishedCue?: ObservedCue,
   ): Promise<Record<string, unknown>> => {
     const generationEvidence: Record<string, unknown> = {
       generation: generationName,
@@ -496,12 +496,12 @@ const main = async (): Promise<void> => {
     const steps = generationEvidence.steps as Record<string, unknown>;
 
     let start = observed.length;
-    let initial = publishedSnapshot;
+    let initial = publishedCue;
     if (!initial) {
       await spectoda.rewindTimeline(true);
-      initial = await waitSnapshot(start, values.at0, "#ff5500");
+      initial = await waitCue(start, values.at0, "#ff5500");
     }
-    steps.initial = snapshotEvidence(0, values.at0, "#ff5500", initial);
+    steps.initial = cueEvidence(0, values.at0, "#ff5500", initial);
     const pausedStart = observed.length;
     steps.initialPausedGate = await assertNoValues(
       pausedStart,
@@ -553,13 +553,13 @@ const main = async (): Promise<void> => {
 
     start = observed.length;
     await spectoda.unpauseTimeline();
-    const forward1000 = await waitSnapshot(
+    const forward1000 = await waitCue(
       start,
       values.at1000,
       "#0055ff",
       initial.global.timestamp,
     );
-    steps.forward1000 = snapshotEvidence(
+    steps.forward1000 = cueEvidence(
       1000,
       values.at1000,
       "#0055ff",
@@ -568,11 +568,11 @@ const main = async (): Promise<void> => {
 
     await spectoda.pauseTimeline();
     start = observed.length;
-    let seek: ObservedSnapshot | undefined;
+    let seek: ObservedCue | undefined;
     for (let attempt = 0; attempt < 3 && !seek; attempt += 1) {
       await spectoda.setTimelineMillis(1000);
       try {
-        seek = await waitSnapshot(
+        seek = await waitCue(
           start,
           values.at1000,
           "#0055ff",
@@ -584,8 +584,8 @@ const main = async (): Promise<void> => {
         await sleep(100);
       }
     }
-    if (!seek) throw new Error("Timeline seek produced no complete snapshot");
-    steps.seek1000 = snapshotEvidence(1000, values.at1000, "#0055ff", seek);
+    if (!seek) throw new Error("Timeline seek produced no complete Cue");
+    steps.seek1000 = cueEvidence(1000, values.at1000, "#0055ff", seek);
     const seekPausedStart = observed.length;
     steps.seekPausedGate = await assertNoValues(
       seekPausedStart,
@@ -596,13 +596,13 @@ const main = async (): Promise<void> => {
 
     start = observed.length;
     await spectoda.unpauseTimeline();
-    const forward2000 = await waitSnapshot(
+    const forward2000 = await waitCue(
       start,
       values.at2000,
       "#ff5500",
       seek.global.timestamp,
     );
-    steps.forward2000 = snapshotEvidence(
+    steps.forward2000 = cueEvidence(
       2000,
       values.at2000,
       "#ff5500",
@@ -613,30 +613,30 @@ const main = async (): Promise<void> => {
     // reconstruct t=0, then continue to the next timed Cue.
     start = observed.length;
     await spectoda.rewindTimeline(false);
-    const loop0 = await waitSnapshot(
+    const loop0 = await waitCue(
       start,
       values.at0,
       "#ff5500",
       forward2000.global.timestamp,
     );
-    const loop1000 = await waitSnapshot(
+    const loop1000 = await waitCue(
       start,
       values.at1000,
       "#0055ff",
       loop0.global.timestamp,
     );
-    steps.loop0 = snapshotEvidence(0, values.at0, "#ff5500", loop0);
-    steps.loop1000 = snapshotEvidence(1000, values.at1000, "#0055ff", loop1000);
+    steps.loop0 = cueEvidence(0, values.at0, "#ff5500", loop0);
+    steps.loop1000 = cueEvidence(1000, values.at1000, "#0055ff", loop1000);
 
     start = observed.length;
     await spectoda.rewindTimeline(true);
-    const finalPaused = await waitSnapshot(
+    const finalPaused = await waitCue(
       start,
       values.at0,
       "#ff5500",
       loop1000.global.timestamp,
     );
-    steps.finalPaused0 = snapshotEvidence(
+    steps.finalPaused0 = cueEvidence(
       0,
       values.at0,
       "#ff5500",
@@ -969,7 +969,7 @@ const main = async (): Promise<void> => {
     }
     const publicationStart = observed.length;
     await writeAndVerify(manifestB);
-    const switched = await waitSnapshot(publicationStart, 20, "#ff5500");
+    const switched = await waitCue(publicationStart, 20, "#ff5500");
     console.log(
       `[player-bundle-smoke] A/B switch PASS slot=b causalClock=${switched.global.timestamp}`,
     );

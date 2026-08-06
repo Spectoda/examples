@@ -300,7 +300,7 @@ def PlayerBundle(S)
             "fingerprint": descriptor["fingerprint"],
             "size": descriptor["size"],
             "duration": duration,
-            "channels": h.get(20, 2),
+            "event_count": h.get(20, 2),
             "cue_count": cue_count,
             "segment_count": segment_count,
             "cue_offset": 36,
@@ -334,7 +334,7 @@ def PlayerBundle(S)
             var records = seb.get(6, 2)
             var seb_duration = seb.get(8, 2)
             if records < 1 || records > 340 || segment["seb_size"] != 12 + records * 12 ||
-               records != segment["cue_count"] * track["channels"]
+               records != segment["cue_count"] * track["event_count"]
                 return nil
             end
             var inspected = SEB.land(seb, {
@@ -353,7 +353,7 @@ def PlayerBundle(S)
                 var cue = read_cue(track, cue_index)
                 if cue == nil || cue["time"] <= previous_time || cue["time"] > duration ||
                    cue["segment"] != segment_index || cue["cursor"] != expected_record ||
-                   cue["count"] != track["channels"] ||
+                   cue["count"] != track["event_count"] ||
                    cue["offset"] != cue["time"] - segment["origin"] ||
                    cue["offset"] > seb_duration ||
                    (local_cue == 0 && cue["time"] != segment["origin"])
@@ -536,8 +536,8 @@ def PlayerBundle(S)
         # Freeze one mapping per timeline epoch/discontinuity. Calling
         # timeline.toMillis(segment origin) separately for each Track can
         # quantize equal Cues one millisecond apart on real Controllers.
-        # Resolve every Cue and segment directory before the first snapshot
-        # event is landed. SEB bytes are loaded one Track at a time so a large
+        # Resolve every Cue and segment directory before the first Cue value is
+        # landed. SEB bytes are loaded one Track at a time so a large
         # multi-ID bundle does not remain resident in Berry RAM.
         var operations = []
         for track : active["tracks"]
@@ -594,7 +594,7 @@ def PlayerBundle(S)
                 "until": cue["offset"]
             })
             if !result["ok"] || result["consumed"] != cue["count"]
-                log_error("Cue snapshot failed: " + str(result["error"]))
+                log_error("Complete Cue failed: " + str(result["error"]))
                 return false
             end
             var track = operation["track"]
@@ -753,7 +753,7 @@ def PlayerBundle(S)
         end
 
         # Rewind, seek, and timeline loop are all reconstructed from the last
-        # complete Cue snapshot at/before the new shared timeline position.
+        # complete Cue at/before the new shared timeline position.
         if state["epoch"] != R["last_epoch"] || state["time"] < R["last_time"]
             if begin_reconcile(state)
                 reconcile_step(state)

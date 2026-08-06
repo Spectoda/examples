@@ -3,8 +3,9 @@ slug: seb-segmented-id-track-player
 title: Timeline-Driven Segmented Single-ID SEB Track
 category: controller
 summary: >-
-  Drive one logical brigh[ID1] Track from the shared timeline using bounded SEB
-  segments. Project Berry owns segment selection, local-millis projections,
+  Drive one logical ID1 Track with the tracked event brigh from the shared
+  timeline using bounded compiled SEB segments. Project Berry owns segment
+  selection, local-millis projections,
   pause behavior, cursors and explicit checkpoint reconstruction after seek.
 tags:
   - berry-plugin
