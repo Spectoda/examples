@@ -104,7 +104,7 @@ class SebStub
 end
 
 var fixture_file = open(
-    "data/v2/examples/player-bundle-ab-snapshot-tracks/player-bundle-artifacts.json", "r")
+    "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle-artifacts.json", "r")
 var fixture = json.load(fixture_file.read())
 fixture_file.close()
 var final_manifest = nil
@@ -127,12 +127,12 @@ def Plugin(callback)
     return callback
 end
 
-compile("data/v2/examples/player-bundle-ab-snapshot-tracks/player-bundle.be", "file")()
+compile("data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be", "file")()
 assert(stub_state["callback"] != nil)
 
-# First turn validates preferred slot B and prepares the timeline-zero snapshot.
+# First turn validates preferred slot B and prepares the timeline-zero Cues.
 stub_state["callback"]()
-# One complete Track snapshot per turn: global ID255, then configured ID1.
+# One complete Cue per turn: global ID255, then configured ID1.
 stub_state["callback"]()
 stub_state["callback"]()
 stub_state["callback"]()
@@ -175,7 +175,7 @@ assert(SEB.applied.size() == 6)
 assert(SEB.applied[5]["offset"] == 2000)
 
 # Publish slot A by changing SPM last. The player halts while dirty, waits for
-# the paused retry boundary, then lands one complete t=2000 snapshot per Track.
+# the paused retry boundary, then lands one complete t=2000 Cue per Track.
 timeline.state["paused"] = true
 spectoda.files["demo.spm"] = bytes(stage_a_manifest["hex"])
 spectoda.fingerprints["demo.spm"] = stage_a_manifest["fingerprint"]
@@ -190,7 +190,7 @@ assert(SEB.applied.size() == 8)
 # Generation A ID1 at t=2000 returns to 10%.
 assert(SEB.applied[7]["value"] == bytes("0b688909").get(0, 4))
 
-# A backward loop reconstructs the complete t=0 snapshot with one fresh anchor
+# A backward loop reconstructs the complete t=0 Cues with one fresh anchor
 # shared across both Track files.
 timeline.local_now = 20000
 timeline.state["time"] = 0
@@ -211,7 +211,7 @@ spectoda.fingerprints.remove("demo.b.001.spt")
 timeline = TimelineStub()
 SEB = SebStub()
 stub_state["callback"] = nil
-compile("data/v2/examples/player-bundle-ab-snapshot-tracks/player-bundle.be", "file")()
+compile("data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be", "file")()
 stub_state["callback"]()
 stub_state["callback"]()
 stub_state["callback"]()
@@ -228,7 +228,7 @@ end
 # Lock both sides of the sorted local-ID contract so valid unsorted IDs and real
 # duplicates do not regress behind the single-ID physical fixture.
 var player_file = open(
-    "data/v2/examples/player-bundle-ab-snapshot-tracks/player-bundle.be", "r")
+    "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be", "r")
 var player_source = player_file.read()
 player_file.close()
 var valid_multi_id = true

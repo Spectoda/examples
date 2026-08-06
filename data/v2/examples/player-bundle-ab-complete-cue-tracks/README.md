@@ -1,12 +1,13 @@
-# A/B Snapshot Track Player from NetworkStorage
+# A/B Complete-Cue Track Player from NetworkStorage
 
 This copy-ready Project Berry example plays the final SPM/SPT v1 bundle format
 on firmware **0.12.11**. The shared Spectoda timeline is the only transport:
 play, pause, seek, rewind, and loop require no separate Player events.
 
-Each SPT is one Spectoda ID. Each Cue is a complete snapshot of every stable
-typed channel in that Track. The plugin automatically includes a global ID255
-Track when the selected generation contains one, then adds only the local IDs
+Each SPT is one Track for one Spectoda ID; the Track itself has no event label.
+A Track defines stable typed tracked events, and every Cue supplies a complete
+value for each of them. The plugin automatically includes a global ID255 Track
+when the selected generation contains one, then adds only the local IDs
 configured for this Controller.
 
 ```berry
@@ -27,12 +28,17 @@ two-generation show as exact binary hex:
 - slot A is the fallback generation;
 - slot B is the preferred generation;
 - both generations contain ID255 and ID1;
-- the ID1 brightness snapshot changes in generation B.
+- the ID1 brightness Cue values change in generation B.
 
 Convert each `hex` value to exact bytes and upload it with the listed filename
 and `version`. A real Studio deployment writes every changed inactive-slot SPT,
 reads back its exact bytes/fingerprint, and writes the SPM **last**. Do not hand
 edit revisions or fingerprints.
+
+Studio authors Tracks, tracked events, and complete Cues. **Capture** is the
+native WASM operation which reads current EventStore values into a complete Cue;
+this Berry plugin does not implement Capture. SEB exists here only as compiled
+binary segments inside SPT files, not as an authoring concept.
 
 The plugin watches only the active manifest and relevant active Track files.
 Inactive-slot uploads therefore do not interrupt a running show. Once SPM
@@ -48,7 +54,7 @@ The plugin range-reads the manifest, SPT headers/directories, and individual
 SEB segments. It never loads a whole large SPT into one Berry `bytes()` value.
 Every embedded SEB receives native fail-closed validation before a generation
 can activate. Seek, rewind, and loop binary-search the last Cue at or before the
-timeline target and land that complete snapshot at the transport's causal local
+timeline target and land that complete Cue at the transport's causal local
 millis. Forward playback keeps the exact `(SEB bytes, at, cursor)` tuple until
 the segment changes. One local timeline-zero mapping is frozen per
 epoch/discontinuity and refreshed when a paused timeline resumes. Equal Cue
@@ -85,7 +91,7 @@ the exact monorepo checkout, and `--confirm-isolated-devkit`:
 cd /path/to/Spectoda-monorepo
 SPECTODA_WASM_VERSION=DEBUG_DEV_0.12.11_YYYYMMDD \
 node_modules/.bin/tsx \
-  /path/to/examples/data/v2/examples/player-bundle-ab-snapshot-tracks/player-bundle-devkit-smoke.mts \
+  /path/to/examples/data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle-devkit-smoke.mts \
   --monorepo=/path/to/Spectoda-monorepo \
   --path=/dev/cu.usbserial-XXXX \
   --confirm-isolated-devkit \
@@ -113,7 +119,7 @@ compiler fingerprint. It then checks global ID255 and local ID1 values plus
 identical causal clocks across pause, external-authority, play, seek, rewind,
 and a running-rewind loop. It then writes slot B
 SPTs, proves that inactive files did not alter playback, writes the new SPM
-last, verifies the preferred switch without a mixed snapshot, and repeats the
+last, verifies the preferred switch without mixed Cue state, and repeats the
 transport checks.
 
 By default the same isolated Controller also gets a deterministic 60,000-byte
