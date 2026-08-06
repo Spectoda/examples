@@ -35,7 +35,8 @@ data/v2/examples/
 ├── gledopto-gl-rc-001wl-espnow-remote/              # Berry espnow.rx examples for a GLEDOPTO GL-RC-001WL remote
 ├── network-nested-element-groups/                   # App elementsJson + controlPages group → groups → devices pattern
 ├── seb-causal-scene-recall/                         # recall a mixed-ID SEB scene at the causal event time
-└── seb-segmented-id-track-player/                   # play an ordered one-ID Track from bounded SEB segments
+├── seb-segmented-id-track-player/                   # play an ordered one-ID Track from bounded SEB segments
+└── player-bundle-ab-snapshot-tracks/                # A/B SPM/SPT Player with per-ID snapshot Tracks
 ```
 
 ## Example Rules

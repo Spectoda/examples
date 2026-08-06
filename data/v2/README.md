@@ -15,7 +15,7 @@ data/v2/
     └── <example-slug>/
         ├── example.yaml              # metadata sidecar (drives the browsing app)
         ├── README.md                 # human explanation: use case, wiring, behavior
-        └── *.be / *.tngl / *.json    # copyable source files (kept as-is)
+        └── *.be / *.tngl / *.json / *.mts # copyable source files (kept as-is)
 ```
 
 The directory name (`<example-slug>`) describes the use case, not the client.
@@ -35,8 +35,8 @@ Source files are kept copyable and are **not** embedded into YAML.
 | `files`        | every file in the folder with `path`, `role` and `language`             |
 | `related`      | optional slugs of related examples                                      |
 
-`language` is one of `berry` (`.be`), `tngl` (`.tngl`), `json` (`.json`) or
-`markdown` (`.md`).
+`language` is one of `berry` (`.be`), `tngl` (`.tngl`), `json` (`.json`),
+`typescript` (`.mts`) or `markdown` (`.md`).
 
 ## How to add a new example
 
@@ -59,5 +59,5 @@ Source files are kept copyable and are **not** embedded into YAML.
   must not duplicate them.
 - This is a lightweight content model. It is intentionally **not** registered as
   a strict `module-data.v2.json` yaml-only collection, because that validator
-  would reject the copyable `.be`/`.tngl`/`.json` source files that are the whole
-  point of an example.
+  would reject the copyable `.be`/`.tngl`/`.json`/`.mts` source files that are
+  the whole point of an example.
