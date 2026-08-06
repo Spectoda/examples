@@ -1,0 +1,39 @@
+schemaVersion: example.v2
+slug: player-bundle-ab-snapshot-tracks
+title: A/B Snapshot Track Event Player
+category: controller
+summary: >-
+  Copy-ready firmware 0.12.11 Project Berry player for SPM/SPT v1 bundles. It
+  selects a complete preferred or fallback generation, automatically lands the
+  global ID255 Track plus configured local-ID snapshot Tracks, and follows the
+  shared timeline through play, pause, seek, rewind, and loop.
+tags:
+  - berry
+  - event-player
+  - network-storage
+  - seb
+  - spm
+  - spt
+  - timeline
+  - ab-deployment
+hardware: >-
+  Requires exactly firmware 0.12.11 with final SEB v1 and SPM/SPT v1 support.
+  Configure Project Berry with only this Controller's local Spectoda IDs 0-254;
+  the global ID255 Track is automatic. Upload the SPM/SPT bundle to network-wide
+  NetworkStorage.
+files:
+  - path: README.md
+    role: Setup, publication, validation, and runtime behavior
+    language: markdown
+  - path: player-bundle.be
+    role: Copy-ready Project Berry SPM/SPT Player
+    language: berry
+  - path: player-bundle-artifacts.json
+    role: Synthetic two-generation A/B NetworkStorage artifact corpus
+    language: json
+  - path: player-bundle-devkit-smoke.mts
+    role: Explicit isolated-DEVKIT NodeSerial/App Controller end-to-end runner
+    language: typescript
+related:
+  - seb-causal-scene-recall
+  - seb-segmented-id-track-player

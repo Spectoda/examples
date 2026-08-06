@@ -1,6 +1,6 @@
 import YAML from 'yaml';
 
-export type ExampleLanguage = 'berry' | 'tngl' | 'json' | 'markdown';
+export type ExampleLanguage = 'berry' | 'tngl' | 'json' | 'markdown' | 'typescript';
 export type ExampleCategory = 'controller' | 'espnow-remote' | 'network-pattern';
 
 export type ExampleFileMeta = {
@@ -55,7 +55,7 @@ const metaModules = import.meta.glob('../../../data/v2/examples/*/example.yaml',
   eager: true,
 }) as Record<string, string>;
 
-const fileModules = import.meta.glob('../../../data/v2/examples/*/*.{md,be,tngl,json}', {
+const fileModules = import.meta.glob('../../../data/v2/examples/*/*.{md,be,tngl,json,mts}', {
   query: '?raw',
   import: 'default',
   eager: true,
