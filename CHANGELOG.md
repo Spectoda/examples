@@ -2,6 +2,25 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260806
+
+### Added
+
+- Added a copy-ready firmware 0.12.11 Project Berry Player for per-ID SPT
+  snapshot Tracks selected through an A/B SPM manifest.
+- Added a synthetic preferred/fallback bundle corpus, a host Berry lifecycle
+  regression, and an isolated-DEVKIT runner with exact NetworkStorage and TNGL
+  readback evidence.
+- Added TypeScript runner files to the Examples v2 catalog.
+
+### Impact
+
+- Projects can keep Player policy in optional Berry while native SEB remains a
+  reusable atomic event primitive and EventStore stays authoritative.
+- Contributors can reproduce pause, external-authority, seek, rewind, loop,
+  incomplete-generation fallback, and SPM-last publication behavior without
+  customer data.
+
 ## 20260702
 
 ### Added
