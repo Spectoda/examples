@@ -3,8 +3,9 @@
 This firmware 0.12.11 example keeps Player policy in Project Berry and uses the
 native `SEB.land` component only as an atomic timed EventStore primitive.
 
-The logical Track controls one state: `$brigh[ID1]`. It is represented by two
-ordered 500 ms SEB segments:
+The logical Track belongs to Spectoda ID1. This minimal Track has one tracked
+event, `$brigh`, and every Cue supplies its complete value. It is represented
+by two ordered 500 ms compiled SEB segments:
 
 | NetworkStorage file | Timeline start | Values |
 |---|---:|---|
