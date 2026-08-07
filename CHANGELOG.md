@@ -38,6 +38,8 @@ Date-based versions use `YYYYMMDD`.
 
 - `bun run creator-kit:check`
 - `bun run creator-kit:build`
+- Candidate CI fetches full history before checking the committed source lock,
+  so ancestry validation remains fail-closed on a fresh GitHub Actions checkout.
 
 ## 20260702
 
