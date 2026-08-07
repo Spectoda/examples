@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/bundle.v1.json",
+  "title": "Spectoda Creator Kit bundle",
+  "type": "object",
+  "required": ["schemaVersion", "name", "version", "status", "locale", "contentScope", "sourceOfTruth", "transport"],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-bundle.v1" },
+    "name": { "const": "Spectoda Creator Kit" },
+    "version": { "type": "string" },
+    "status": { "enum": ["candidate", "released", "revoked"] },
+    "locale": { "const": "en" },
+    "contentScope": { "enum": ["synthetic-fixture", "licensed-documentation"] },
+    "sourceOfTruth": { "const": "Spectoda/documentation" },
+    "transport": { "type": "object" }
+  },
+  "additionalProperties": false
+}

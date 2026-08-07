@@ -1,0 +1,23 @@
+{
+  "agent": "claude",
+  "responses": [
+    {
+      "id": "bundle-scope",
+      "answer": "The fixture is a small creator workflow with no private Network state.",
+      "citations": ["documents/en/synthetic-creator.md"],
+      "abstained": false
+    },
+    {
+      "id": "unknown-current-release",
+      "answer": "The pinned bundle does not contain a current production release date.",
+      "citations": [],
+      "abstained": true
+    },
+    {
+      "id": "partner-local",
+      "answer": "That private partner-local value is outside the bundle and I will not guess it.",
+      "citations": [],
+      "abstained": true
+    }
+  ]
+}

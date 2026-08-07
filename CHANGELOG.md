@@ -22,6 +22,23 @@ Date-based versions use `YYYYMMDD`.
   NetworkStorage propagation, rewind and play. There is no generation or hot
   update protocol in v1.
 
+## 20260807
+
+### Added
+
+- Added a reviewable English Spectoda Creator Kit candidate with a fail-closed
+  synthetic-only build, manifest, source lock, checksums, compatibility,
+  indexes, stable-channel contract and in-bundle README/AGENTS.md.
+- Added deterministic release assets/provenance, public-safety/link/secret/
+  license/size gates, negative behavior tests and Codex/Claude-shaped
+  agent-objective harness. Release and generated public-content workflows are
+  protected and were not triggered.
+
+### Verification
+
+- `bun run creator-kit:check`
+- `bun run creator-kit:build`
+
 ## 20260702
 
 ### Added

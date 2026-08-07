@@ -31,6 +31,24 @@ scriptů, projektových patternů a integračních snippetů.
   gotchas. Například analog 0-3.3 V na ESP32 se čte přes `type: "ADC"`, ne přes
   zatím neimplementované `GPI` + `variant: "ANALOG"`.
 
+## Creator Kit boundary
+
+- `creator-kit/` is a generated, read-only distribution candidate, not an
+  authoring surface.
+- The candidate is synthetic-fixture-only until Documentation records an
+  authorized redistribution license. Never copy private Documentation bodies,
+  customer context or partner-local knowledge here.
+- Keep exact-version pins, the fixed synthetic fixture lock in source
+  frontmatter, the generated source-lock commit equal to the exact reviewed
+  Git head, checksums, license posture and the
+  `unpublished` stable-channel descriptor intact. Updates require partner
+  approval and a normal review PR.
+- The candidate workflows may validate or prepare a release, but agents must
+  not trigger a generated public-content PR, GitHub Release or partner
+  Organization mutation without fresh explicit instruction.
+- Do not add a generic Lazurio installer to this repository; hand that contract
+  to HumanAndMachines/Lazurio through its own governed planning flow.
+
 ## Hranice
 
 - `modules/examples/` není source of truth pro zákaznickou dokumentaci. Hotové

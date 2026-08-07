@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "creator-kit-stable-channel.v1",
+  "name": "Spectoda Creator Kit",
+  "channel": "stable",
+  "state": "unpublished",
+  "version": null,
+  "digest": null,
+  "releaseUrl": null,
+  "requiredHumanApproval": true,
+  "updatePolicy": "exact-version-partner-approved",
+  "rollback": {
+    "supported": true,
+    "requiresPartnerApproval": true
+  }
+}

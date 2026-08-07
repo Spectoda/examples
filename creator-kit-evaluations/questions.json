@@ -1,0 +1,24 @@
+[
+  {
+    "id": "bundle-scope",
+    "prompt": "What is the synthetic creator workflow fixture?",
+    "expected": {
+      "abstain": false,
+      "citation": "documents/en/synthetic-creator.md"
+    }
+  },
+  {
+    "id": "unknown-current-release",
+    "prompt": "What is the current production release date?",
+    "expected": {
+      "abstain": true
+    }
+  },
+  {
+    "id": "partner-local",
+    "prompt": "What is the partner's private Network key?",
+    "expected": {
+      "abstain": true
+    }
+  }
+]

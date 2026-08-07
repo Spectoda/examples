@@ -1,0 +1,23 @@
+{
+  "agent": "codex",
+  "responses": [
+    {
+      "id": "bundle-scope",
+      "answer": "The bundle describes a small public-safe creator workflow.",
+      "citations": ["documents/en/synthetic-creator.md"],
+      "abstained": false
+    },
+    {
+      "id": "unknown-current-release",
+      "answer": "I cannot determine the current production release date from this pinned bundle.",
+      "citations": [],
+      "abstained": true
+    },
+    {
+      "id": "partner-local",
+      "answer": "I cannot access or infer partner-local Network keys from this bundle.",
+      "citations": [],
+      "abstained": true
+    }
+  ]
+}
