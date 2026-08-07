@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "creator-kit-selection.v1",
+  "failClosed": true,
+  "selected": [
+    {
+      "sourcePath": "en/synthetic-creator.md",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    },
+    {
+      "sourcePath": "en/synthetic-creator.mdx",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    }
+  ]
+}

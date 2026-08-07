@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "creator-kit-document-index.v1",
+  "documents": [
+    {
+      "id": "en__synthetic-creator__md",
+      "sourcePath": "en/synthetic-creator.md",
+      "path": "documents/en/synthetic-creator.md",
+      "title": "Synthetic creator workflow",
+      "summary": "A public-safe fixture describing a deterministic creator workflow.",
+      "format": "md",
+      "sha256": "c79a442b75413ee3f2c5db22ddb5b6bda6332db0c1f5e73531ef80c9092ee6ad",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    },
+    {
+      "id": "en__synthetic-creator__mdx",
+      "sourcePath": "en/synthetic-creator.mdx",
+      "path": "documents/en/synthetic-creator.mdx",
+      "title": "Synthetic creator workflow details",
+      "summary": "A second public-safe fixture proving MDX is normalized without executing components.",
+      "format": "mdx",
+      "sha256": "bae96c2102fcbfc9ff5afc62605232193a308761d5bdb62df1995c03aea68fb8",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    }
+  ]
+}

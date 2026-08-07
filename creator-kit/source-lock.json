@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "creator-kit-source-lock.v1",
+  "repository": "synthetic-fixture",
+  "commit": "6142c40b0868298150e93e6ed2bf19de46dc1380",
+  "files": [
+    {
+      "sourcePath": "en/synthetic-creator.md",
+      "sourceSha256": "ee17f526b4a658f911459f877c942a087f946758cbe38abd3eaed766a42d5cc6",
+      "normalizedSha256": "c79a442b75413ee3f2c5db22ddb5b6bda6332db0c1f5e73531ef80c9092ee6ad",
+      "license": "spectoda-creator-kit-synthetic"
+    },
+    {
+      "sourcePath": "en/synthetic-creator.mdx",
+      "sourceSha256": "2aedb71926e038227aede2f41196fe0845747bf020ff150ab0c68a18cb846136",
+      "normalizedSha256": "bae96c2102fcbfc9ff5afc62605232193a308761d5bdb62df1995c03aea68fb8",
+      "license": "spectoda-creator-kit-synthetic"
+    }
+  ]
+}

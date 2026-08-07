@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/source-lock.v1.json",
+  "title": "Spectoda Creator Kit source lock",
+  "type": "object",
+  "required": ["schemaVersion", "repository", "commit", "files"],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-source-lock.v1" },
+    "repository": { "type": "string" },
+    "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "files": { "type": "array" }
+  },
+  "additionalProperties": false
+}

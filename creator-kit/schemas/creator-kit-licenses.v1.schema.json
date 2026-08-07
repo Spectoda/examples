@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/licenses.v1.json",
+  "title": "Spectoda Creator Kit license posture",
+  "type": "object",
+  "required": ["schemaVersion", "publicationAllowed", "realDocumentationExportAllowed", "scope", "entries"],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-licenses.v1" },
+    "publicationAllowed": { "type": "boolean" },
+    "realDocumentationExportAllowed": { "const": false },
+    "scope": { "type": "string" },
+    "entries": { "type": "array" }
+  },
+  "additionalProperties": false
+}

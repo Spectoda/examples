@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "creator-kit-manifest.v1",
+  "bundleName": "Spectoda Creator Kit",
+  "bundleVersion": "0.1.0-rc.1",
+  "locale": "en",
+  "contentScope": "synthetic-fixture",
+  "source": {
+    "repository": "synthetic-fixture",
+    "commit": "6142c40b0868298150e93e6ed2bf19de46dc1380"
+  },
+  "documents": [
+    {
+      "id": "en__synthetic-creator__md",
+      "sourcePath": "en/synthetic-creator.md",
+      "path": "documents/en/synthetic-creator.md",
+      "title": "Synthetic creator workflow",
+      "summary": "A public-safe fixture describing a deterministic creator workflow.",
+      "format": "md",
+      "sourceSha256": "ee17f526b4a658f911459f877c942a087f946758cbe38abd3eaed766a42d5cc6",
+      "sha256": "c79a442b75413ee3f2c5db22ddb5b6bda6332db0c1f5e73531ef80c9092ee6ad",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    },
+    {
+      "id": "en__synthetic-creator__mdx",
+      "sourcePath": "en/synthetic-creator.mdx",
+      "path": "documents/en/synthetic-creator.mdx",
+      "title": "Synthetic creator workflow details",
+      "summary": "A second public-safe fixture proving MDX is normalized without executing components.",
+      "format": "mdx",
+      "sourceSha256": "2aedb71926e038227aede2f41196fe0845747bf020ff150ab0c68a18cb846136",
+      "sha256": "bae96c2102fcbfc9ff5afc62605232193a308761d5bdb62df1995c03aea68fb8",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    }
+  ]
+}

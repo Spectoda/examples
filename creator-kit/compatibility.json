@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "creator-kit-compatibility.v1",
+  "bundleName": "Spectoda Creator Kit",
+  "formatVersion": 1,
+  "locale": "en",
+  "agents": [
+    "codex",
+    "claude"
+  ],
+  "transport": "github-release-v1",
+  "updatePolicy": "exact-version-partner-approved"
+}

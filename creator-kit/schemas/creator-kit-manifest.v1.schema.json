@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/manifest.v1.json",
+  "title": "Spectoda Creator Kit manifest",
+  "type": "object",
+  "required": ["schemaVersion", "bundleName", "bundleVersion", "locale", "contentScope", "source", "documents"],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-manifest.v1" },
+    "bundleName": { "const": "Spectoda Creator Kit" },
+    "bundleVersion": { "type": "string" },
+    "locale": { "const": "en" },
+    "contentScope": { "enum": ["synthetic-fixture", "licensed-documentation"] },
+    "source": {
+      "type": "object",
+      "required": ["repository", "commit"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+      },
+      "additionalProperties": false
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "sourcePath", "title", "summary", "format", "sha256", "agentExport", "sourceSha256"],
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "sourcePath": { "type": "string" },
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "format": { "enum": ["md", "mdx"] },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "agentExport": {
+            "type": "object",
+            "required": ["include", "audience", "license", "sourceLock"],
+            "properties": {
+              "include": { "const": true },
+              "audience": { "const": "partner-maker" },
+              "license": { "type": "string" },
+              "sourceLock": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
