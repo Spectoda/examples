@@ -1,0 +1,97 @@
+name: Creator Kit release
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type PUBLISH_CREATOR_KIT_RELEASE after human review and license approval"
+        required: true
+        type: string
+      version:
+        description: "Exact semver release version"
+        required: true
+        type: string
+      source_sha:
+        description: "Exact reviewed Examples commit"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    if: ${{ inputs.confirmation == 'PUBLISH_CREATOR_KIT_RELEASE' && inputs.source_sha == github.sha && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: creator-kit-release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@v2
+      - name: Verify reviewed exact head
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_SHA" =~ ^[a-f0-9]{40}$ ]]
+          test "$SOURCE_SHA" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+      - name: Validate release inputs
+        env:
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          node --input-type=module -e 'const version = process.env.CREATOR_KIT_VERSION ?? ""; if (!/^[0-9]+[.][0-9]+[.][0-9]+(-[0-9A-Za-z.-]+)?$/.test(version)) process.exit(1);'
+      - name: Resolve the committed source lock
+        id: source
+        run: |
+          set -euo pipefail
+          source_commit="$(jq -r .commit creator-kit/source-lock.json)"
+          [[ "$source_commit" =~ ^[a-f0-9]{40}$ ]]
+          git merge-base --is-ancestor "$source_commit" "$GITHUB_SHA"
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
+      - name: Build the exact candidate
+        env:
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+          SOURCE_COMMIT: ${{ steps.source.outputs.source_commit }}
+        run: bun run creator-kit:build -- --version "$CREATOR_KIT_VERSION" --source-commit "$SOURCE_COMMIT"
+      - name: Verify committed candidate matches the reviewed generator
+        run: git diff --exit-code -- creator-kit
+      - run: bun run creator-kit:check
+      - name: Require an explicit publishable license posture
+        run: |
+          set -euo pipefail
+          jq -e '.publicationAllowed == true' creator-kit/licenses.json
+      - name: Create release assets locally
+        env:
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+          SOURCE_COMMIT: ${{ steps.source.outputs.source_commit }}
+        run: node scripts/creator-kit/build-release-candidate.mjs --output creator-kit --release-dir .creator-kit-tmp/release --version "$CREATOR_KIT_VERSION" --source-commit "$SOURCE_COMMIT"
+      - name: Verify release asset build preserved the reviewed candidate
+        run: git diff --exit-code -- creator-kit
+      - name: Create the approved stable-channel descriptor locally
+        env:
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          digest="$(jq -r .bundleDigest .creator-kit-tmp/release/provenance.json)"
+          node scripts/creator-kit/promote-stable-channel.mjs \
+            --bundle creator-kit \
+            --version "$CREATOR_KIT_VERSION" \
+            --digest "$digest" \
+            --release-url "https://github.com/Spectoda/examples/releases/tag/creator-kit-v${CREATOR_KIT_VERSION}" \
+            --output .creator-kit-tmp/release/stable-channel.json \
+            --confirm PUBLISH_CREATOR_KIT_RELEASE
+      - name: Publish the explicitly approved GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          gh release create "creator-kit-v${CREATOR_KIT_VERSION}" .creator-kit-tmp/release/* --title "Spectoda Creator Kit ${CREATOR_KIT_VERSION}" --generate-notes

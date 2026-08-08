@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "creator-kit-term-index.v1",
+  "terms": [
+    {
+      "term": "and",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "bundle",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "companion",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "components",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "context",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "creator",
+      "documentIds": [
+        "en__synthetic-creator__md",
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "credentials",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "customer",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "describes",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "details",
+      "documentIds": [
+        "en__synthetic-creator__md",
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "evaluates",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "example",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "executes",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "exports",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "fixture",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "for",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "imports",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "input",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "markdown-shaped",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "mdx",
+      "documentIds": [
+        "en__synthetic-creator__md",
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "network",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "never",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "private",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "product",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "small",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "state",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "synthetic",
+      "documentIds": [
+        "en__synthetic-creator__md",
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "synthetic-creator",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "the",
+      "documentIds": [
+        "en__synthetic-creator__md",
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "this",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "treated",
+      "documentIds": [
+        "en__synthetic-creator__mdx"
+      ]
+    },
+    {
+      "term": "use",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "without",
+      "documentIds": [
+        "en__synthetic-creator__md"
+      ]
+    },
+    {
+      "term": "workflow",
+      "documentIds": [
+        "en__synthetic-creator__md",
+        "en__synthetic-creator__mdx"
+      ]
+    }
+  ]
+}

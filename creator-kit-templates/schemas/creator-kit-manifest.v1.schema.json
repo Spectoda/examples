@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/manifest.v1.json",
+  "title": "Spectoda Creator Kit manifest",
+  "type": "object",
+  "required": ["schemaVersion", "bundleName", "bundleVersion", "locale", "contentScope", "source", "documents", "examples"],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-manifest.v1" },
+    "bundleName": { "const": "Spectoda Creator Kit" },
+    "bundleVersion": { "type": "string" },
+    "locale": { "const": "en" },
+    "contentScope": { "enum": ["synthetic-fixture-with-public-examples", "licensed-documentation"] },
+    "source": {
+      "type": "object",
+      "required": ["repository", "commit"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+      },
+      "additionalProperties": false
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "sourcePath", "title", "summary", "format", "sha256", "agentExport", "sourceSha256"],
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "sourcePath": { "type": "string" },
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "format": { "enum": ["md", "mdx"] },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "agentExport": {
+            "type": "object",
+            "required": ["include", "audience", "license", "sourceLock"],
+            "properties": {
+              "include": { "const": true },
+              "audience": { "const": "partner-maker" },
+              "license": { "type": "string" },
+              "sourceLock": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "title", "topic", "audience", "license", "stability", "compatibility", "files"],
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "title": { "type": "string" },
+          "topic": { "type": "string" },
+          "audience": { "const": "partner-maker" },
+          "license": { "const": "MIT" },
+          "stability": { "const": "firmware-0.12.11" },
+          "compatibility": {
+            "type": "object",
+            "required": ["firmware", "wasm"],
+            "properties": {
+              "firmware": { "const": "0.12.11" },
+              "wasm": { "const": "DEBUG_UNIVERSAL_0.12.11_20260808" }
+            },
+            "additionalProperties": false
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["sourcePath", "path", "format", "sourceSha256", "sha256"],
+              "properties": {
+                "sourcePath": { "type": "string" },
+                "path": { "type": "string" },
+                "format": { "enum": ["md", "yaml", "be"] },
+                "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

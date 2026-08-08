@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "creator-kit-licenses.v1",
+  "publicationAllowed": false,
+  "realDocumentationExportAllowed": false,
+  "scope": "synthetic-fixture-and-public-examples",
+  "entries": [
+    "spectoda-creator-kit-synthetic",
+    "MIT"
+  ]
+}

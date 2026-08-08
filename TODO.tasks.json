@@ -336,6 +336,61 @@
         "role": "planning_source"
       },
       "source": "mission-control"
+    },
+    {
+      "id": "task-2026-08-07-6455-examples-candidate",
+      "title": "DEV-6455: Build the reviewed Spectoda Creator Kit distribution candidate",
+      "status": "review",
+      "priority": "high",
+      "priority_rank": 56,
+      "assignee": "agent",
+      "priority_decider": "matejsuchanek",
+      "priority_reason": "The public Examples repository is the reviewed Creator Kit distribution surface, while Documentation remains private and authoritative.",
+      "created_at": "2026-08-07",
+      "updated_at": "2026-08-07",
+      "tags": [
+        "DEV-6455",
+        "creator-kit",
+        "release-candidate",
+        "public-safety",
+        "agents"
+      ],
+      "dev_code": "DEV-6455",
+      "summary": "Generate a synthetic-fixture-only English Creator Kit candidate with exact source locks, manifests, indexes, checksums, compatibility, stable-channel and provenance contracts. Keep release, generated PR, partner mutation and Lazurio installation behind explicit human gates.",
+      "risk_notes": [
+        "No real Documentation body may enter this public repo until the authorized redistribution license is recorded.",
+        "The stable channel is intentionally unpublished and native Lazurio distribution is a separate dependency."
+      ],
+      "acceptance_criteria": [
+        "The candidate is deterministic across two builds and includes a verifiable archive, provenance, source lock and checksum manifest.",
+        "Public-safety, link, secret, license and size gates plus negative fixtures pass; document IDs and indexes are unique and deterministic.",
+        "Codex/Claude-shaped objective fixtures pass citation and abstention checks without claiming a real pilot or partner onboarding."
+      ],
+      "links": [
+        {
+          "label": "Creator Kit bundle",
+          "path": "creator-kit"
+        },
+        {
+          "label": "Creator Kit release builder",
+          "path": "scripts/creator-kit/build-release-candidate.mjs"
+        },
+        {
+          "label": "Creator Kit validation",
+          "path": "scripts/creator-kit/validate.mjs"
+        },
+        {
+          "label": "Mission Control plan",
+          "path": "db/data/mission-control/plans/2026/08/DEV-6455-spectoda-creator-kit-agent-knowledge-release.yaml"
+        }
+      ],
+      "planning": {
+        "plan_id": "mcplan-dev-6455",
+        "path": "db/data/mission-control/plans/2026/08/DEV-6455-spectoda-creator-kit-agent-knowledge-release.yaml",
+        "source": "mission-control",
+        "role": "execution_task"
+      },
+      "source": "mission-control"
     }
   ]
 }

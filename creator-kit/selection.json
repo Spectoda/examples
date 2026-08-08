@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "creator-kit-selection.v1",
+  "failClosed": true,
+  "selectedDocuments": [
+    {
+      "sourcePath": "en/synthetic-creator.md",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    },
+    {
+      "sourcePath": "en/synthetic-creator.mdx",
+      "agentExport": {
+        "include": true,
+        "audience": "partner-maker",
+        "license": "spectoda-creator-kit-synthetic",
+        "sourceLock": "synthetic-fixture-2026-08-07"
+      }
+    }
+  ],
+  "selectedExamples": [
+    {
+      "id": "player-show-complete-cue-tracks",
+      "selectionSourcePath": "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json",
+      "files": [
+        "data/v2/examples/player-show-complete-cue-tracks/example.yaml",
+        "data/v2/examples/player-show-complete-cue-tracks/player.be",
+        "data/v2/examples/player-show-complete-cue-tracks/README.md"
+      ]
+    }
+  ]
+}

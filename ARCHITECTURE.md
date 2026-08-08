@@ -55,3 +55,22 @@ runtime fetch, no Firebase) and renders a browsable, copyable catalog.
 This repository can reference those sources, but should not become their
 replacement.
 
+## Creator Kit release boundary
+
+`creator-kit/` is a generated, reviewable read-only distribution artifact. Its
+source fixture and builder are intentionally synthetic-only until the
+Documentation owner records a redistribution license. The private
+`documentation` module remains the authority for Markdown/MDX and the
+`agentExport` selection contract.
+
+The candidate includes a versioned bundle schema, manifest, source lock,
+license posture, compatibility contract, indexes, checksums and an
+`unpublished` stable-channel descriptor. `scripts/creator-kit/validate.mjs`
+checks public safety, links, hashes, size and the human-release gate. The
+release candidate script produces a deterministic tar and provenance file but
+does not publish a release, transfer public content or mutate a partner
+Organization.
+
+The only v1 transport contract is GitHub Releases plus the stable descriptor.
+No embeddings, hosted dynamic RAG, central MCP gateway, writable
+Documentation API or generic Lazurio installer belongs in this module.

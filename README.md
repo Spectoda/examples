@@ -54,3 +54,29 @@ Each example should include:
 
 Do not commit secrets, client credentials, private network keys, or
 customer-specific data that is not meant to be public.
+
+## Spectoda Creator Kit candidate
+
+`creator-kit/` is the reviewed distribution surface for the English Spectoda
+Creator Kit. The current tree is a synthetic-fixture-only release candidate;
+real Documentation bodies are not transferred until an authorized
+redistribution license is recorded. Documentation remains the private
+authoring source of truth.
+
+The candidate is read-only and uses exact-version pins, a fixed synthetic
+fixture lock in frontmatter plus a generated source-lock commit equal to the
+exact Examples Git head, manifests,
+indexes, checksums, a stable-channel descriptor and a protected human release
+gate. Partner-local knowledge must live outside the bundle. Native Lazurio
+installation is intentionally not implemented here.
+
+Run the local gates from the repository root:
+
+```bash
+bun run creator-kit:build
+bun run creator-kit:check
+```
+
+`creator-kit:build` creates only a local release candidate archive under the
+ignored `.creator-kit-tmp/`; it does not call GitHub Releases or publish a
+generated PR.

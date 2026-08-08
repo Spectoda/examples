@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "creator-kit-source-lock.v1",
+  "repository": "Spectoda/examples",
+  "commit": "8c33c51021701dfd8fedf945656792e6a3721c2d",
+  "files": [
+    {
+      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json",
+      "sourceSha256": "a8880a88792be687f233f0cab0fc345a2f834055c682ff09182034d3eef08859",
+      "bundleSha256": "a8880a88792be687f233f0cab0fc345a2f834055c682ff09182034d3eef08859",
+      "license": "MIT",
+      "role": "selection"
+    },
+    {
+      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/example.yaml",
+      "sourceSha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d",
+      "bundleSha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d",
+      "license": "MIT"
+    },
+    {
+      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/player.be",
+      "sourceSha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948",
+      "bundleSha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948",
+      "license": "MIT"
+    },
+    {
+      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/README.md",
+      "sourceSha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de",
+      "bundleSha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de",
+      "license": "MIT"
+    },
+    {
+      "sourcePath": "en/synthetic-creator.md",
+      "sourceSha256": "ee17f526b4a658f911459f877c942a087f946758cbe38abd3eaed766a42d5cc6",
+      "bundleSha256": "c79a442b75413ee3f2c5db22ddb5b6bda6332db0c1f5e73531ef80c9092ee6ad",
+      "license": "spectoda-creator-kit-synthetic"
+    },
+    {
+      "sourcePath": "en/synthetic-creator.mdx",
+      "sourceSha256": "2aedb71926e038227aede2f41196fe0845747bf020ff150ab0c68a18cb846136",
+      "bundleSha256": "bae96c2102fcbfc9ff5afc62605232193a308761d5bdb62df1995c03aea68fb8",
+      "license": "spectoda-creator-kit-synthetic"
+    }
+  ]
+}
