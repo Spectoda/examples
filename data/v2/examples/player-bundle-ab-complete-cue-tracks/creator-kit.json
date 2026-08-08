@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "creator-kit-example.v1",
+  "include": true,
+  "audience": "partner-maker",
+  "license": "MIT",
+  "topic": "studio-event-player",
+  "stability": "firmware-0.12.11",
+  "compatibility": {
+    "firmware": "0.12.11",
+    "wasm": "DEBUG_UNIVERSAL_0.12.11_20260808"
+  },
+  "files": [
+    "README.md",
+    "example.yaml",
+    "player-bundle.be"
+  ]
+}
