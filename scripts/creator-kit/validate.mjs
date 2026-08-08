@@ -156,14 +156,14 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     }
   }
   const example = manifest.examples[0];
-  check(example.id === "player-bundle-ab-complete-cue-tracks" && example.license === "MIT", "Public example identity/license is invalid");
+  check(example.id === "player-show-complete-cue-tracks" && example.license === "MIT", "Public example identity/license is invalid");
   check(example.compatibility?.firmware === "0.12.11" && example.compatibility?.wasm === "DEBUG_UNIVERSAL_0.12.11_20260808", "Public example compatibility is invalid");
   check(Array.isArray(example.files) && example.files.length === 3, "Public example must contain exactly the reviewed three files");
   check(
     example.files.map((file) => file.path).sort().join("\n") === [
-      "examples/player-bundle-ab-complete-cue-tracks/README.md",
-      "examples/player-bundle-ab-complete-cue-tracks/example.yaml",
-      "examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
+      "examples/player-show-complete-cue-tracks/README.md",
+      "examples/player-show-complete-cue-tracks/example.yaml",
+      "examples/player-show-complete-cue-tracks/player.be",
     ].sort().join("\n"),
     "Public example file selection is invalid",
   );
@@ -174,10 +174,10 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     const lock = sourceLockByPath.get(file.sourcePath);
     check(lock?.sourceSha256 === file.sourceSha256 && lock?.bundleSha256 === file.sha256 && lock?.license === "MIT", `${file.sourcePath} source lock is invalid`);
   }
-  const plugin = await readFile(path.join(root, "examples/player-bundle-ab-complete-cue-tracks/player-bundle.be"), "utf8");
+  const plugin = await readFile(path.join(root, "examples/player-show-complete-cue-tracks/player.be"), "utf8");
   check(plugin.includes("timeline.at") && !plugin.includes("timeline.toMillis"), "Bundled Player plugin does not use the final timeline.at API");
   check(Array.isArray(selection.selectedExamples) && selection.selectedExamples.length === 1, "Selection does not expose the public example");
-  const selectionLock = sourceLockByPath.get("data/v2/examples/player-bundle-ab-complete-cue-tracks/creator-kit.json");
+  const selectionLock = sourceLockByPath.get("data/v2/examples/player-show-complete-cue-tracks/creator-kit.json");
   check(selectionLock?.role === "selection" && selectionLock.sourceSha256 === selectionLock.bundleSha256 && selectionLock.license === "MIT", "Public example selection lock is invalid");
   const expectedChecksums = (await readFile(path.join(root, "checksums.sha256"), "utf8")).trim();
   const actualChecksums = (await createChecksums(root)).trim();

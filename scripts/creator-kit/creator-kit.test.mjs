@@ -31,13 +31,13 @@ test("double-builds a reproducible candidate and deterministic tar archive", asy
     assert.equal(first.provenance.stableChannelState, "unpublished");
     assert.equal((await validateBundle(path.join(root, "first-bundle"))).documentCount, 2);
     assert.equal(first.validation.exampleCount, 1);
-    const sourcePlugin = await readFile(path.join(ROOT, "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be"));
-    const bundledPlugin = await readFile(path.join(root, "first-bundle/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be"));
+    const sourcePlugin = await readFile(path.join(ROOT, "data/v2/examples/player-show-complete-cue-tracks/player.be"));
+    const bundledPlugin = await readFile(path.join(root, "first-bundle/examples/player-show-complete-cue-tracks/player.be"));
     assert.deepEqual(bundledPlugin, sourcePlugin);
     assert.match(bundledPlugin.toString("utf8"), /timeline[.]at/u);
     assert.doesNotMatch(bundledPlugin.toString("utf8"), /timeline[.]toMillis/u);
     const sourceLock = JSON.parse(await readFile(path.join(root, "first-bundle/source-lock.json"), "utf8"));
-    const pluginLock = sourceLock.files.find((file) => file.sourcePath.endsWith("/player-bundle.be"));
+    const pluginLock = sourceLock.files.find((file) => file.sourcePath.endsWith("/player.be"));
     assert.equal(pluginLock.sourceSha256, sha256(sourcePlugin));
     assert.equal(pluginLock.bundleSha256, sha256(bundledPlugin));
     assert.equal(await readFile(first.archive.archivePath).then((value) => value.length), await readFile(second.archive.archivePath).then((value) => value.length));

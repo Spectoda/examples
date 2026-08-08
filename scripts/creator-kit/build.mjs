@@ -14,9 +14,9 @@ const DEFAULT_SOURCE = path.join(SCRIPT_ROOT, "creator-kit-fixtures");
 const NEGATIVE_SOURCE = path.join(SCRIPT_ROOT, "creator-kit-negative-fixtures");
 const DEFAULT_OUTPUT = path.join(SCRIPT_ROOT, "creator-kit");
 const SYNTHETIC_SOURCE_LOCK = "synthetic-fixture-2026-08-07";
-const PUBLIC_EXAMPLE_ROOT = path.join(SCRIPT_ROOT, "data/v2/examples/player-bundle-ab-complete-cue-tracks");
+const PUBLIC_EXAMPLE_ROOT = path.join(SCRIPT_ROOT, "data/v2/examples/player-show-complete-cue-tracks");
 const PUBLIC_EXAMPLE_SELECTION = path.join(PUBLIC_EXAMPLE_ROOT, "creator-kit.json");
-const PUBLIC_EXAMPLE_DESTINATION = "examples/player-bundle-ab-complete-cue-tracks";
+const PUBLIC_EXAMPLE_DESTINATION = "examples/player-show-complete-cue-tracks";
 const EXAMPLES_REPOSITORY = "Spectoda/examples";
 
 export class CreatorKitBuildError extends Error {
@@ -359,7 +359,7 @@ async function loadPublicExamples(sourceCommit) {
       license: selection.license,
     },
     example: {
-      id: "player-bundle-ab-complete-cue-tracks",
+      id: "player-show-complete-cue-tracks",
       path: PUBLIC_EXAMPLE_DESTINATION,
       title,
       topic: selection.topic,

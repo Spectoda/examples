@@ -21,6 +21,6 @@ hosted RAG, a central MCP gateway and a writable Documentation API are not part
 of Creator Kit v1.
 
 The canonical copy-ready firmware 0.12.11 Event Player integration is exposed
-at `examples/player-bundle-ab-complete-cue-tracks/`. Use its README for setup
-and its `player-bundle.be` as the Project Berry source. Do not rewrite or
+at `examples/player-show-complete-cue-tracks/`. Use its README for setup and
+its `player.be` as the Project Berry source. Do not rewrite or
 silently modernize that locked example.

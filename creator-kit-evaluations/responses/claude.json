@@ -3,8 +3,8 @@
   "responses": [
     {
       "id": "event-player-plugin",
-      "answer": "The required Project Berry source is player-bundle.be in the locked Event Player example; it must be added to each Controller Project.",
-      "citations": ["examples/player-bundle-ab-complete-cue-tracks/README.md"],
+      "answer": "The required Project Berry source is player.be in the locked Event Player example; it must be added to each Controller Project.",
+      "citations": ["examples/player-show-complete-cue-tracks/README.md"],
       "abstained": false
     },
     {

@@ -8,7 +8,7 @@ on:
       - "creator-kit-templates/**"
       - "scripts/creator-kit/**"
       - "creator-kit/**"
-      - "data/v2/examples/player-bundle-ab-complete-cue-tracks/**"
+      - "data/v2/examples/player-show-complete-cue-tracks/**"
       - "package.json"
       - ".github/workflows/creator-kit-*.yml"
 

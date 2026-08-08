@@ -3,8 +3,8 @@
   "responses": [
     {
       "id": "event-player-plugin",
-      "answer": "Add the locked player-bundle.be Project Berry source to every Controller Project; Studio bundle upload does not install it.",
-      "citations": ["examples/player-bundle-ab-complete-cue-tracks/README.md"],
+      "answer": "Add the locked player.be Project Berry source to every Controller Project; Studio Event Player upload does not install it.",
+      "citations": ["examples/player-show-complete-cue-tracks/README.md"],
       "abstained": false
     },
     {

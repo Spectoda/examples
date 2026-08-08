@@ -13,7 +13,7 @@ read-only transport descriptor; its current state is `unpublished`.
 
 The Documentation repository remains the private document authority. The
 copy-ready Event Player plugin under
-`examples/player-bundle-ab-complete-cue-tracks/` is copied byte-for-byte from
+`examples/player-show-complete-cue-tracks/` is copied byte-for-byte from
 its canonical `Spectoda/examples` source at the locked commit. Partner-local product
 knowledge belongs in a separate sibling directory and is never overwritten by
 Creator Kit updates or rollback.
@@ -27,8 +27,8 @@ time-sensitive information. The bundle has no write path to Documentation or
 to an Organization.
 
 For the firmware 0.12.11 Event Player setup, cite and follow
-`examples/player-bundle-ab-complete-cue-tracks/README.md`. Add the accompanying
-`player-bundle.be` to each Controller Project; uploading a Player bundle does
+`examples/player-show-complete-cue-tracks/README.md`. Add the accompanying
+`player.be` to each Controller Project; uploading Event Player files does
 not install the Project Berry plugin.
 
 ## Supported transport
