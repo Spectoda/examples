@@ -1,18 +1,43 @@
 {
   "schemaVersion": "creator-kit-source-lock.v1",
-  "repository": "synthetic-fixture",
-  "commit": "6142c40b0868298150e93e6ed2bf19de46dc1380",
+  "repository": "Spectoda/examples",
+  "commit": "08339b4e840ba8c8b0a7d2f4c93eb1a5ba075f92",
   "files": [
+    {
+      "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/creator-kit.json",
+      "sourceSha256": "3f470060dfa277f33cdf0f342d49fe05d63a1f97c3596e01e058caf2f21fe24b",
+      "bundleSha256": "3f470060dfa277f33cdf0f342d49fe05d63a1f97c3596e01e058caf2f21fe24b",
+      "license": "MIT",
+      "role": "selection"
+    },
+    {
+      "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/example.yaml",
+      "sourceSha256": "4d19b2085b9823627e9b010cbb33683d33116b306a7aa96ca4b4e7bfbec622f4",
+      "bundleSha256": "4d19b2085b9823627e9b010cbb33683d33116b306a7aa96ca4b4e7bfbec622f4",
+      "license": "MIT"
+    },
+    {
+      "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
+      "sourceSha256": "2a5ba31e24c366e1ebd5e81f7c73c95d57220d354464cd34074f0301973b10e0",
+      "bundleSha256": "2a5ba31e24c366e1ebd5e81f7c73c95d57220d354464cd34074f0301973b10e0",
+      "license": "MIT"
+    },
+    {
+      "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/README.md",
+      "sourceSha256": "8687920a58f1e19f132913a327da1ef287a9b291429e7fc781fc54f2ab15ef4a",
+      "bundleSha256": "8687920a58f1e19f132913a327da1ef287a9b291429e7fc781fc54f2ab15ef4a",
+      "license": "MIT"
+    },
     {
       "sourcePath": "en/synthetic-creator.md",
       "sourceSha256": "ee17f526b4a658f911459f877c942a087f946758cbe38abd3eaed766a42d5cc6",
-      "normalizedSha256": "c79a442b75413ee3f2c5db22ddb5b6bda6332db0c1f5e73531ef80c9092ee6ad",
+      "bundleSha256": "c79a442b75413ee3f2c5db22ddb5b6bda6332db0c1f5e73531ef80c9092ee6ad",
       "license": "spectoda-creator-kit-synthetic"
     },
     {
       "sourcePath": "en/synthetic-creator.mdx",
       "sourceSha256": "2aedb71926e038227aede2f41196fe0845747bf020ff150ab0c68a18cb846136",
-      "normalizedSha256": "bae96c2102fcbfc9ff5afc62605232193a308761d5bdb62df1995c03aea68fb8",
+      "bundleSha256": "bae96c2102fcbfc9ff5afc62605232193a308761d5bdb62df1995c03aea68fb8",
       "license": "spectoda-creator-kit-synthetic"
     }
   ]

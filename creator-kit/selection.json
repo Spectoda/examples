@@ -1,7 +1,7 @@
 {
   "schemaVersion": "creator-kit-selection.v1",
   "failClosed": true,
-  "selected": [
+  "selectedDocuments": [
     {
       "sourcePath": "en/synthetic-creator.md",
       "agentExport": {
@@ -19,6 +19,17 @@
         "license": "spectoda-creator-kit-synthetic",
         "sourceLock": "synthetic-fixture-2026-08-07"
       }
+    }
+  ],
+  "selectedExamples": [
+    {
+      "id": "player-bundle-ab-complete-cue-tracks",
+      "selectionSourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/creator-kit.json",
+      "files": [
+        "data/v2/examples/player-bundle-ab-complete-cue-tracks/example.yaml",
+        "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
+        "data/v2/examples/player-bundle-ab-complete-cue-tracks/README.md"
+      ]
     }
   ]
 }

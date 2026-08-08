@@ -1,12 +1,12 @@
 {
   "schemaVersion": "creator-kit-manifest.v1",
   "bundleName": "Spectoda Creator Kit",
-  "bundleVersion": "0.1.0-rc.1",
+  "bundleVersion": "0.1.0-rc.2",
   "locale": "en",
-  "contentScope": "synthetic-fixture",
+  "contentScope": "synthetic-fixture-with-public-examples",
   "source": {
-    "repository": "synthetic-fixture",
-    "commit": "6142c40b0868298150e93e6ed2bf19de46dc1380"
+    "repository": "Spectoda/examples",
+    "commit": "08339b4e840ba8c8b0a7d2f4c93eb1a5ba075f92"
   },
   "documents": [
     {
@@ -40,6 +40,44 @@
         "license": "spectoda-creator-kit-synthetic",
         "sourceLock": "synthetic-fixture-2026-08-07"
       }
+    }
+  ],
+  "examples": [
+    {
+      "id": "player-bundle-ab-complete-cue-tracks",
+      "path": "examples/player-bundle-ab-complete-cue-tracks",
+      "title": "A/B Complete-Cue Track Player from NetworkStorage",
+      "topic": "studio-event-player",
+      "audience": "partner-maker",
+      "license": "MIT",
+      "stability": "firmware-0.12.11",
+      "compatibility": {
+        "firmware": "0.12.11",
+        "wasm": "DEBUG_UNIVERSAL_0.12.11_20260808"
+      },
+      "files": [
+        {
+          "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/example.yaml",
+          "path": "examples/player-bundle-ab-complete-cue-tracks/example.yaml",
+          "format": "yaml",
+          "sourceSha256": "4d19b2085b9823627e9b010cbb33683d33116b306a7aa96ca4b4e7bfbec622f4",
+          "sha256": "4d19b2085b9823627e9b010cbb33683d33116b306a7aa96ca4b4e7bfbec622f4"
+        },
+        {
+          "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
+          "path": "examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
+          "format": "be",
+          "sourceSha256": "2a5ba31e24c366e1ebd5e81f7c73c95d57220d354464cd34074f0301973b10e0",
+          "sha256": "2a5ba31e24c366e1ebd5e81f7c73c95d57220d354464cd34074f0301973b10e0"
+        },
+        {
+          "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/README.md",
+          "path": "examples/player-bundle-ab-complete-cue-tracks/README.md",
+          "format": "md",
+          "sourceSha256": "8687920a58f1e19f132913a327da1ef287a9b291429e7fc781fc54f2ab15ef4a",
+          "sha256": "8687920a58f1e19f132913a327da1ef287a9b291429e7fc781fc54f2ab15ef4a"
+        }
+      ]
     }
   ]
 }

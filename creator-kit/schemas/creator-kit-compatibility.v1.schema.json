@@ -3,7 +3,7 @@
   "$id": "https://schemas.spectoda.com/creator-kit/compatibility.v1.json",
   "title": "Spectoda Creator Kit compatibility contract",
   "type": "object",
-  "required": ["schemaVersion", "bundleName", "formatVersion", "locale", "agents", "transport", "updatePolicy"],
+  "required": ["schemaVersion", "bundleName", "formatVersion", "locale", "agents", "transport", "updatePolicy", "firmware", "wasm"],
   "properties": {
     "schemaVersion": { "const": "creator-kit-compatibility.v1" },
     "bundleName": { "const": "Spectoda Creator Kit" },
@@ -11,7 +11,9 @@
     "locale": { "const": "en" },
     "agents": { "type": "array" },
     "transport": { "const": "github-release-v1" },
-    "updatePolicy": { "const": "exact-version-partner-approved" }
+    "updatePolicy": { "const": "exact-version-partner-approved" },
+    "firmware": { "const": "0.12.11" },
+    "wasm": { "const": "DEBUG_UNIVERSAL_0.12.11_20260808" }
   },
   "additionalProperties": false
 }

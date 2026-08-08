@@ -2,8 +2,9 @@
   "schemaVersion": "creator-kit-licenses.v1",
   "publicationAllowed": false,
   "realDocumentationExportAllowed": false,
-  "scope": "synthetic-fixture-only",
+  "scope": "synthetic-fixture-and-public-examples",
   "entries": [
-    "spectoda-creator-kit-synthetic"
+    "spectoda-creator-kit-synthetic",
+    "MIT"
   ]
 }
