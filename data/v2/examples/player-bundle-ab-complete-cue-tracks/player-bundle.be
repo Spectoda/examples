@@ -524,17 +524,17 @@ def PlayerBundle(S)
             return false
         end
         # Keep the discontinuity trigger armed until reconciliation completes,
-        # so a transient anchor/directory read failure retries next turn.
+        # so a transient projection/directory read failure retries next turn.
         R["last_epoch"] = state["epoch"] - 1
-        var local_now = timeline.toMillis(state["time"])
+        var local_now = timeline.at(state["time"])
         if local_now == nil
             R["armed"] = false
-            log_error("timeline cannot provide a local millis anchor")
+            log_error("timeline cannot project local millis")
             return false
         end
         R["timeline_zero"] = subtract_local_millis(local_now, state["time"])
         # Freeze one mapping per timeline epoch/discontinuity. Calling
-        # timeline.toMillis(segment origin) separately for each Track can
+        # timeline.at(segment origin) separately for each Track can
         # quantize equal Cues one millisecond apart on real Controllers.
         # Resolve every Cue and segment directory before the first Cue value is
         # landed. SEB bytes are loaded one Track at a time so a large
@@ -622,7 +622,7 @@ def PlayerBundle(S)
     end
 
     # Return 1 after one SEB call, 0 when this Track has nothing due, and -1 on
-    # a read/anchor failure. Cursor advances only from a successful native call.
+    # a read/projection failure. Cursor advances only from a successful native call.
     def process_track(track, target)
         if track["play_segment"] >= track["segment_count"]
             return 0
@@ -740,9 +740,9 @@ def PlayerBundle(S)
         # again: an external event remains authoritative until the next Cue,
         # whose causal clock must still reflect the time spent paused.
         if R["last_paused"] && !state["paused"]
-            var local_now = timeline.toMillis(state["time"])
+            var local_now = timeline.at(state["time"])
             if local_now == nil
-                log_error("timeline resume has no local anchor")
+                log_error("timeline resume has no local projection")
                 return
             end
             R["timeline_zero"] = subtract_local_millis(local_now, state["time"])

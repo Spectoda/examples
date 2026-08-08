@@ -2,6 +2,7 @@
 # two-generation corpus shipped with the example and supplies small firmware
 # API stubs; no production Controller APIs are involved.
 import json
+import string
 
 class SpectodaStub
     var files, fingerprints, reads, list_failures
@@ -43,21 +44,21 @@ class SpectodaStub
 end
 
 class TimelineStub
-    var state, local_now, anchor_failures
+    var state, local_now, projection_failures
 
     def init()
         self.state = {"time": 0, "paused": true, "epoch": 1}
         self.local_now = 1000
-        self.anchor_failures = 0
+        self.projection_failures = 0
     end
 
     def getState()
         return self.state
     end
 
-    def toMillis(timestamp)
-        if self.anchor_failures > 0
-            self.anchor_failures -= 1
+    def at(timestamp)
+        if self.projection_failures > 0
+            self.projection_failures -= 1
             return nil
         end
         return self.local_now + timestamp - self.state["time"]
@@ -149,9 +150,9 @@ assert(SEB.applied[1]["value"] == bytes("0bd01213").get(0, 4))
 timeline.local_now = 9000
 timeline.state["paused"] = false
 timeline.state["time"] = 1000
-# A transient local-anchor failure retries on the next Plugin turn without
+# A transient local-projection failure retries on the next Plugin turn without
 # disarming forward playback.
-timeline.anchor_failures = 1
+timeline.projection_failures = 1
 for i : 0..3
     stub_state["callback"]()
 end
@@ -190,7 +191,7 @@ assert(SEB.applied.size() == 8)
 # Generation A ID1 at t=2000 returns to 10%.
 assert(SEB.applied[7]["value"] == bytes("0b688909").get(0, 4))
 
-# A backward loop reconstructs the complete t=0 Cues with one fresh anchor
+# A backward loop reconstructs the complete t=0 Cues with one fresh projection
 # shared across both Track files.
 timeline.local_now = 20000
 timeline.state["time"] = 0
@@ -231,6 +232,8 @@ var player_file = open(
     "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be", "r")
 var player_source = player_file.read()
 player_file.close()
+assert(string.find(player_source, "timeline.at") >= 0)
+assert(string.find(player_source, "timeline.toMillis") < 0)
 var valid_multi_id = true
 try
     compile(player_source +

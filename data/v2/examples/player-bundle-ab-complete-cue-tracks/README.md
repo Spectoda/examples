@@ -14,6 +14,13 @@ configured for this Controller.
 PlayerBundle({"namespace": "demo", "ids": [1], "debug": false})
 ```
 
+## Canonical source
+
+`player-bundle.be` in this directory is the single editable, copy-ready source
+for Studio, Documentation, and the generated Spectoda Creator Kit. Keep this
+public path stable. Creator Kit releases copy its exact bytes from a locked
+Examples commit; the generated bundle is never a second authoring copy.
+
 Configure local IDs only in the range 0–254. Never put `255` in `ids`; global
 ID255 is discovered automatically. A Controller which owns IDs 1 and 7 uses
 `{"ids": [1, 7]}`. Another Controller may use `{"ids": [2]}` while all of the
@@ -89,7 +96,7 @@ the exact monorepo checkout, and `--confirm-isolated-devkit`:
 
 ```bash
 cd /path/to/Spectoda-monorepo
-SPECTODA_WASM_VERSION=DEBUG_DEV_0.12.11_YYYYMMDD \
+SPECTODA_WASM_VERSION=DEBUG_UNIVERSAL_0.12.11_20260808 \
 node_modules/.bin/tsx \
   /path/to/examples/data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle-devkit-smoke.mts \
   --monorepo=/path/to/Spectoda-monorepo \
@@ -144,6 +151,6 @@ test with the Berry host interpreter built by the matching firmware checkout:
 ```
 
 The test reads this example's fixture corpus and covers preferred/fallback
-selection, bounded range reads, transient metadata and timeline-anchor failures,
+selection, bounded range reads, transient metadata and timeline-projection failures,
 pause/resume clocks, seek/loop reconstruction, and local-ID validation without
 writing to a Controller.
