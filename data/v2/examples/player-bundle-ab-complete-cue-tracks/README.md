@@ -19,7 +19,8 @@ PlayerBundle({"namespace": "demo", "ids": [1], "debug": false})
 `player-bundle.be` in this directory is the single editable, copy-ready source
 for Studio, Documentation, and the generated Spectoda Creator Kit. Keep this
 public path stable. Creator Kit releases copy its exact bytes from a locked
-Examples commit; the generated bundle is never a second authoring copy.
+Examples commit according to the fail-closed `creator-kit.json` selection; the
+generated bundle is never a second authoring copy.
 
 Configure local IDs only in the range 0–254. Never put `255` in `ids`; global
 ID255 is discovered automatically. A Controller which owns IDs 1 and 7 uses

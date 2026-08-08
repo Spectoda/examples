@@ -27,6 +27,9 @@ files:
   - path: README.md
     role: Setup, publication, validation, and runtime behavior
     language: markdown
+  - path: creator-kit.json
+    role: Explicit fail-closed Spectoda Creator Kit export selection
+    language: json
   - path: player-bundle.be
     role: Copy-ready Project Berry SPM/SPT Player
     language: berry
