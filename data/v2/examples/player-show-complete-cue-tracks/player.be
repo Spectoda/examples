@@ -1,6 +1,5 @@
 
-
-
+# Compact by design: compiled Project Player must fit one 4 KiB TNGL block.
 def Player(s)
 var b=s.find("base","player")
 var ids=s.find("ids",[])
@@ -61,12 +60,14 @@ previous_id=id
 p+=8
 var segments=[]
 var previous_base=-1
+var previous_end=-1
 for si:0..sc - 1
 if p+8>z.size()return false end
 var base=z.get(p,4)
 var cc=z.get(p+4,2)
 if z.get(p+6,2)!=0 || cc<1 || rpc*cc>340 ||
 base<=previous_base || base>=duration ||
+(si>0 && base<=previous_end)||
 (si==0 && base !=0)|| p+8+cc*2>z.size()
 return false
 end
@@ -85,6 +86,7 @@ end
 previous_offset=offset
 offsets.push(offset)
 end
+previous_end=base+previous_offset
 segments.push([base,offsets])
 end
 if wanted(id)tracks.push([id,rpc,segments,0,0])end
@@ -122,12 +124,13 @@ if at==nil return false end
 var cur=bc*t[1]
 var q=SEB.land(file(t[0],bs),{"source":"networkStorage",
 "at":at,"cursor":cur,"until":o})
-if !q["ok"]|| q["cursor"]!=cur+t[1]
+if q["ok"]
+if q["cursor"]==cur+t[1]advance(t,bs,bc)
+else t[3]=t[2].size()end
+R[3]+=1 return true
+end
 if d print("Player reconcile",t[0],q["error"])end
 return false
-end
-t[3]=bs t[4]=bc advance(t,bs,bc)R[3]+=1
-return true
 end
 
 def forward(x)
@@ -150,14 +153,18 @@ if until>65535 until=65535 end
 var cur=pick[4]*pick[1]
 var q=SEB.land(file(pick[0],si),{"source":"networkStorage",
 "at":at,"cursor":cur,"until":until})
-if !q["ok"]|| q["cursor"]<=cur || q["cursor"]%pick[1]!=0
-if d print("Player forward",pick[0],q["error"])end
-return false
-end
+if q["ok"]
+if q["cursor"]<=cur || q["cursor"]%pick[1]!=0
+pick[3]=pick[2].size() pick[4]=0
+else
 var n=int(q["cursor"]/ pick[1])
 if n>=seg[1].size()pick[3]=si+1 pick[4]=0
 else pick[4]=n end
+end
 return true
+end
+if d print("Player forward",pick[0],q["error"])end
+return false
 end
 
 return Plugin(def()
