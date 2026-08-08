@@ -73,6 +73,8 @@ jobs:
           CREATOR_KIT_VERSION: ${{ inputs.version }}
           SOURCE_COMMIT: ${{ steps.source.outputs.source_commit }}
         run: node scripts/creator-kit/build-release-candidate.mjs --output creator-kit --release-dir .creator-kit-tmp/release --version "$CREATOR_KIT_VERSION" --source-commit "$SOURCE_COMMIT"
+      - name: Verify release asset build preserved the reviewed candidate
+        run: git diff --exit-code -- creator-kit
       - name: Create the approved stable-channel descriptor locally
         env:
           CREATOR_KIT_VERSION: ${{ inputs.version }}

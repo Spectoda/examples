@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "creator-kit-fixtures/**"
+      - "creator-kit-negative-fixtures/**"
       - "creator-kit-templates/**"
       - "scripts/creator-kit/**"
       - "creator-kit/**"
