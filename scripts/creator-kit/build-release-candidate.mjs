@@ -3,7 +3,7 @@ import { readFile, rm, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { buildSyntheticBundle, createDeterministicTar, sha256 } from "./build.mjs";
+import { buildCreatorKitCandidate, createDeterministicTar, sha256 } from "./build.mjs";
 import { validateBundle } from "./validate.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -26,10 +26,10 @@ function argValue(argv, name, fallback) {
 export async function buildReleaseCandidate({
   outputDir = path.join(ROOT, "creator-kit"),
   releaseDir = path.join(ROOT, ".creator-kit-tmp", "release"),
-  version = "0.1.0-rc.1",
+  version = "0.1.0-rc.2",
   sourceCommit = gitHead(),
 } = {}) {
-  const build = await buildSyntheticBundle({ outputDir, version, sourceCommit });
+  const build = await buildCreatorKitCandidate({ outputDir, version, sourceCommit });
   const validation = await validateBundle(outputDir);
   await rm(releaseDir, { recursive: true, force: true });
   await mkdir(releaseDir, { recursive: true });
@@ -43,9 +43,9 @@ export async function buildReleaseCandidate({
     status: "candidate",
     releaseNotPublished: true,
     source: {
-      repository: "synthetic-fixture",
+      repository: "Spectoda/examples",
       commit: sourceCommit,
-      examplesCommit: gitHead(),
+      generatorCommit: gitHead(),
     },
     exporterVersion: build.exporterVersion,
     bundleDigest: validation.checksumDigest,
@@ -62,7 +62,7 @@ async function main() {
   const result = await buildReleaseCandidate({
     outputDir: argValue(argv, "output", path.join(ROOT, "creator-kit")),
     releaseDir: argValue(argv, "release-dir", path.join(ROOT, ".creator-kit-tmp", "release")),
-    version: argValue(argv, "version", "0.1.0-rc.1"),
+    version: argValue(argv, "version", "0.1.0-rc.2"),
     sourceCommit: argValue(argv, "source-commit", gitHead()),
   });
   console.log(JSON.stringify({

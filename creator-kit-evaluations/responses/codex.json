@@ -2,6 +2,12 @@
   "agent": "codex",
   "responses": [
     {
+      "id": "event-player-plugin",
+      "answer": "Add the locked player-bundle.be Project Berry source to every Controller Project; Studio bundle upload does not install it.",
+      "citations": ["examples/player-bundle-ab-complete-cue-tracks/README.md"],
+      "abstained": false
+    },
+    {
       "id": "bundle-scope",
       "answer": "The bundle describes a small public-safe creator workflow.",
       "citations": ["documents/en/synthetic-creator.md"],

@@ -14,6 +14,10 @@ const DEFAULT_SOURCE = path.join(SCRIPT_ROOT, "creator-kit-fixtures");
 const NEGATIVE_SOURCE = path.join(SCRIPT_ROOT, "creator-kit-negative-fixtures");
 const DEFAULT_OUTPUT = path.join(SCRIPT_ROOT, "creator-kit");
 const SYNTHETIC_SOURCE_LOCK = "synthetic-fixture-2026-08-07";
+const PUBLIC_EXAMPLE_ROOT = path.join(SCRIPT_ROOT, "data/v2/examples/player-bundle-ab-complete-cue-tracks");
+const PUBLIC_EXAMPLE_SELECTION = path.join(PUBLIC_EXAMPLE_ROOT, "creator-kit.json");
+const PUBLIC_EXAMPLE_DESTINATION = "examples/player-bundle-ab-complete-cue-tracks";
+const EXAMPLES_REPOSITORY = "Spectoda/examples";
 
 export class CreatorKitBuildError extends Error {
   constructor(code, message) {
@@ -283,14 +287,101 @@ function verifySourceAtCommit(file, sourcePath, sourceCommit, raw) {
   if (sha256(locked) !== sha256(raw)) fail("source_lock_mismatch", `${sourcePath} bytes differ from source commit ${sourceCommit}`);
 }
 
-export async function buildSyntheticBundle({
+function assertExactKeys(value, expected, sourcePath) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) fail("invalid_example_selection", `${sourcePath} must be an object`);
+  const actual = Object.keys(value).sort();
+  const wanted = [...expected].sort();
+  if (actual.join("\n") !== wanted.join("\n")) fail("invalid_example_selection", `${sourcePath} has unsupported or missing fields`);
+}
+
+async function loadPublicExamples(sourceCommit) {
+  const selectionRaw = await readFile(PUBLIC_EXAMPLE_SELECTION);
+  verifySourceAtCommit(PUBLIC_EXAMPLE_SELECTION, relativePosix(SCRIPT_ROOT, PUBLIC_EXAMPLE_SELECTION), sourceCommit, selectionRaw);
+  let selection;
+  try {
+    selection = JSON.parse(selectionRaw.toString("utf8"));
+  } catch {
+    fail("invalid_example_selection", "The public example selection is not valid JSON");
+  }
+  assertExactKeys(selection, ["schemaVersion", "include", "audience", "license", "topic", "stability", "compatibility", "files"], "creator-kit.json");
+  assertExactKeys(selection.compatibility ?? {}, ["firmware", "wasm"], "creator-kit.json compatibility");
+  if (
+    selection.schemaVersion !== "creator-kit-example.v1" ||
+    selection.include !== true ||
+    selection.audience !== "partner-maker" ||
+    selection.license !== "MIT" ||
+    selection.topic !== "studio-event-player" ||
+    selection.stability !== "firmware-0.12.11" ||
+    selection.compatibility.firmware !== "0.12.11" ||
+    selection.compatibility.wasm !== "DEBUG_UNIVERSAL_0.12.11_20260808" ||
+    !Array.isArray(selection.files) ||
+    selection.files.length === 0
+  ) {
+    fail("invalid_example_selection", "The public Event Player example has not explicitly opted into the reviewed Creator Kit contract");
+  }
+  const uniqueFiles = new Set(selection.files);
+  if (uniqueFiles.size !== selection.files.length) fail("invalid_example_selection", "The public example selection contains duplicate files");
+  const files = [];
+  for (const relative of selection.files) {
+    if (
+      typeof relative !== "string" ||
+      relative !== path.posix.basename(relative) ||
+      !/^[A-Za-z0-9][A-Za-z0-9._-]*\.(?:md|yaml|be)$/u.test(relative)
+    ) {
+      fail("invalid_example_selection", `The public example selection contains an unsafe path: ${String(relative)}`);
+    }
+    const source = path.join(PUBLIC_EXAMPLE_ROOT, relative);
+    if (!isStrictDescendant(PUBLIC_EXAMPLE_ROOT, source)) fail("invalid_example_selection", `${relative} escapes the public example directory`);
+    const raw = await readFile(source);
+    const sourcePath = relativePosix(SCRIPT_ROOT, source);
+    verifySourceAtCommit(source, sourcePath, sourceCommit, raw);
+    const finding = credentialFinding(raw.toString("utf8"));
+    if (finding) fail("public_safety", `${sourcePath} matched ${finding}`);
+    files.push({
+      source,
+      sourcePath,
+      path: `${PUBLIC_EXAMPLE_DESTINATION}/${relative}`,
+      format: path.extname(relative).slice(1),
+      sourceSha256: sha256(raw),
+      sha256: sha256(raw),
+      bytes: raw,
+    });
+  }
+  files.sort((left, right) => left.sourcePath.localeCompare(right.sourcePath));
+  const readme = files.find((file) => file.sourcePath.endsWith("/README.md"));
+  const title = readme?.bytes.toString("utf8").match(/^#\s+(.+)$/mu)?.[1]?.trim();
+  if (!title) fail("invalid_example_selection", "The public Event Player example README needs a title");
+  return {
+    selection: {
+      sourcePath: relativePosix(SCRIPT_ROOT, PUBLIC_EXAMPLE_SELECTION),
+      sourceSha256: sha256(selectionRaw),
+      bundleSha256: sha256(selectionRaw),
+      license: selection.license,
+    },
+    example: {
+      id: "player-bundle-ab-complete-cue-tracks",
+      path: PUBLIC_EXAMPLE_DESTINATION,
+      title,
+      topic: selection.topic,
+      audience: selection.audience,
+      license: selection.license,
+      stability: selection.stability,
+      compatibility: selection.compatibility,
+      files: files.map(({ source: _source, bytes: _bytes, ...file }) => file),
+    },
+    files,
+  };
+}
+
+export async function buildCreatorKitCandidate({
   sourceRoot = DEFAULT_SOURCE,
   outputDir = DEFAULT_OUTPUT,
-  version = "0.1.0-rc.1",
+  version = "0.1.0-rc.2",
   sourceCommit = gitHead(),
-  sourceRepository = "synthetic-fixture",
+  sourceRepository = EXAMPLES_REPOSITORY,
+  includePublicExamples = true,
 } = {}) {
-  if (sourceRepository !== "synthetic-fixture") fail("synthetic_only", "The reviewed Examples generator accepts synthetic-fixture as its only source repository");
+  if (sourceRepository !== EXAMPLES_REPOSITORY) fail("source_repository", `The reviewed generator accepts ${EXAMPLES_REPOSITORY} as its only source repository`);
   const source = path.resolve(sourceRoot);
   const output = path.resolve(outputDir);
   assertSafeOutputDir(output, source);
@@ -341,6 +432,7 @@ export async function buildSyntheticBundle({
   }
   for (const document of documents) assertLinks(document.content, document.sourcePath, sourcePaths);
   documents.sort((left, right) => left.sourcePath.localeCompare(right.sourcePath));
+  const publicExamples = includePublicExamples ? await loadPublicExamples(sourceCommit) : { selection: null, example: null, files: [] };
   let staging;
   try {
     await mkdir(path.dirname(output), { recursive: true });
@@ -351,20 +443,30 @@ export async function buildSyntheticBundle({
       await mkdir(path.dirname(destination), { recursive: true });
       await writeFile(destination, document.content, "utf8");
     }
+    for (const file of publicExamples.files) {
+      const destination = path.join(staging, file.path);
+      await mkdir(path.dirname(destination), { recursive: true });
+      await writeFile(destination, file.bytes);
+    }
     const manifest = {
       schemaVersion: "creator-kit-manifest.v1",
       bundleName: BUNDLE_NAME,
       bundleVersion: version,
       locale: "en",
-      contentScope: "synthetic-fixture",
+      contentScope: "synthetic-fixture-with-public-examples",
       source: { repository: sourceRepository, commit: sourceCommit },
       documents: documents.map(({ content: _content, ...document }) => document),
+      examples: publicExamples.example ? [publicExamples.example] : [],
     };
     const sourceLock = {
       schemaVersion: "creator-kit-source-lock.v1",
       repository: sourceRepository,
       commit: sourceCommit,
-      files: documents.map((document) => ({ sourcePath: document.sourcePath, sourceSha256: document.sourceSha256, normalizedSha256: document.sha256, license: document.agentExport.license })),
+      files: [
+        ...documents.map((document) => ({ sourcePath: document.sourcePath, sourceSha256: document.sourceSha256, bundleSha256: document.sha256, license: document.agentExport.license })),
+        ...(publicExamples.selection ? [{ ...publicExamples.selection, role: "selection" }] : []),
+        ...publicExamples.files.map((file) => ({ sourcePath: file.sourcePath, sourceSha256: file.sourceSha256, bundleSha256: file.sha256, license: publicExamples.example.license })),
+      ].sort((left, right) => left.sourcePath.localeCompare(right.sourcePath)),
     };
     await writeJson(path.join(staging, "bundle.json"), {
       schemaVersion: "creator-kit-bundle.v1",
@@ -372,8 +474,8 @@ export async function buildSyntheticBundle({
       version,
       status: "candidate",
       locale: "en",
-      contentScope: "synthetic-fixture",
-      sourceOfTruth: "Spectoda/documentation",
+      contentScope: "synthetic-fixture-with-public-examples",
+      sourceOfTruth: { documents: "synthetic-fixture", examples: EXAMPLES_REPOSITORY },
       transport: { apiVersion: "github-release-v1", stableChannelDescriptor: "stable-channel.json" },
     });
     await writeJson(path.join(staging, "manifest.json"), manifest);
@@ -382,8 +484,8 @@ export async function buildSyntheticBundle({
       schemaVersion: "creator-kit-licenses.v1",
       publicationAllowed: false,
       realDocumentationExportAllowed: false,
-      scope: "synthetic-fixture-only",
-      entries: ["spectoda-creator-kit-synthetic"],
+      scope: "synthetic-fixture-and-public-examples",
+      entries: ["spectoda-creator-kit-synthetic", "MIT"],
     });
     await writeJson(path.join(staging, "compatibility.json"), {
       schemaVersion: "creator-kit-compatibility.v1",
@@ -393,11 +495,14 @@ export async function buildSyntheticBundle({
       agents: ["codex", "claude"],
       transport: "github-release-v1",
       updatePolicy: "exact-version-partner-approved",
+      firmware: publicExamples.example?.compatibility.firmware ?? null,
+      wasm: publicExamples.example?.compatibility.wasm ?? null,
     });
     await writeJson(path.join(staging, "selection.json"), {
       schemaVersion: "creator-kit-selection.v1",
       failClosed: true,
-      selected: documents.map((document) => ({ sourcePath: document.sourcePath, agentExport: document.agentExport })),
+      selectedDocuments: documents.map((document) => ({ sourcePath: document.sourcePath, agentExport: document.agentExport })),
+      selectedExamples: publicExamples.example ? [{ id: publicExamples.example.id, selectionSourcePath: publicExamples.selection.sourcePath, files: publicExamples.example.files.map((file) => file.sourcePath) }] : [],
     });
     await writeJson(path.join(staging, "indexes", "documents.json"), {
       schemaVersion: "creator-kit-document-index.v1",
@@ -419,6 +524,7 @@ export async function buildSyntheticBundle({
       version,
       sourceCommit,
       documentCount: documents.length,
+      exampleCount: publicExamples.example ? 1 : 0,
       totalBytes,
       fileCount: files.length,
       checksumDigest,
@@ -481,10 +587,10 @@ function parseArgs(argv) {
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
-  const result = await buildSyntheticBundle({
+  const result = await buildCreatorKitCandidate({
     sourceRoot: options.source ?? DEFAULT_SOURCE,
     outputDir: options.output ?? DEFAULT_OUTPUT,
-    version: options.version ?? "0.1.0-rc.1",
+    version: options.version ?? "0.1.0-rc.2",
     sourceCommit: options["source-commit"] ?? gitHead(),
   });
   console.log(JSON.stringify(result, null, 2));

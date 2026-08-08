@@ -1,5 +1,13 @@
 [
   {
+    "id": "event-player-plugin",
+    "prompt": "Where is the Berry plugin required by the Studio Event Player?",
+    "expected": {
+      "abstain": false,
+      "citation": "examples/player-bundle-ab-complete-cue-tracks/README.md"
+    }
+  },
+  {
     "id": "bundle-scope",
     "prompt": "What is the synthetic creator workflow fixture?",
     "expected": {

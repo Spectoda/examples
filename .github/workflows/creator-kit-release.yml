@@ -64,6 +64,10 @@ jobs:
       - name: Verify committed candidate matches the reviewed generator
         run: git diff --exit-code -- creator-kit
       - run: bun run creator-kit:check
+      - name: Require an explicit publishable license posture
+        run: |
+          set -euo pipefail
+          jq -e '.publicationAllowed == true' creator-kit/licenses.json
       - name: Create release assets locally
         env:
           CREATOR_KIT_VERSION: ${{ inputs.version }}

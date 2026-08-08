@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import test from "node:test";
 
 import { buildReleaseCandidate } from "./build-release-candidate.mjs";
-import { CreatorKitBuildError, buildSyntheticBundle } from "./build.mjs";
+import { CreatorKitBuildError, buildCreatorKitCandidate, sha256 } from "./build.mjs";
 import { evaluateAllAgents } from "./evaluate-agents.mjs";
 import { promoteStableChannel } from "./promote-stable-channel.mjs";
 import { validateBundle } from "./validate.mjs";
@@ -30,6 +30,16 @@ test("double-builds a reproducible candidate and deterministic tar archive", asy
     assert.equal(first.provenance.releaseNotPublished, true);
     assert.equal(first.provenance.stableChannelState, "unpublished");
     assert.equal((await validateBundle(path.join(root, "first-bundle"))).documentCount, 2);
+    assert.equal(first.validation.exampleCount, 1);
+    const sourcePlugin = await readFile(path.join(ROOT, "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be"));
+    const bundledPlugin = await readFile(path.join(root, "first-bundle/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be"));
+    assert.deepEqual(bundledPlugin, sourcePlugin);
+    assert.match(bundledPlugin.toString("utf8"), /timeline[.]at/u);
+    assert.doesNotMatch(bundledPlugin.toString("utf8"), /timeline[.]toMillis/u);
+    const sourceLock = JSON.parse(await readFile(path.join(root, "first-bundle/source-lock.json"), "utf8"));
+    const pluginLock = sourceLock.files.find((file) => file.sourcePath.endsWith("/player-bundle.be"));
+    assert.equal(pluginLock.sourceSha256, sha256(sourcePlugin));
+    assert.equal(pluginLock.bundleSha256, sha256(bundledPlugin));
     assert.equal(await readFile(first.archive.archivePath).then((value) => value.length), await readFile(second.archive.archivePath).then((value) => value.length));
   } finally {
     await rm(root, { recursive: true, force: true });
@@ -47,7 +57,7 @@ test("refuses synthetic sources outside the tracked fixture roots", async () => 
   const root = await mkdtemp(path.join(tmpdir(), "creator-kit-source-boundary-"));
   try {
     await assert.rejects(
-      buildSyntheticBundle({ sourceRoot: ROOT, outputDir: path.join(root, "out") }),
+      buildCreatorKitCandidate({ sourceRoot: ROOT, outputDir: path.join(root, "out"), includePublicExamples: false }),
       (error) => error instanceof CreatorKitBuildError && error.code === "synthetic_source_required",
     );
   } finally {
@@ -59,7 +69,7 @@ test("rejects output paths outside the reviewed distribution or temporary direct
   const root = await mkdtemp(path.join(tmpdir(), "creator-kit-output-"));
   try {
     await assert.rejects(
-      buildSyntheticBundle({ sourceRoot: FIXTURE_ROOT, outputDir: ROOT }),
+      buildCreatorKitCandidate({ sourceRoot: FIXTURE_ROOT, outputDir: ROOT, includePublicExamples: false }),
       (error) => error instanceof CreatorKitBuildError && error.code === "unsafe_output",
     );
   } finally {
@@ -126,7 +136,7 @@ test("tracked negative fixtures fail closed for every gate", async () => {
     ];
     for (const [name, code] of cases) {
       await assert.rejects(
-        buildSyntheticBundle({ sourceRoot: path.join(NEGATIVE_ROOT, name), outputDir: path.join(root, name) }),
+        buildCreatorKitCandidate({ sourceRoot: path.join(NEGATIVE_ROOT, name), outputDir: path.join(root, name), includePublicExamples: false }),
         (error) => error instanceof CreatorKitBuildError && error.code === code,
       );
     }

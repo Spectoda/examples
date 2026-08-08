@@ -10,8 +10,16 @@
     "version": { "type": "string" },
     "status": { "enum": ["candidate", "released", "revoked"] },
     "locale": { "const": "en" },
-    "contentScope": { "enum": ["synthetic-fixture", "licensed-documentation"] },
-    "sourceOfTruth": { "const": "Spectoda/documentation" },
+    "contentScope": { "enum": ["synthetic-fixture-with-public-examples", "licensed-documentation"] },
+    "sourceOfTruth": {
+      "type": "object",
+      "required": ["documents", "examples"],
+      "properties": {
+        "documents": { "type": "string" },
+        "examples": { "const": "Spectoda/examples" }
+      },
+      "additionalProperties": false
+    },
     "transport": { "type": "object" }
   },
   "additionalProperties": false

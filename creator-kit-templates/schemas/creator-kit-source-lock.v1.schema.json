@@ -8,7 +8,21 @@
     "schemaVersion": { "const": "creator-kit-source-lock.v1" },
     "repository": { "type": "string" },
     "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
-    "files": { "type": "array" }
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sourcePath", "sourceSha256", "bundleSha256", "license"],
+        "properties": {
+          "sourcePath": { "type": "string" },
+          "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "bundleSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "license": { "type": "string" },
+          "role": { "const": "selection" }
+        },
+        "additionalProperties": false
+      }
+    }
   },
   "additionalProperties": false
 }

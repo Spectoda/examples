@@ -95,12 +95,13 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   const termIndex = await readJson(path.join(root, "indexes/terms.json"));
   check(bundle.schemaVersion === "creator-kit-bundle.v1", "Wrong bundle schema");
   check(bundle.name === "Spectoda Creator Kit" && bundle.status === "candidate" && bundle.locale === "en", "Bundle identity is invalid");
-  check(bundle.contentScope === "synthetic-fixture" && bundle.sourceOfTruth === "Spectoda/documentation", "Bundle must be synthetic-only and Documentation-sourced");
+  check(bundle.contentScope === "synthetic-fixture-with-public-examples", "Bundle content scope is invalid");
+  check(bundle.sourceOfTruth?.documents === "synthetic-fixture" && bundle.sourceOfTruth?.examples === "Spectoda/examples", "Bundle source ownership is invalid");
   check(bundle.transport?.apiVersion === "github-release-v1", "Bundle transport is not the v1 GitHub Release contract");
   check(manifest.schemaVersion === "creator-kit-manifest.v1" && manifest.locale === "en", "Manifest schema/locale is invalid");
-  check(manifest.source?.repository === "synthetic-fixture" && /^[a-f0-9]{40}$/u.test(manifest.source.commit ?? ""), "Source lock must name the synthetic source and exact commit");
-  check(sourceLock.schemaVersion === "creator-kit-source-lock.v1" && sourceLock.commit === manifest.source.commit, "Source lock does not match manifest source");
-  check(licenses.schemaVersion === "creator-kit-licenses.v1" && licenses.scope === "synthetic-fixture-only", "License posture is not synthetic-only");
+  check(manifest.source?.repository === "Spectoda/examples" && /^[a-f0-9]{40}$/u.test(manifest.source.commit ?? ""), "Source lock must name Examples and an exact commit");
+  check(sourceLock.schemaVersion === "creator-kit-source-lock.v1" && sourceLock.repository === manifest.source.repository && sourceLock.commit === manifest.source.commit, "Source lock does not match manifest source");
+  check(licenses.schemaVersion === "creator-kit-licenses.v1" && licenses.scope === "synthetic-fixture-and-public-examples", "License posture does not cover the candidate scope");
   check(licenses.realDocumentationExportAllowed === false, "Real Documentation export must remain disabled");
   check(licenses.publicationAllowed === false, "Synthetic candidate publication must remain disabled");
   check(compatibility.schemaVersion === "creator-kit-compatibility.v1" && compatibility.updatePolicy === "exact-version-partner-approved", "Compatibility policy is invalid");
@@ -108,11 +109,13 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   check(stable.schemaVersion === "creator-kit-stable-channel.v1" && stable.state === "unpublished" && stable.requiredHumanApproval === true, "Stable channel must remain unpublished behind a human gate");
   check(stable.version === null && stable.digest === null && stable.releaseUrl === null, "Unpublished stable channel must not contain release coordinates");
   check(Array.isArray(manifest.documents) && manifest.documents.length === 2, "Candidate must contain the two synthetic documents");
+  check(Array.isArray(manifest.examples) && manifest.examples.length === 1, "Candidate must contain the selected public Event Player example");
   check(new Set(manifest.documents.map((document) => document.id)).size === manifest.documents.length, "Manifest document IDs must be unique");
   check(Array.isArray(documentIndex.documents) && documentIndex.documents.length === manifest.documents.length, "Document index does not match manifest");
   check(Array.isArray(termIndex.terms), "Term index is not an array");
   check(manifest.documents.map((document) => document.sourcePath).join("\n") === [...manifest.documents].sort((left, right) => left.sourcePath.localeCompare(right.sourcePath)).map((document) => document.sourcePath).join("\n"), "Manifest documents are not sorted");
   const sourceLockByPath = new Map(sourceLock.files.map((file) => [file.sourcePath, file]));
+  check(sourceLockByPath.size === sourceLock.files.length, "Source lock contains duplicate paths");
   for (const document of manifest.documents) {
     check(document.agentExport?.include === true && document.agentExport.audience === "partner-maker", `${document.sourcePath} is not explicitly selected`);
     check(document.agentExport.license === "spectoda-creator-kit-synthetic", `${document.sourcePath} has an invalid license`);
@@ -125,7 +128,7 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     check(!metadataContainsUrl(`${document.title}\n${document.summary}`), `${document.path} metadata contains a URL`);
     check(!/<[A-Za-z][^>]*\b(?:href|src|srcset|poster|action)\s*=\s*\{[^}]*\}/iu.test(body), `${document.path} contains a dynamic HTML/MDX resource link`);
     const lock = sourceLockByPath.get(document.sourcePath);
-    check(lock?.normalizedSha256 === document.sha256, `${document.sourcePath} source lock does not match normalized body`);
+    check(lock?.bundleSha256 === document.sha256, `${document.sourcePath} source lock does not match normalized body`);
   for (const rawHref of findLinks(body)) {
     const href = rawHref.replace(/[\t\n\f\r]/gu, "");
     check(href === rawHref, `${document.path} contains a URL with control whitespace`);
@@ -152,6 +155,30 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
       check(await stat(path.join(root, target)).then(() => true).catch(() => false), `${document.path} points to missing bundle link ${href}`);
     }
   }
+  const example = manifest.examples[0];
+  check(example.id === "player-bundle-ab-complete-cue-tracks" && example.license === "MIT", "Public example identity/license is invalid");
+  check(example.compatibility?.firmware === "0.12.11" && example.compatibility?.wasm === "DEBUG_UNIVERSAL_0.12.11_20260808", "Public example compatibility is invalid");
+  check(Array.isArray(example.files) && example.files.length === 3, "Public example must contain exactly the reviewed three files");
+  check(
+    example.files.map((file) => file.path).sort().join("\n") === [
+      "examples/player-bundle-ab-complete-cue-tracks/README.md",
+      "examples/player-bundle-ab-complete-cue-tracks/example.yaml",
+      "examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
+    ].sort().join("\n"),
+    "Public example file selection is invalid",
+  );
+  for (const file of example.files) {
+    const body = await readFile(path.join(root, file.path));
+    check(sha256(body) === file.sha256 && file.sha256 === file.sourceSha256, `${file.path} is not a verbatim source copy`);
+    check(!publicSafetyFinding(body.toString("utf8")), `${file.path} failed public-safety scan`);
+    const lock = sourceLockByPath.get(file.sourcePath);
+    check(lock?.sourceSha256 === file.sourceSha256 && lock?.bundleSha256 === file.sha256 && lock?.license === "MIT", `${file.sourcePath} source lock is invalid`);
+  }
+  const plugin = await readFile(path.join(root, "examples/player-bundle-ab-complete-cue-tracks/player-bundle.be"), "utf8");
+  check(plugin.includes("timeline.at") && !plugin.includes("timeline.toMillis"), "Bundled Player plugin does not use the final timeline.at API");
+  check(Array.isArray(selection.selectedExamples) && selection.selectedExamples.length === 1, "Selection does not expose the public example");
+  const selectionLock = sourceLockByPath.get("data/v2/examples/player-bundle-ab-complete-cue-tracks/creator-kit.json");
+  check(selectionLock?.role === "selection" && selectionLock.sourceSha256 === selectionLock.bundleSha256 && selectionLock.license === "MIT", "Public example selection lock is invalid");
   const expectedChecksums = (await readFile(path.join(root, "checksums.sha256"), "utf8")).trim();
   const actualChecksums = (await createChecksums(root)).trim();
   check(expectedChecksums === actualChecksums, "checksums.sha256 does not match bundle files");
@@ -161,6 +188,7 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   return {
     bundleVersion: bundle.version,
     documentCount: manifest.documents.length,
+    exampleCount: manifest.examples.length,
     totalBytes,
     fileCount: files.length,
     checksumDigest: sha256(Buffer.from(`${expectedChecksums}\n`)),
