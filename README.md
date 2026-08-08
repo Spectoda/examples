@@ -36,7 +36,7 @@ data/v2/examples/
 ├── network-nested-element-groups/                   # App elementsJson + controlPages group → groups → devices pattern
 ├── seb-causal-scene-recall/                         # recall a mixed-ID SEB scene at the causal event time
 ├── seb-segmented-id-track-player/                   # play an ordered one-ID Track from bounded SEB segments
-└── player-bundle-ab-complete-cue-tracks/            # A/B SPM/SPT Player with complete per-ID Cues
+└── player-show-complete-cue-tracks/                 # static Show Index Player with complete per-ID Cues
 ```
 
 ## Example Rules

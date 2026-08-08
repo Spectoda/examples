@@ -9,9 +9,5 @@
     "firmware": "0.12.11",
     "wasm": "DEBUG_UNIVERSAL_0.12.11_20260808"
   },
-  "files": [
-    "README.md",
-    "example.yaml",
-    "player-bundle.be"
-  ]
+  "files": ["README.md", "example.yaml", "player.be"]
 }
