@@ -14,6 +14,9 @@ NetworkStorage and calls `SEB.land` with the callback's exact `event_millis`.
 All zero-offset scene records therefore receive the same causal Network clock
 as the event that requested the scene.
 
+This path is deliberately independent of timeline state. It does not call
+`timeline.at()` and remains causal while the shared timeline is paused.
+
 ## Requirements
 
 - Firmware must be exactly **0.12.11** with the final fixed-record SEB v1 API.

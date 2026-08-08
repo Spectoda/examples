@@ -27,13 +27,22 @@ ID-homogeneity, loop or seek flag.
 ## Forward playback and pause
 
 Berry polls `timeline.getState()`. For each active segment it derives one
-stable local-millis `at` from `timeline.toMillis(segmentStart)`, keeps the
+local-millis `at` from `timeline.at(segmentStart)`, keeps the
 source cursor and calls `SEB.land` with an inclusive relative `until`.
 
 While the timeline is paused, the plugin does not call the forward executor.
-No future EventState is inserted into EventStore. On resume, due records are
-processed with their original per-record Network clocks rather than the resume
-time.
+No future EventState is inserted into EventStore. Resume keeps the timeline
+epoch but creates a new causal projection. The plugin reopens timing for the
+remaining source suffix, so future record clocks include wall-clock time spent
+paused. Seek or loop changes the epoch and reconstructs both timing and cursor
+from a complete checkpoint.
+
+`timeline.at(position)` projects the current `(timeline position P, Network
+clock C)` reference as `C + (position - P)`. It returns a signed wrapping local
+millis token, or `nil` outside the unambiguous ±2^31 ms conversion window.
+Timeline position itself is a 24-hour ring (`0..86,399,999`), independent from
+the local token's 32-bit wrap. Midnight stays continuous for Players, Layers
+and animations; an exact 12-hour position difference is ambiguous.
 
 ## Checkpoint seek
 
@@ -55,7 +64,7 @@ remains the authority and provides its normal later synchronization. Use
 source.
 
 One SEB segment is limited to 65,535 ms and 340 records (4,092 bytes within one
-4,096-byte LittleFS data-block budget). One atomic due contribution is still
-limited to the 240-event runtime queue, so split simultaneous dense windows.
-Split longer or denser Tracks in the outer Project list instead of changing the
-native format.
+4,096-byte LittleFS data-block budget). One atomic due contribution accepts the
+full 340-record SEB. A 341st pending event fails before queue, EventStore or
+cursor mutation. Split longer Tracks in the outer Project list instead of
+changing the native format.

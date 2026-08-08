@@ -30,7 +30,7 @@ def TimelinePlayer(S)
 
         var segment = segments[R["segment"]]
         var bytes_value = spectoda.getNetworkStorageData(segment[0])
-        var at = timeline.toMillis(segment[1])
+        var at = timeline.at(segment[1])
         if bytes_value == nil || at == nil
             if debug
                 print("TimelinePlayer cannot open", segment[0])
@@ -85,7 +85,7 @@ def TimelinePlayer(S)
             var checkpoint = checkpoints[index]
             if checkpoint[0] == target
                 var bytes_value = spectoda.getNetworkStorageData(checkpoint[1])
-                var at = timeline.toMillis(target)
+                var at = timeline.at(target)
                 if bytes_value == nil || at == nil
                     return false
                 end
@@ -120,14 +120,17 @@ def TimelinePlayer(S)
                 return
             end
             R["ready"] = true
-        # A pause-to-play transition is forward continuation even when the
-        # transport refreshes its epoch. A paused seek was reconciled already.
-        elif R["last_paused"] && !state["paused"] && time >= R["last_time"]
-            if !process_forward(time)
-                return
-            end
         elif epoch != R["last_epoch"] || time < R["last_time"]
             if !reconcile(time)
+                return
+            end
+        # Resume keeps the epoch but establishes a new causal projection.
+        # Reopen timing for the remaining source suffix so its event clocks
+        # include the wall-clock interval spent paused.
+        elif R["last_paused"] && !state["paused"]
+            R["bytes"] = nil
+            R["at"] = nil
+            if !process_forward(time)
                 return
             end
         elif !state["paused"]
