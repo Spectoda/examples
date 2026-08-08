@@ -2,24 +2,25 @@
 
 Date-based versions use `YYYYMMDD`.
 
-## 20260806
+## 20260808
 
-### Added
+### Changed
 
-- Added a copy-ready firmware 0.12.11 Project Berry Player for per-ID SPT
-  Tracks with complete Cues selected through an A/B SPM manifest.
-- Added a synthetic preferred/fallback bundle corpus, a host Berry lifecycle
-  regression, and an isolated-DEVKIT runner with exact NetworkStorage and TNGL
-  readback evidence.
-- Added TypeScript runner files to the Examples v2 catalog.
+- Replaced the unreleased A/B Player bundle with the canonical firmware 0.12.11
+  Project Berry Player for one static `player.show` and deterministic per-ID
+  SEB chains.
+- Added a public synthetic three-Track Show Index/SEB corpus and a host Berry
+  lifecycle regression for filtering, pause/resume, retry, seek and 24-hour
+  wrap behavior.
 
 ### Impact
 
-- Projects can keep Player policy in optional Berry while native SEB remains a
-  reusable atomic event primitive and EventStore stays authoritative.
-- Contributors can reproduce pause, external-authority, seek, rewind, loop,
-  incomplete-generation fallback, and SPM-last publication behavior without
-  customer data.
+- Creator Kit and Studio can point to one small copy-ready plugin. Projects keep
+  Player policy in optional Berry while native SEB remains a reusable atomic
+  Event-value primitive and EventStore stays authoritative.
+- The supported operator flow is explicit: pause, upload, wait for ordinary
+  NetworkStorage propagation, rewind and play. There is no generation or hot
+  update protocol in v1.
 
 ## 20260702
 
