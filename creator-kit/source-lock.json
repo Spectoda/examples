@@ -1,7 +1,7 @@
 {
   "schemaVersion": "creator-kit-source-lock.v1",
   "repository": "Spectoda/examples",
-  "commit": "71698144f34573b28e81a0a39031147ee0c683b6",
+  "commit": "8c33c51021701dfd8fedf945656792e6a3721c2d",
   "files": [
     {
       "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json",
