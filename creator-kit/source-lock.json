@@ -1,7 +1,7 @@
 {
   "schemaVersion": "creator-kit-source-lock.v1",
   "repository": "Spectoda/examples",
-  "commit": "40a4ada016884a07e7ba8f6ca350a203311f193e",
+  "commit": "71698144f34573b28e81a0a39031147ee0c683b6",
   "files": [
     {
       "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json",
@@ -18,14 +18,14 @@
     },
     {
       "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/player.be",
-      "sourceSha256": "2f6c95f41cf238c6dee1967964f1d2a0a641ae779d2a009be930a8a580926a8a",
-      "bundleSha256": "2f6c95f41cf238c6dee1967964f1d2a0a641ae779d2a009be930a8a580926a8a",
+      "sourceSha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948",
+      "bundleSha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948",
       "license": "MIT"
     },
     {
       "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/README.md",
-      "sourceSha256": "2c3eb54b56fcdc3c421e9ff1863647167753b7e42b0fb58125ffab20b3557f5f",
-      "bundleSha256": "2c3eb54b56fcdc3c421e9ff1863647167753b7e42b0fb58125ffab20b3557f5f",
+      "sourceSha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de",
+      "bundleSha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de",
       "license": "MIT"
     },
     {

@@ -49,9 +49,19 @@ read and atomically landed by the native `SEB.land(filename,
 - seek, rewind, loop and the 24-hour timeline wrap reconcile the last complete
   Cue at or before the target.
 
-The canonical compact source compiles to a 3,789-byte TNGL BERRY payload
-(3,785 source bytes plus framing), 307 bytes below the 4 KiB hard limit. The
-1 KiB target remains a stretch measurement, not a correctness promise.
+The canonical compact source compiles to a 3,999-byte TNGL BERRY payload
+(3,995 source bytes plus framing). Including the copy-ready `return Player(...)`
+invocation produces 4,056 bytes, 40 bytes below the 4 KiB hard limit. The 1 KiB
+target remains a stretch measurement, not a correctness promise.
+
+The short local names and positional runtime arrays in `player.be` are
+intentional consequences of that hard limit. `R` holds loaded state, selected
+Tracks, reconciliation state, the next Track, seek target, last timeline
+position, and epoch. Each selected Track stores ID, records per complete Cue,
+ordered segments, next segment, and next Cue. The parser verifies those tuple
+shapes before playback, rejects chronological segment overlap, and stops a
+Track after an already-committed native result disagrees with the Show Index;
+it never retries that committed contribution.
 
 `player-show-artifacts.json` is a public synthetic three-Track corpus used by
 the Berry smoke. It is illustrative compiled output; Project data remains the
