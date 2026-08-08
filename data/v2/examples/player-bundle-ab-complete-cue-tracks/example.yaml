@@ -21,7 +21,8 @@ hardware: >-
   Requires exactly firmware 0.12.11 with final SEB v1 and SPM/SPT v1 support.
   Configure Project Berry with only this Controller's local Spectoda IDs 0-254;
   the global ID255 Track is automatic. Upload the SPM/SPT bundle to network-wide
-  NetworkStorage.
+  NetworkStorage. The player-bundle.be path is a stable public integration
+  contract used by Studio, Documentation, and Spectoda Creator Kit releases.
 files:
   - path: README.md
     role: Setup, publication, validation, and runtime behavior
