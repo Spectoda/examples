@@ -51,11 +51,12 @@ class TimelineStub
 end
 
 class SebStub
-    var applied, calls
+    var applied, calls, cursor_delta
 
     def init()
         self.applied = []
         self.calls = []
+        self.cursor_delta = 0
     end
 
     def land(name, args)
@@ -86,7 +87,8 @@ class SebStub
             cursor += 1
             consumed += 1
         end
-        return {"ok": true, "cursor": cursor, "consumed": consumed,
+        return {"ok": true, "cursor": cursor + self.cursor_delta,
+                "consumed": consumed,
                 "done": cursor == records, "error": nil}
     end
 end
@@ -227,6 +229,41 @@ assert(SEB.calls.size() == 3)
 assert(SEB.calls[2]["name"] == "catch.001.001.seb")
 assert(SEB.calls[2]["args"]["until"] == 24464)
 assert(SEB.applied[2]["offset"] == 0)
+
+# An ok result has already committed. If its cursor disagrees with player.show,
+# fail that Track closed instead of retrying and landing the same records again.
+fixture_file = open(
+    "data/v2/examples/player-show-complete-cue-tracks/player-show-artifacts.json", "r")
+fixture = json.load(fixture_file.read())
+fixture_file.close()
+spectoda = SpectodaStub(fixture)
+timeline = TimelineStub()
+SEB = SebStub()
+SEB.cursor_delta = -1
+stub_state["callback"] = nil
+Player({"base": "demo", "ids": [1], "debug": false})
+for i : 0..3 stub_state["callback"]() end
+assert(SEB.calls.size() == 2)
+assert(SEB.applied.size() == 3)
+
+# Segment bases must start after the preceding segment's final absolute Cue.
+# This Show uses bases 0 and 1000 while the first segment ends at 50000.
+var overlap_fixture = {
+    "files": [
+        {
+            "name": "cross.show",
+            "hex": "5053480110000100a0860100000000000100010002000000"+
+                   "0000000002000000000050c3e8030000010000000000"
+        }
+    ]
+}
+spectoda = SpectodaStub(overlap_fixture)
+timeline = TimelineStub()
+SEB = SebStub()
+stub_state["callback"] = nil
+Player({"base": "cross", "ids": [1], "debug": false})
+stub_state["callback"]()
+assert(SEB.calls.size() == 0)
 
 # A Cue reached while paused remains unconsumed and lands exactly after an
 # ordinary resume at that same shared-timeline position.
