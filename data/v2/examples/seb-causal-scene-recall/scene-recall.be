@@ -16,14 +16,10 @@ def SceneRecall(S)
 
         last_millis = event_millis
         var name = value.get(31) + extension
-        var bytes_value = spectoda.getNetworkStorageData(name)
-
-        if bytes_value == nil
-            print("SceneRecall missing", name)
-            return
-        end
-
-        var result = SEB.land(bytes_value, {"at": event_millis})
+        var result = SEB.land(name, {
+            "source": "networkStorage",
+            "at": event_millis
+        })
         if !result["ok"]
             print("SceneRecall failed", name, result["error"])
         end

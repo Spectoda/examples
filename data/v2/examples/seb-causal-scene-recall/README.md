@@ -1,6 +1,6 @@
 # Causal NetworkStorage Scene Recall with SEB
 
-This firmware 0.12.11 example turns a normal LABEL EventState into a local
+This firmware 0.12.11 example turns a normal LABEL Event value into a local
 multi-event scene on every prepared Controller.
 
 An authoritative source emits:
@@ -9,8 +9,8 @@ An authoritative source emits:
 spectoda.emitEvent("scene", "sce01", ID255, 31)
 ```
 
-`scene-recall.be` observes `$scene[ID255]`, loads `sce01.seb` from local
-NetworkStorage and calls `SEB.land` with the callback's exact `event_millis`.
+`scene-recall.be` observes `$scene[ID255]` and calls the native NetworkStorage
+source overload of `SEB.land` with the callback's exact `event_millis`.
 All zero-offset scene records therefore receive the same causal Network clock
 as the event that requested the scene.
 
@@ -24,7 +24,7 @@ This path is deliberately independent of timeline state. It does not call
   Controller.
 - Upload the exact bytes from the `hex` field in `sce01.seb.json` as a binary
   NetworkStorage file named `sce01.seb` on those Controllers.
-- The trigger EventState is `$scene[ID255]` with a LABEL value.
+- The trigger Event is `$scene[ID255]` with a LABEL value.
 - Do not include `$scene[ID255]` in the compiled scene, or recall would recurse.
 
 The synthetic scene changes:
@@ -48,7 +48,7 @@ one deliberately selected source.
 The scene is validated and its complete deduplicated contribution is reserved
 before EventStore changes. A validation, time-conversion or queue-capacity
 failure applies nothing and returns a named error. The example logs that error;
-a production Project can retry the same `(bytes, at)` pair after the runtime
+a production Project can retry the same `(filename, at)` pair after the runtime
 queue has drained.
 
 The provisional variable-record blob from the earlier unreleased development
