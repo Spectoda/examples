@@ -1,0 +1,35 @@
+schemaVersion: example.v2
+slug: player-show-complete-cue-tracks
+title: Complete-Cue Event Player from player.show
+category: controller
+summary: >-
+  Canonical firmware 0.12.11 Project Berry Player for one static player.show
+  index and deterministic per-ID SEB chains. It lands global ID255 plus explicit
+  local-ID Tracks from the shared timeline with complete Cue atomicity.
+tags:
+  - berry
+  - event-player
+  - network-storage
+  - player-show
+  - seb
+  - timeline
+hardware: >-
+  Requires firmware 0.12.11 with SEB.land NetworkStorage source support.
+  Configure only local IDs 0-254; ID255 is automatic. Pause before upload, wait
+  for ordinary propagation, rewind, and then play.
+files:
+  - path: README.md
+    role: Setup, workflow, runtime behavior, and limits
+    language: markdown
+  - path: creator-kit.json
+    role: Fail-closed Spectoda Creator Kit selection
+    language: json
+  - path: player.be
+    role: Canonical copy-ready Project Berry Player
+    language: berry
+  - path: player-show-artifacts.json
+    role: Synthetic player.show and SEB golden corpus
+    language: json
+related:
+  - seb-causal-scene-recall
+  - seb-segmented-id-track-player

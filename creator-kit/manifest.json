@@ -6,7 +6,7 @@
   "contentScope": "synthetic-fixture-with-public-examples",
   "source": {
     "repository": "Spectoda/examples",
-    "commit": "08339b4e840ba8c8b0a7d2f4c93eb1a5ba075f92"
+    "commit": "40a4ada016884a07e7ba8f6ca350a203311f193e"
   },
   "documents": [
     {
@@ -44,9 +44,9 @@
   ],
   "examples": [
     {
-      "id": "player-bundle-ab-complete-cue-tracks",
-      "path": "examples/player-bundle-ab-complete-cue-tracks",
-      "title": "A/B Complete-Cue Track Player from NetworkStorage",
+      "id": "player-show-complete-cue-tracks",
+      "path": "examples/player-show-complete-cue-tracks",
+      "title": "Complete-Cue Track Player from `player.show`",
       "topic": "studio-event-player",
       "audience": "partner-maker",
       "license": "MIT",
@@ -57,25 +57,25 @@
       },
       "files": [
         {
-          "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/example.yaml",
-          "path": "examples/player-bundle-ab-complete-cue-tracks/example.yaml",
+          "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/example.yaml",
+          "path": "examples/player-show-complete-cue-tracks/example.yaml",
           "format": "yaml",
-          "sourceSha256": "4d19b2085b9823627e9b010cbb33683d33116b306a7aa96ca4b4e7bfbec622f4",
-          "sha256": "4d19b2085b9823627e9b010cbb33683d33116b306a7aa96ca4b4e7bfbec622f4"
+          "sourceSha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d",
+          "sha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d"
         },
         {
-          "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
-          "path": "examples/player-bundle-ab-complete-cue-tracks/player-bundle.be",
+          "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/player.be",
+          "path": "examples/player-show-complete-cue-tracks/player.be",
           "format": "be",
-          "sourceSha256": "2a5ba31e24c366e1ebd5e81f7c73c95d57220d354464cd34074f0301973b10e0",
-          "sha256": "2a5ba31e24c366e1ebd5e81f7c73c95d57220d354464cd34074f0301973b10e0"
+          "sourceSha256": "2f6c95f41cf238c6dee1967964f1d2a0a641ae779d2a009be930a8a580926a8a",
+          "sha256": "2f6c95f41cf238c6dee1967964f1d2a0a641ae779d2a009be930a8a580926a8a"
         },
         {
-          "sourcePath": "data/v2/examples/player-bundle-ab-complete-cue-tracks/README.md",
-          "path": "examples/player-bundle-ab-complete-cue-tracks/README.md",
+          "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/README.md",
+          "path": "examples/player-show-complete-cue-tracks/README.md",
           "format": "md",
-          "sourceSha256": "8687920a58f1e19f132913a327da1ef287a9b291429e7fc781fc54f2ab15ef4a",
-          "sha256": "8687920a58f1e19f132913a327da1ef287a9b291429e7fc781fc54f2ab15ef4a"
+          "sourceSha256": "2c3eb54b56fcdc3c421e9ff1863647167753b7e42b0fb58125ffab20b3557f5f",
+          "sha256": "2c3eb54b56fcdc3c421e9ff1863647167753b7e42b0fb58125ffab20b3557f5f"
         }
       ]
     }
