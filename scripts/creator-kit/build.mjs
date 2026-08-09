@@ -4,7 +4,7 @@ import path from "node:path";
 
 export const BUNDLE_NAME = "Spectoda Creator Kit";
 export const BUNDLE_VERSION = "0.1.0-rc.4";
-export const EXPORTER_VERSION = "examples-creator-kit-packager/1.1.0";
+export const EXPORTER_VERSION = "examples-creator-kit-packager/1.2.0";
 
 export const sha256 = (value) => createHash("sha256").update(value).digest("hex");
 export const relativePosix = (root, absolute) => path.relative(root, absolute).split(path.sep).join("/");

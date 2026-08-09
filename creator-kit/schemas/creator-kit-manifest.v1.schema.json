@@ -265,13 +265,18 @@
             "type": "object",
             "required": [
               "repository",
-              "commit"
+              "commit",
+              "revisionCommit"
             ],
             "properties": {
               "repository": {
                 "const": "Spectoda/firmware"
               },
               "commit": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{40}$"
+              },
+              "revisionCommit": {
                 "type": "string",
                 "pattern": "^[a-f0-9]{40}$"
               }

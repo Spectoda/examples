@@ -12,6 +12,7 @@
     "allowedAudiences",
     "allowedLicenses",
     "allowedSourceLocks",
+    "allowedDocumentPaths",
     "authorizedRealVersions",
     "allowedAssets",
     "maxBundleBytes",
@@ -41,6 +42,15 @@
       "minItems": 1,
       "uniqueItems": true
     },
+    "allowedDocumentPaths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^en/(?!.*\\.\\.(?:/|$)).+\\.mdx?$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
     "authorizedRealVersions": {
       "type": "array",
       "items": {
@@ -65,7 +75,8 @@
           "sourceSha256",
           "firmwareVersion",
           "upstreamRepository",
-          "upstreamCommit"
+          "upstreamCommit",
+          "upstreamRevisionCommit"
         ],
         "properties": {
           "role": { "enum": ["controller-config-contract", "controller-config-schema"] },
@@ -78,7 +89,8 @@
           "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
           "firmwareVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
           "upstreamRepository": { "const": "Spectoda/firmware" },
-          "upstreamCommit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+          "upstreamCommit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+          "upstreamRevisionCommit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
         },
         "additionalProperties": false
       },

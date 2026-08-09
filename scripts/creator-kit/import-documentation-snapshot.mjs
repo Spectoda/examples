@@ -12,11 +12,11 @@ const TEMPLATE_ROOT = path.join(ROOT, "creator-kit-templates");
 const EXAMPLE_ID = "player-show-global-sparse-cues";
 const EXAMPLE_ROOT = path.join(ROOT, `data/v2/examples/${EXAMPLE_ID}`);
 const EXAMPLE_DESTINATION = `examples/${EXAMPLE_ID}`;
-const DOCUMENTATION_BUNDLE_VERSION = "0.1.0-rc.3";
-const DOCUMENTATION_COMMIT = "6f6051686fe556a85318c7dd529ac061ab48c38d";
-const DOCUMENTATION_CHECKSUM_DIGEST = "d4e2958303e3fd34dcb5e5c50a8a5c6a0266068ec2f15d88406a2a33bcb1f054";
-const EXAMPLES_COMMIT = "e4be6dd07814c1dc8816ffc0e4ea518532e411ec";
+const DOCUMENTATION_COMMIT = "08cb4e5f8155178c18a86edd4a515f7d6c8fb835";
+const DOCUMENTATION_CHECKSUM_DIGEST = "155ce7c6a14581672e4a83f981a4e08e78e98c31b26c2f9c7f6bdfc2a331ed31";
+const EXAMPLES_COMMIT = "97fd90afbc9839830b3dc7f73df36f385f66564d";
 const FIRMWARE_COMMIT = "51a8d6337d968b47f563bf2decb8f7404d93c27a";
+const FIRMWARE_REVISION_COMMIT = "f1c48452350413166dd19d28d5aaf9b9a89152d5";
 const EXAMPLE_FILES = ["README.md", "example.yaml", "player.be"];
 
 const json = (value) => `${JSON.stringify(value, null, 2)}\n`;
@@ -193,7 +193,7 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
   const licenses = await readJson(path.join(input, "licenses.json"));
   const stable = await readJson(path.join(input, "stable-channel.json"));
   if (
-    bundle.version !== DOCUMENTATION_BUNDLE_VERSION ||
+    bundle.version !== BUNDLE_VERSION ||
     bundle.contentScope !== "licensed-documentation" ||
     sourceLock.repository !== "Spectoda/documentation" ||
     sourceLock.commit !== DOCUMENTATION_COMMIT ||
@@ -205,9 +205,20 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
     licenses.entries?.join("\n") !== "CC-BY-4.0" ||
     stable.state !== "unpublished"
   ) {
-    throw new Error("Documentation bundle does not match the authorized rc.3 publication contract");
+    throw new Error("Documentation bundle does not match the authorized rc.4 candidate contract");
   }
-  if (!manifest.assets.every((asset) => asset.upstreamSource?.repository === "Spectoda/firmware" && asset.upstreamSource.commit === FIRMWARE_COMMIT)) {
+  if (
+    !manifest.assets.every((asset) =>
+      asset.upstreamSource?.repository === "Spectoda/firmware" &&
+      asset.upstreamSource.commit === FIRMWARE_COMMIT &&
+      asset.upstreamSource.revisionCommit === FIRMWARE_REVISION_COMMIT
+    ) ||
+    !sourceLock.assets?.every((asset) =>
+      asset.upstreamRepository === "Spectoda/firmware" &&
+      asset.upstreamCommit === FIRMWARE_COMMIT &&
+      asset.upstreamRevisionCommit === FIRMWARE_REVISION_COMMIT
+    )
+  ) {
     throw new Error("Controller Config assets do not match the authorized firmware provenance");
   }
 

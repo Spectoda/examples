@@ -388,6 +388,12 @@
       ]
     },
     {
+      "term": "artifacts",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "artnet",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md"
@@ -729,6 +735,12 @@
       ]
     },
     {
+      "term": "candidates",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "cannot",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md"
@@ -959,8 +971,7 @@
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md",
         "en__pro-vyrobce-a-tvurce__controller-config__index__md",
-        "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md",
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+        "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md"
       ]
     },
     {
@@ -1015,6 +1026,13 @@
       "term": "configures",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md"
+      ]
+    },
+    {
+      "term": "connected",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
+        "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md"
       ]
     },
     {
@@ -1171,6 +1189,12 @@
     },
     {
       "term": "creator",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
+      "term": "creator-kit-v",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
@@ -1598,6 +1622,7 @@
     {
       "term": "each",
       "documentIds": [
+        "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
         "en__pro-vyrobce-a-tvurce__controller-config__index__md"
       ]
     },
@@ -1726,8 +1751,7 @@
     {
       "term": "event",
       "documentIds": [
-        "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md",
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+        "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md"
       ]
     },
     {
@@ -1740,6 +1764,7 @@
       "term": "every",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
+        "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
         "en__pro-vyrobce-a-tvurce__controller-config__index__md",
         "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
@@ -1762,8 +1787,7 @@
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md",
         "en__pro-vyrobce-a-tvurce__controller-config__index__md",
-        "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md",
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+        "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md"
       ]
     },
     {
@@ -2035,8 +2059,7 @@
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
         "en__pro-vyrobce-a-tvurce__controller-config__index__md",
         "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md",
-        "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md",
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+        "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md"
       ]
     },
     {
@@ -2225,6 +2248,12 @@
       ]
     },
     {
+      "term": "hashes",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "helps",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md"
@@ -2294,6 +2323,18 @@
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
         "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md"
+      ]
+    },
+    {
+      "term": "identify",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
+      "term": "immutable",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
     },
     {
@@ -2372,6 +2413,12 @@
       ]
     },
     {
+      "term": "initial",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "initialization",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md"
@@ -2425,6 +2472,12 @@
     },
     {
       "term": "installer",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
+      "term": "instead",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
@@ -2642,6 +2695,12 @@
       ]
     },
     {
+      "term": "later",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "layout",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md"
@@ -2816,8 +2875,7 @@
     {
       "term": "machine-readable",
       "documentIds": [
-        "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md",
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+        "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md"
       ]
     },
     {
@@ -2955,6 +3013,7 @@
       "term": "may",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md",
+        "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
         "en__pro-vyrobce-a-tvurce__controller-config__index__md"
       ]
     },
@@ -2985,6 +3044,7 @@
     {
       "term": "means",
       "documentIds": [
+        "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
         "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md"
       ]
     },
@@ -3026,12 +3086,6 @@
     },
     {
       "term": "mit",
-      "documentIds": [
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
-      ]
-    },
-    {
-      "term": "mit-licensed",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
@@ -3319,8 +3373,7 @@
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
         "en__pro-vyrobce-a-tvurce__controller-config__index__md",
-        "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md",
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+        "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md"
       ]
     },
     {
@@ -3643,12 +3696,6 @@
       ]
     },
     {
-      "term": "player",
-      "documentIds": [
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
-      ]
-    },
-    {
       "term": "plugins",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
@@ -3898,6 +3945,12 @@
       ]
     },
     {
+      "term": "read",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "read-only",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
@@ -3986,8 +4039,7 @@
     {
       "term": "reference",
       "documentIds": [
-        "en__pro-vyrobce-a-tvurce__controller-config__index__md",
-        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+        "en__pro-vyrobce-a-tvurce__controller-config__index__md"
       ]
     },
     {
@@ -4091,6 +4143,12 @@
       ]
     },
     {
+      "term": "replacing",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "repository",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
@@ -4181,6 +4239,12 @@
     },
     {
       "term": "reviewed",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
+      "term": "revisions",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
@@ -4642,6 +4706,12 @@
       ]
     },
     {
+      "term": "source-lock",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
+      ]
+    },
+    {
       "term": "specific",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md"
@@ -4896,6 +4966,12 @@
       "term": "tag",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md"
+      ]
+    },
+    {
+      "term": "tags",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
     },
     {
@@ -5346,6 +5422,7 @@
       "term": "value",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md",
+        "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
         "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
         "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md",
         "en__pro-vyrobce-a-tvurce__controller-config__wasm-schema__md"
@@ -5453,6 +5530,12 @@
       "term": "warning",
       "documentIds": [
         "en__pro-vyrobce-a-tvurce__controller-config__ethernet__md"
+      ]
+    },
+    {
+      "term": "was",
+      "documentIds": [
+        "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md"
       ]
     },
     {
