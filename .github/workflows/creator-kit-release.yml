@@ -47,7 +47,7 @@ jobs:
           CREATOR_KIT_VERSION: ${{ inputs.version }}
         run: |
           set -euo pipefail
-          test "$CREATOR_KIT_VERSION" = "0.1.0-rc.3"
+          test "$CREATOR_KIT_VERSION" = "0.1.0-rc.4"
           test "$(jq -r .version creator-kit/bundle.json)" = "$CREATOR_KIT_VERSION"
       - run: bun run creator-kit:check
       - name: Require the approved prerelease license and channel posture

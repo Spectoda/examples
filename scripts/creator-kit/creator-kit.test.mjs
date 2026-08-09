@@ -37,7 +37,7 @@ async function replaceDocumentAndRehash(bundle, content) {
 
 test("validates the committed licensed Creator Kit snapshot", async () => {
   const result = await validateBundle(BUNDLE_ROOT);
-  assert.equal(result.bundleVersion, "0.1.0-rc.3");
+  assert.equal(result.bundleVersion, "0.1.0-rc.4");
   assert.equal(result.documentCount, 7);
   assert.equal(result.assetCount, 2);
   assert.equal(result.exampleCount, 1);
@@ -145,9 +145,9 @@ test("stable-channel promotion remains separately human-gated", async () => {
     await assert.rejects(
       promoteStableChannel({
         bundleRoot: BUNDLE_ROOT,
-        version: "0.1.0-rc.3",
+        version: "0.1.0-rc.4",
         digest: validation.checksumDigest,
-        releaseUrl: "https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.3",
+        releaseUrl: "https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.4",
         outputPath: path.join(root, "stable-channel.json"),
         confirmation: "",
       }),

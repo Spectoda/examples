@@ -4,7 +4,7 @@
     {
       "id": "event-player-plugin",
       "answer": "The required Project Berry source is player.be in the locked Event Player example; it must be added to each Controller Project.",
-      "citations": ["examples/player-show-complete-cue-tracks/README.md"],
+      "citations": ["examples/player-show-global-sparse-cues/README.md"],
       "abstained": false
     },
     {

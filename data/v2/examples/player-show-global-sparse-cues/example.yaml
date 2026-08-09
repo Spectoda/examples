@@ -1,0 +1,36 @@
+schemaVersion: example.v2
+slug: player-show-global-sparse-cues
+title: Global sparse-Cue Event Player from player.show
+category: controller
+summary: >-
+  Canonical firmware 0.12.11 Project Berry Player for one static player.show
+  SPM v3 manifest and deterministic mixed-ID player.NNN SEB slots. Every
+  Controller lands every record while Tracks remain per-ID authoring lanes and
+  Cues remain sparse.
+tags:
+  - berry
+  - event-player
+  - network-storage
+  - player-show
+  - seb
+  - sparse-cues
+  - timeline
+hardware: >-
+  Requires firmware 0.12.11 with timeline.at and SEB.land NetworkStorage source
+  support plus exact NetworkStorage version strings in Berry. Upload does not
+  pause or rewind, and no local ID list is required.
+files:
+  - path: README.md
+    role: Setup, upload semantics, runtime behavior, and limits
+    language: markdown
+  - path: creator-kit.json
+    role: Fail-closed Spectoda Creator Kit selection
+    language: json
+  - path: player.be
+    role: Canonical copy-ready Project Berry Player
+    language: berry
+  - path: player-show-artifacts.json
+    role: Synthetic player.show SPM v3 and SEB golden corpus
+    language: json
+related:
+  - seb-causal-scene-recall

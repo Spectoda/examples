@@ -36,10 +36,11 @@ scriptů, projektových patternů a integračních snippetů.
 - `creator-kit/` is a generated, read-only public snapshot, not an authoring
   surface. Documentation remains authoritative; the public copy is immutable
   and flows in one direction only.
-- The reviewed `0.1.0-rc.3` snapshot contains seven CC BY 4.0 Documentation
+- The `0.1.0-rc.4` review candidate contains seven CC BY 4.0 Documentation
   derivatives, the complete hash-locked FW 0.12.11 config contract/schema and
-  one MIT-licensed Event Player example. Spectoda names, logos and trademarks
-  are outside those license grants.
+  one MIT-licensed sparse global Event Player example. The published rc.3
+  remains immutable until a separate protected rc.4 release is explicitly
+  approved. Spectoda names, logos and trademarks are outside those grants.
 - Keep exact source commits, the Documentation bundle digest, firmware
   provenance, example hashes, checksums and the `unpublished` stable-channel
   descriptor intact. Updates require partner approval and a normal review PR.

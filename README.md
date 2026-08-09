@@ -35,8 +35,7 @@ data/v2/examples/
 ├── gledopto-gl-rc-001wl-espnow-remote/              # Berry espnow.rx examples for a GLEDOPTO GL-RC-001WL remote
 ├── network-nested-element-groups/                   # App elementsJson + controlPages group → groups → devices pattern
 ├── seb-causal-scene-recall/                         # recall a mixed-ID SEB scene at the causal event time
-├── seb-segmented-id-track-player/                   # play an ordered one-ID Track from bounded SEB segments
-└── player-show-complete-cue-tracks/                 # static Show Index Player with complete per-ID Cues
+└── player-show-global-sparse-cues/                  # global mixed-ID Player with sparse Cues
 ```
 
 ## Example Rules
@@ -57,8 +56,8 @@ customer-specific data that is not meant to be public.
 
 ## Spectoda Creator Kit public prerelease
 
-`creator-kit/` is the immutable source snapshot for the public English
-Spectoda Creator Kit `0.1.0-rc.3` prerelease. It contains the complete selected
+`creator-kit/` is the review candidate for the public English Spectoda Creator
+Kit `0.1.0-rc.4` prerelease. It contains the complete selected
 FW 0.12.11 Controller Config documentation and machine-readable config
 contract/schema under CC BY 4.0, plus one MIT-licensed Event Player example.
 Documentation remains the private authoring source of truth; this repository
@@ -78,6 +77,6 @@ bun run creator-kit:check
 
 `creator-kit:build` creates only a local deterministic archive under the
 ignored `.creator-kit-tmp/`; it does not call GitHub Releases. The public
-release is available at the matching
+latest published prerelease remains
 [`creator-kit-v0.1.0-rc.3`](https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.3)
-prerelease after the protected publication workflow completes.
+until the protected publication workflow is explicitly approved for rc.4.

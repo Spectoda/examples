@@ -4,7 +4,7 @@
     {
       "id": "event-player-plugin",
       "answer": "Add the locked player.be Project Berry source to every Controller Project; Studio Event Player upload does not install it.",
-      "citations": ["examples/player-show-complete-cue-tracks/README.md"],
+      "citations": ["examples/player-show-global-sparse-cues/README.md"],
       "abstained": false
     },
     {

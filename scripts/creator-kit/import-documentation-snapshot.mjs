@@ -9,8 +9,10 @@ import { BUNDLE_VERSION, bundleFiles, createChecksums, sha256, verifyChecksums }
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const DEFAULT_OUTPUT = path.join(ROOT, "creator-kit");
 const TEMPLATE_ROOT = path.join(ROOT, "creator-kit-templates");
-const EXAMPLE_ROOT = path.join(ROOT, "data/v2/examples/player-show-complete-cue-tracks");
-const EXAMPLE_DESTINATION = "examples/player-show-complete-cue-tracks";
+const EXAMPLE_ID = "player-show-global-sparse-cues";
+const EXAMPLE_ROOT = path.join(ROOT, `data/v2/examples/${EXAMPLE_ID}`);
+const EXAMPLE_DESTINATION = `examples/${EXAMPLE_ID}`;
+const DOCUMENTATION_BUNDLE_VERSION = "0.1.0-rc.3";
 const DOCUMENTATION_COMMIT = "6f6051686fe556a85318c7dd529ac061ab48c38d";
 const DOCUMENTATION_CHECKSUM_DIGEST = "d4e2958303e3fd34dcb5e5c50a8a5c6a0266068ec2f15d88406a2a33bcb1f054";
 const EXAMPLES_COMMIT = "667b238349cc635792f0e42130a08a4bde701fdf";
@@ -88,7 +90,7 @@ async function extendSchemas(staging) {
     type: "object",
     required: ["id", "path", "title", "topic", "audience", "license", "stability", "compatibility", "source", "files"],
     properties: {
-      id: { const: "player-show-complete-cue-tracks" },
+      id: { const: EXAMPLE_ID },
       path: { const: EXAMPLE_DESTINATION },
       title: { type: "string", minLength: 1 },
       topic: { const: "studio-event-player" },
@@ -161,7 +163,7 @@ async function extendSchemas(staging) {
       type: "object",
       required: ["id", "selectionSourcePath", "source", "files"],
       properties: {
-        id: { const: "player-show-complete-cue-tracks" },
+        id: { const: EXAMPLE_ID },
         selectionSourcePath: { type: "string", minLength: 1 },
         source: exampleSourceSchema,
         files: { type: "array", minItems: 3, maxItems: 3, items: { type: "string", minLength: 1 } },
@@ -191,7 +193,7 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
   const licenses = await readJson(path.join(input, "licenses.json"));
   const stable = await readJson(path.join(input, "stable-channel.json"));
   if (
-    bundle.version !== BUNDLE_VERSION ||
+    bundle.version !== DOCUMENTATION_BUNDLE_VERSION ||
     bundle.contentScope !== "licensed-documentation" ||
     sourceLock.repository !== "Spectoda/documentation" ||
     sourceLock.commit !== DOCUMENTATION_COMMIT ||
@@ -209,7 +211,7 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
     throw new Error("Controller Config assets do not match the authorized firmware provenance");
   }
 
-  const selectionPath = "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json";
+  const selectionPath = `data/v2/examples/${EXAMPLE_ID}/creator-kit.json`;
   const selectionBytes = await readFile(path.join(ROOT, selectionPath));
   if (!selectionBytes.equals(gitBytes(EXAMPLES_COMMIT, selectionPath))) throw new Error("Event Player selection differs from the locked Examples commit");
   const exampleSelection = JSON.parse(selectionBytes.toString("utf8"));
@@ -230,7 +232,7 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
     await rm(path.join(staging, "checksums.sha256"), { force: true });
     const exampleFiles = [];
     for (const name of EXAMPLE_FILES) {
-      const sourcePath = `data/v2/examples/player-show-complete-cue-tracks/${name}`;
+      const sourcePath = `data/v2/examples/${EXAMPLE_ID}/${name}`;
       const bytes = await readFile(path.join(ROOT, sourcePath));
       if (!bytes.equals(gitBytes(EXAMPLES_COMMIT, sourcePath))) throw new Error(`${sourcePath} differs from the locked Examples commit`);
       const bundlePath = `${EXAMPLE_DESTINATION}/${name}`;
@@ -249,10 +251,12 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
       : null;
     if (!title) throw new Error("Event Player README has no title");
 
+    bundle.version = BUNDLE_VERSION;
     bundle.contentScope = "licensed-documentation-with-public-examples";
+    manifest.bundleVersion = BUNDLE_VERSION;
     manifest.contentScope = bundle.contentScope;
     manifest.examples = [{
-      id: "player-show-complete-cue-tracks",
+      id: EXAMPLE_ID,
       path: EXAMPLE_DESTINATION,
       title,
       topic: exampleSelection.topic,
@@ -291,7 +295,7 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
     ];
     const selection = await readJson(path.join(staging, "selection.json"));
     selection.selectedExamples = [{
-      id: "player-show-complete-cue-tracks",
+      id: EXAMPLE_ID,
       selectionSourcePath: selectionPath,
       source: { repository: "Spectoda/examples", commit: EXAMPLES_COMMIT },
       files: exampleFiles.map((file) => file.sourcePath),
@@ -304,7 +308,12 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
     await writeJson(path.join(staging, "source-lock.json"), sourceLock);
     await writeJson(path.join(staging, "selection.json"), selection);
     await writeJson(path.join(staging, "licenses.json"), licenses);
-    await writeFile(path.join(staging, "README.md"), (await readFile(path.join(TEMPLATE_ROOT, "README.md"), "utf8")).replaceAll("{{BUNDLE_VERSION}}", BUNDLE_VERSION));
+    await writeFile(
+      path.join(staging, "README.md"),
+      (await readFile(path.join(TEMPLATE_ROOT, "README.md"), "utf8"))
+        .replaceAll("{{BUNDLE_VERSION}}", BUNDLE_VERSION)
+        .replaceAll("{{EXAMPLES_COMMIT}}", EXAMPLES_COMMIT),
+    );
     await writeFile(path.join(staging, "AGENTS.md"), await readFile(path.join(TEMPLATE_ROOT, "AGENTS.md")));
     await writeFile(path.join(staging, "RELEASE_NOTES.md"), await readFile(path.join(TEMPLATE_ROOT, "RELEASE_NOTES.md")));
     await mkdir(path.join(staging, "LICENSES"), { recursive: true });

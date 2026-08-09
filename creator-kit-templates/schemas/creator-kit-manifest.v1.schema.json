@@ -66,7 +66,7 @@
             "required": ["firmware", "wasm"],
             "properties": {
               "firmware": { "const": "0.12.11" },
-              "wasm": { "const": "DEBUG_UNIVERSAL_0.12.11_20260808" }
+              "wasm": { "const": "DEBUG_UNIVERSAL_0.12.11_20260810" }
             },
             "additionalProperties": false
           },

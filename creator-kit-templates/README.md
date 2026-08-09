@@ -10,13 +10,13 @@ The bundle contains:
 - the complete FW 0.12.11 Controller Config contract and JSON Schema under
   `assets/docs/controller-config/0.12.11/`;
 - one copy-ready Event Player example under
-  `examples/player-show-complete-cue-tracks/`.
+  `examples/player-show-global-sparse-cues/`.
 
 Read `bundle.json`, `manifest.json`, `source-lock.json`, `licenses.json` and
 `checksums.sha256` before use. Documentation content is locked to
 `Spectoda/documentation@6f6051686fe556a85318c7dd529ac061ab48c38d`; the
 example is locked to
-`Spectoda/examples@667b238349cc635792f0e42130a08a4bde701fdf`. The firmware
+`Spectoda/examples@{{EXAMPLES_COMMIT}}`. The firmware
 config assets identify their own exact `Spectoda/firmware` provenance.
 
 ## Licensing

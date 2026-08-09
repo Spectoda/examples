@@ -30,4 +30,4 @@ files:
     role: exact NetworkStorage artifact bytes and decoded reference
     language: json
 related:
-  - seb-segmented-id-track-player
+  - player-show-global-sparse-cues

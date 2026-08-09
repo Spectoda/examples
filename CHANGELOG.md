@@ -2,6 +2,28 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260810
+
+### Changed
+
+- Simplified the Event Player to one global mixed-ID stream. Tracks remain
+  per-ID authoring lanes while sparse Cues contain only the Event values
+  selected for that moment.
+- Replaced the unreleased per-ID and content-addressed Player prototypes with
+  the compact SPM v3 manifest and fixed `player.000` through `player.999`
+  slots. Every manifest entry pins the exact 48-bit NetworkStorage version and
+  absolute segment start.
+- Retired the parallel segmented single-ID Player example. The global sparse
+  Player is the single canonical Project Berry plugin; causal scene recall
+  remains a separate timeline-independent example.
+- The directly injectable Berry script now reconciles exactly one Cue Group at
+  or immediately before a timeline discontinuity. It does not select future
+  Cues or replay older history, and Events omitted from the sparse Cue retain
+  their EventStates.
+- Prepared Creator Kit `0.1.0-rc.4` with the final
+  `DEBUG_UNIVERSAL_0.12.11_20260810` compatibility pin. No release or stable
+  channel promotion is implied by the candidate.
+
 ## 20260809
 
 ### Added

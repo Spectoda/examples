@@ -8,7 +8,7 @@ on:
       - "creator-kit-templates/**"
       - "scripts/creator-kit/**"
       - "creator-kit/**"
-      - "data/v2/examples/player-show-complete-cue-tracks/**"
+      - "data/v2/examples/player-show-global-sparse-cues/**"
       - "package.json"
       - ".github/workflows/creator-kit-*.yml"
 
@@ -34,6 +34,6 @@ jobs:
           set -euo pipefail
           node scripts/creator-kit/build-release-candidate.mjs --release-dir .creator-kit-tmp/first --source-commit "$GITHUB_SHA"
           node scripts/creator-kit/build-release-candidate.mjs --release-dir .creator-kit-tmp/second --source-commit "$GITHUB_SHA"
-          cmp .creator-kit-tmp/first/spectoda-creator-kit-0.1.0-rc.3.tar .creator-kit-tmp/second/spectoda-creator-kit-0.1.0-rc.3.tar
+          cmp .creator-kit-tmp/first/spectoda-creator-kit-0.1.0-rc.4.tar .creator-kit-tmp/second/spectoda-creator-kit-0.1.0-rc.4.tar
           cmp .creator-kit-tmp/first/provenance.json .creator-kit-tmp/second/provenance.json
           git diff --exit-code -- creator-kit
