@@ -1,7 +1,7 @@
 {
   "schemaVersion": "creator-kit-manifest.v1",
   "bundleName": "Spectoda Creator Kit",
-  "bundleVersion": "0.1.0-rc.3",
+  "bundleVersion": "0.1.0-rc.4",
   "locale": "en",
   "contentScope": "licensed-documentation-with-public-examples",
   "source": {
@@ -179,42 +179,42 @@
   ],
   "examples": [
     {
-      "id": "player-show-complete-cue-tracks",
-      "path": "examples/player-show-complete-cue-tracks",
-      "title": "Complete-Cue Track Player from `player.show`",
+      "id": "player-show-global-sparse-cues",
+      "path": "examples/player-show-global-sparse-cues",
+      "title": "Global sparse-Cue Event Player with `player.show` SPM v3",
       "topic": "studio-event-player",
       "audience": "partner-maker",
       "license": "MIT",
       "stability": "firmware-0.12.11",
       "compatibility": {
         "firmware": "0.12.11",
-        "wasm": "DEBUG_UNIVERSAL_0.12.11_20260808"
+        "wasm": "DEBUG_UNIVERSAL_0.12.11_20260810"
       },
       "source": {
         "repository": "Spectoda/examples",
-        "commit": "667b238349cc635792f0e42130a08a4bde701fdf"
+        "commit": "e4be6dd07814c1dc8816ffc0e4ea518532e411ec"
       },
       "files": [
         {
-          "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/README.md",
-          "path": "examples/player-show-complete-cue-tracks/README.md",
+          "sourcePath": "data/v2/examples/player-show-global-sparse-cues/README.md",
+          "path": "examples/player-show-global-sparse-cues/README.md",
           "format": "md",
-          "sourceSha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de",
-          "sha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de"
+          "sourceSha256": "35fa413fe0f59efc4a0f5689986d981bd0f739048d8183dd88dda7f3336a4803",
+          "sha256": "35fa413fe0f59efc4a0f5689986d981bd0f739048d8183dd88dda7f3336a4803"
         },
         {
-          "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/example.yaml",
-          "path": "examples/player-show-complete-cue-tracks/example.yaml",
+          "sourcePath": "data/v2/examples/player-show-global-sparse-cues/example.yaml",
+          "path": "examples/player-show-global-sparse-cues/example.yaml",
           "format": "yaml",
-          "sourceSha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d",
-          "sha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d"
+          "sourceSha256": "3297ca221e2057b9e3d94d46eea55ec6971ff8587246b21a33373b43fe4650e9",
+          "sha256": "3297ca221e2057b9e3d94d46eea55ec6971ff8587246b21a33373b43fe4650e9"
         },
         {
-          "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/player.be",
-          "path": "examples/player-show-complete-cue-tracks/player.be",
+          "sourcePath": "data/v2/examples/player-show-global-sparse-cues/player.be",
+          "path": "examples/player-show-global-sparse-cues/player.be",
           "format": "be",
-          "sourceSha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948",
-          "sha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948"
+          "sourceSha256": "2d144a4e77d7fc6f4e6253fcd22cb9a6ec89bf3d7c9485269d0de42ce8ef3024",
+          "sha256": "2d144a4e77d7fc6f4e6253fcd22cb9a6ec89bf3d7c9485269d0de42ce8ef3024"
         }
       ]
     }

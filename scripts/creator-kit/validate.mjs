@@ -11,7 +11,7 @@ const DEFAULT_BUNDLE = path.join(ROOT, "creator-kit");
 const EXAMPLE_ID = "player-show-global-sparse-cues";
 const DOCUMENTATION_COMMIT = "6f6051686fe556a85318c7dd529ac061ab48c38d";
 const DOCUMENTATION_CHECKSUM_DIGEST = "d4e2958303e3fd34dcb5e5c50a8a5c6a0266068ec2f15d88406a2a33bcb1f054";
-const EXAMPLES_COMMIT = "667b238349cc635792f0e42130a08a4bde701fdf";
+const EXAMPLES_COMMIT = "e4be6dd07814c1dc8816ffc0e4ea518532e411ec";
 const FIRMWARE_COMMIT = "51a8d6337d968b47f563bf2decb8f7404d93c27a";
 const EXPECTED_DOCUMENTS = [
   "en/pro-vyrobce-a-tvurce/controller-config/ethernet.md",

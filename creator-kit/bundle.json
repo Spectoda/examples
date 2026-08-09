@@ -1,7 +1,7 @@
 {
   "schemaVersion": "creator-kit-bundle.v1",
   "name": "Spectoda Creator Kit",
-  "version": "0.1.0-rc.3",
+  "version": "0.1.0-rc.4",
   "status": "candidate",
   "locale": "en",
   "contentScope": "licensed-documentation-with-public-examples",
