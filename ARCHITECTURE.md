@@ -65,10 +65,10 @@ does not become an authoring backchannel for Documentation.
 
 The `0.1.0-rc.4` review candidate includes seven CC BY 4.0 documents, two
 hash-locked FW 0.12.11 config assets and the MIT sparse global Event Player.
-The published rc.3 remains immutable until a protected rc.4 release is
-explicitly approved. The candidate carries the exact
-Documentation snapshot digest, Documentation/Firmware/Examples source commits,
-license posture, compatibility contract, indexes and checksums.
+It carries the exact Documentation snapshot digest,
+Documentation/Firmware/Examples source commits, license posture, compatibility
+contract, indexes and checksums. The published `0.1.0-rc.3` release remains
+immutable; a new version always produces a new snapshot and release tag.
 `scripts/creator-kit/validate.mjs` checks public safety, links, hashes,
 provenance, size and the unpublished stable boundary. Public CI packages the
 already committed snapshot into a deterministic tar; only the protected

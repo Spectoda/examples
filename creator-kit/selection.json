@@ -62,7 +62,7 @@
       "selectionSourcePath": "data/v2/examples/player-show-global-sparse-cues/creator-kit.json",
       "source": {
         "repository": "Spectoda/examples",
-        "commit": "e4be6dd07814c1dc8816ffc0e4ea518532e411ec"
+        "commit": "97fd90afbc9839830b3dc7f73df36f385f66564d"
       },
       "files": [
         "data/v2/examples/player-show-global-sparse-cues/README.md",

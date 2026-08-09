@@ -13,14 +13,14 @@
       "path": "documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md",
       "title": "FW 0.12.11 – I/O types",
       "summary": "All 23 available I/O types, their keywords, variants and compile-time limitations.",
-      "sha256": "c392c1c2289eeaad6b0f3e0c77ea821ea455ee9c688b893adb8204e4523c61a0"
+      "sha256": "8bd0702d439b573fea4c89d4af3c2a2109e09586dd0e738eefd4c693c8e04780"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
       "path": "documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md",
       "title": "FW 0.12.11 – complete keywords",
       "summary": "Every top-level section and nested keyword processed by Controller config in firmware 0.12.11.",
-      "sha256": "acc885a529f405ac2047fadbb0de9b431f5ab841677f3b47f83db5c354d4ba0e"
+      "sha256": "3006cd6917a01761a60b8b26e04367b9a36e1dd39b1889c7c57a4bd3aadf0f9a"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__index__md",
@@ -48,7 +48,7 @@
       "path": "documents/en/pro-vyrobce-a-tvurce/spectoda-creator-kit.md",
       "title": "Spectoda Creator Kit",
       "summary": "The Spectoda Creator Kit is an exact-version, reviewable knowledge bundle for makers and their coding agents.",
-      "sha256": "9f14dd2893688637f440a16432f947609d68267549288f6c96be354ce4c7a7fd"
+      "sha256": "780a43eea5a64b8d5ba72637ed7260a8fb07b89fae4ad34ed54f57bd772ec8df"
     }
   ]
 }

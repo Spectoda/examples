@@ -14,7 +14,7 @@ The bundle contains:
 
 Read `bundle.json`, `manifest.json`, `source-lock.json`, `licenses.json` and
 `checksums.sha256` before use. Documentation content is locked to
-`Spectoda/documentation@6f6051686fe556a85318c7dd529ac061ab48c38d`; the
+`Spectoda/documentation@08cb4e5f8155178c18a86edd4a515f7d6c8fb835`; the
 example is locked to
 `Spectoda/examples@{{EXAMPLES_COMMIT}}`. The firmware
 config assets identify their own exact `Spectoda/firmware` provenance.

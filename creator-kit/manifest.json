@@ -6,7 +6,7 @@
   "contentScope": "licensed-documentation-with-public-examples",
   "source": {
     "repository": "Spectoda/documentation",
-    "commit": "6f6051686fe556a85318c7dd529ac061ab48c38d"
+    "commit": "08cb4e5f8155178c18a86edd4a515f7d6c8fb835"
   },
   "documents": [
     {
@@ -35,7 +35,7 @@
       "title": "FW 0.12.11 – I/O types",
       "summary": "All 23 available I/O types, their keywords, variants and compile-time limitations.",
       "format": "md",
-      "sha256": "c392c1c2289eeaad6b0f3e0c77ea821ea455ee9c688b893adb8204e4523c61a0",
+      "sha256": "8bd0702d439b573fea4c89d4af3c2a2109e09586dd0e738eefd4c693c8e04780",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -45,7 +45,7 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "5caf1cd413f1fc0f6809f593f29ffb0ecd14839f60e26cadf113480e03f1f826"
+      "sourceSha256": "0c3fcbb0a1047e5e2931a801c9e9d0f07c8b81a8fd6fcb30df19fc9ed8b44e9a"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
@@ -54,7 +54,7 @@
       "title": "FW 0.12.11 – complete keywords",
       "summary": "Every top-level section and nested keyword processed by Controller config in firmware 0.12.11.",
       "format": "md",
-      "sha256": "acc885a529f405ac2047fadbb0de9b431f5ab841677f3b47f83db5c354d4ba0e",
+      "sha256": "3006cd6917a01761a60b8b26e04367b9a36e1dd39b1889c7c57a4bd3aadf0f9a",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -64,7 +64,7 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "23be2a096a1aedbb233cddb0700e21a1fcfe3d6746124c705fd05abb30cfb47f"
+      "sourceSha256": "20171c17728142cfb9b754c06f7b279e54cd717124e22db83c2335759833904e"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__index__md",
@@ -130,7 +130,7 @@
       "title": "Spectoda Creator Kit",
       "summary": "The Spectoda Creator Kit is an exact-version, reviewable knowledge bundle for makers and their coding agents.",
       "format": "md",
-      "sha256": "9f14dd2893688637f440a16432f947609d68267549288f6c96be354ce4c7a7fd",
+      "sha256": "780a43eea5a64b8d5ba72637ed7260a8fb07b89fae4ad34ed54f57bd772ec8df",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -140,7 +140,7 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "834752ec0bc4fc8f739c00cbbd56f82a790ea8ecabacf890d5358841f78e7809"
+      "sourceSha256": "acedc127c99c862153cd4ba4edccf867cf919bef6d270a3c8055bb775573467c"
     }
   ],
   "assets": [
@@ -149,15 +149,16 @@
       "path": "assets/docs/controller-config/0.12.11/controller-config.contract.json",
       "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.contract.json",
       "mediaType": "application/json",
-      "sha256": "760cbcde5038f98bae60aea96f6f36f2b4b01aae04c33571b26cfbe2fcd1b38f",
-      "sourceSha256": "760cbcde5038f98bae60aea96f6f36f2b4b01aae04c33571b26cfbe2fcd1b38f",
+      "sha256": "a2f6fc92495902723a89f89d223e5bf61e4c5ad704b3909aee0cee9d342c6f0b",
+      "sourceSha256": "a2f6fc92495902723a89f89d223e5bf61e4c5ad704b3909aee0cee9d342c6f0b",
       "license": "CC-BY-4.0",
       "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11",
       "publicDerivative": true,
       "firmwareVersion": "0.12.11",
       "upstreamSource": {
         "repository": "Spectoda/firmware",
-        "commit": "51a8d6337d968b47f563bf2decb8f7404d93c27a"
+        "commit": "51a8d6337d968b47f563bf2decb8f7404d93c27a",
+        "revisionCommit": "f1c48452350413166dd19d28d5aaf9b9a89152d5"
       }
     },
     {
@@ -165,15 +166,16 @@
       "path": "assets/docs/controller-config/0.12.11/controller-config.schema.json",
       "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.schema.json",
       "mediaType": "application/schema+json",
-      "sha256": "d9ee689ad41bb0b845070d77dfe6eb061976f9e077c293a730e5f520ea8f037c",
-      "sourceSha256": "d9ee689ad41bb0b845070d77dfe6eb061976f9e077c293a730e5f520ea8f037c",
+      "sha256": "be1d8dad5262ecfa22f8b4415b4bffce6a897a0cc315d5975811f66cd521594b",
+      "sourceSha256": "be1d8dad5262ecfa22f8b4415b4bffce6a897a0cc315d5975811f66cd521594b",
       "license": "CC-BY-4.0",
       "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11",
       "publicDerivative": true,
       "firmwareVersion": "0.12.11",
       "upstreamSource": {
         "repository": "Spectoda/firmware",
-        "commit": "51a8d6337d968b47f563bf2decb8f7404d93c27a"
+        "commit": "51a8d6337d968b47f563bf2decb8f7404d93c27a",
+        "revisionCommit": "f1c48452350413166dd19d28d5aaf9b9a89152d5"
       }
     }
   ],
@@ -192,7 +194,7 @@
       },
       "source": {
         "repository": "Spectoda/examples",
-        "commit": "e4be6dd07814c1dc8816ffc0e4ea518532e411ec"
+        "commit": "97fd90afbc9839830b3dc7f73df36f385f66564d"
       },
       "files": [
         {

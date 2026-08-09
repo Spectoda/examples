@@ -54,7 +54,7 @@ test("double-builds a deterministic prerelease archive without mutating the snap
     assert.equal(first.provenance.bundleDigest, second.provenance.bundleDigest);
     assert.equal(first.provenance.releaseType, "prerelease");
     assert.equal(first.provenance.stableChannelState, "unpublished");
-    assert.equal(first.provenance.documentationSource.commit, "6f6051686fe556a85318c7dd529ac061ab48c38d");
+    assert.equal(first.provenance.documentationSource.commit, "08cb4e5f8155178c18a86edd4a515f7d6c8fb835");
     assert.deepEqual(await readFile(first.archive.archivePath), await readFile(second.archive.archivePath));
   } finally {
     await rm(root, { recursive: true, force: true });
@@ -69,6 +69,26 @@ test("fails closed when the committed snapshot is tampered", async () => {
     await writeFile(path.join(bundle, "documents/en/pro-vyrobce-a-tvurce/controller-config/index.md"), "tampered\n", "utf8");
     await assert.rejects(validateBundle(bundle), /reviewed Documentation hash|checksums[.]sha256/u);
     await assert.rejects(verifyChecksums(bundle), /does not match/u);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("rejects a rehashed but unauthorized firmware semantic revision", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-revision-"));
+  try {
+    const bundle = path.join(root, "bundle");
+    await cp(BUNDLE_ROOT, bundle, { recursive: true });
+    const manifestPath = path.join(bundle, "manifest.json");
+    const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+    for (const asset of manifest.assets) asset.upstreamSource.revisionCommit = "0".repeat(40);
+    await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+    const sourceLockPath = path.join(bundle, "source-lock.json");
+    const sourceLock = JSON.parse(await readFile(sourceLockPath, "utf8"));
+    for (const asset of sourceLock.assets) asset.upstreamRevisionCommit = "0".repeat(40);
+    await writeFile(sourceLockPath, `${JSON.stringify(sourceLock, null, 2)}\n`, "utf8");
+    await writeFile(path.join(bundle, "checksums.sha256"), await createChecksums(bundle), "utf8");
+    await assert.rejects(validateBundle(bundle), /firmware provenance/u);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
