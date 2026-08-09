@@ -80,7 +80,7 @@ end
 c+=j
 if j<q break end
 end
-if o<0 return true end
+if o<0 return false end
 if !valid(k,z,L)return false end
 var at=timeline.at(x-o)
 if at==nil return nil end

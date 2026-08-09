@@ -287,6 +287,17 @@ assert(SEB.calls.size()==0)
 # Native SEB validation rejects malformed records before applying a due prefix.
 bad=fixture()
 for item:bad["files"]
+    # A compiled segment always starts at offset zero. Fail inactive rather
+    # than falling back to segment zero when malformed bytes violate it.
+    if item["name"]=="player.000"
+        item["hex"]=item["hex"][0..39]+"0100"+item["hex"][44..]
+    end
+end
+boot(bad)
+stub_state["callback"]()
+assert(SEB.calls.size()==0&&SEB.applied.size()==0)
+bad=fixture()
+for item:bad["files"]
     if item["name"]=="player.000"
         item["hex"]=item["hex"][0..39]+"8913"+item["hex"][44..]
     end
@@ -296,7 +307,7 @@ stub_state["callback"]()
 timeline.state["paused"]=false
 timeline.state["time"]=5001
 stub_state["callback"]()
-assert(SEB.calls.size()==1&&SEB.applied.size()==0)
+assert(SEB.calls.size()==0&&SEB.applied.size()==0)
 bad=fixture()
 for item:bad["files"]
     if item["name"]=="player.000"
