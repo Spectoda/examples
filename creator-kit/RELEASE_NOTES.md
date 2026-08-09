@@ -1,11 +1,12 @@
-# Spectoda Creator Kit candidate
+# Spectoda Creator Kit 0.1.0-rc.3 public prerelease
 
-This is a review candidate, not a release. It contains two synthetic English
-documents used to prove deterministic normalization, plus the exact
-MIT-licensed firmware 0.12.11 Event Player example selected from
-`Spectoda/examples`. Both are source locked, checksummed, and covered by
-agent-objective evaluation.
+This is the first public, downloadable Spectoda Creator Kit prerelease.
 
-Real Documentation bodies are not included. A public release remains gated on
-redistribution licensing, exact-head review, native Lazurio distribution
-contract readiness and an isolated Codex/Claude pilot.
+It includes the complete documented FW 0.12.11 Controller Config surface,
+machine-readable contract and JSON Schema, plus the MIT-licensed Event Player
+example. Documentation and config data are licensed under CC BY 4.0. Spectoda
+names, logos and trademarks are excluded from the license grant.
+
+The archive is deterministic and ships with a SHA-256 sidecar and provenance
+record. Verify the archive digest before use. The stable channel remains
+unpublished; this prerelease does not opt any partner into automatic updates.

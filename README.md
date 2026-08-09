@@ -55,20 +55,19 @@ Each example should include:
 Do not commit secrets, client credentials, private network keys, or
 customer-specific data that is not meant to be public.
 
-## Spectoda Creator Kit candidate
+## Spectoda Creator Kit public prerelease
 
-`creator-kit/` is the reviewed distribution surface for the English Spectoda
-Creator Kit. The current tree is a synthetic-fixture-only release candidate;
-real Documentation bodies are not transferred until an authorized
-redistribution license is recorded. Documentation remains the private
-authoring source of truth.
+`creator-kit/` is the immutable source snapshot for the public English
+Spectoda Creator Kit `0.1.0-rc.3` prerelease. It contains the complete selected
+FW 0.12.11 Controller Config documentation and machine-readable config
+contract/schema under CC BY 4.0, plus one MIT-licensed Event Player example.
+Documentation remains the private authoring source of truth; this repository
+holds only the reviewed one-way public derivative.
 
-The candidate is read-only and uses exact-version pins, a fixed synthetic
-fixture lock in frontmatter plus a generated source-lock commit equal to the
-exact Examples Git head, manifests,
-indexes, checksums, a stable-channel descriptor and a protected human release
-gate. Partner-local knowledge must live outside the bundle. Native Lazurio
-installation is intentionally not implemented here.
+The prerelease is read-only and uses exact source commits, firmware provenance,
+manifests, indexes, checksums and a protected release gate. The stable-channel
+descriptor remains `unpublished`; partner-local knowledge stays outside the
+bundle. Native Lazurio installation is intentionally not implemented here.
 
 Run the local gates from the repository root:
 
@@ -77,6 +76,8 @@ bun run creator-kit:build
 bun run creator-kit:check
 ```
 
-`creator-kit:build` creates only a local release candidate archive under the
-ignored `.creator-kit-tmp/`; it does not call GitHub Releases or publish a
-generated PR.
+`creator-kit:build` creates only a local deterministic archive under the
+ignored `.creator-kit-tmp/`; it does not call GitHub Releases. The public
+release is available at the matching
+[`creator-kit-v0.1.0-rc.3`](https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.3)
+prerelease after the protected publication workflow completes.

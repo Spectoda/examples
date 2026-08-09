@@ -33,19 +33,20 @@ scriptů, projektových patternů a integračních snippetů.
 
 ## Creator Kit boundary
 
-- `creator-kit/` is a generated, read-only distribution candidate, not an
-  authoring surface.
-- The candidate is synthetic-fixture-only until Documentation records an
-  authorized redistribution license. Never copy private Documentation bodies,
-  customer context or partner-local knowledge here.
-- Keep exact-version pins, the fixed synthetic fixture lock in source
-  frontmatter, the generated source-lock commit equal to the exact reviewed
-  Git head, checksums, license posture and the
-  `unpublished` stable-channel descriptor intact. Updates require partner
-  approval and a normal review PR.
-- The candidate workflows may validate or prepare a release, but agents must
-  not trigger a generated public-content PR, GitHub Release or partner
-  Organization mutation without fresh explicit instruction.
+- `creator-kit/` is a generated, read-only public snapshot, not an authoring
+  surface. Documentation remains authoritative; the public copy is immutable
+  and flows in one direction only.
+- The reviewed `0.1.0-rc.3` snapshot contains seven CC BY 4.0 Documentation
+  derivatives, the complete hash-locked FW 0.12.11 config contract/schema and
+  one MIT-licensed Event Player example. Spectoda names, logos and trademarks
+  are outside those license grants.
+- Keep exact source commits, the Documentation bundle digest, firmware
+  provenance, example hashes, checksums and the `unpublished` stable-channel
+  descriptor intact. Updates require partner approval and a normal review PR.
+- Public CI validates the committed snapshot and deterministically packages it;
+  it does not require access to private Documentation. Agents must not trigger
+  another GitHub Release or partner Organization mutation without fresh
+  explicit instruction.
 - Do not add a generic Lazurio installer to this repository; hand that contract
   to HumanAndMachines/Lazurio through its own governed planning flow.
 

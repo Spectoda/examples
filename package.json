@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "creator-kit:build": "node scripts/creator-kit/build-release-candidate.mjs --output creator-kit --release-dir .creator-kit-tmp/release",
+    "creator-kit:build": "node scripts/creator-kit/build-release-candidate.mjs --bundle creator-kit --release-dir .creator-kit-tmp/release",
+    "creator-kit:import": "node scripts/creator-kit/import-documentation-snapshot.mjs",
     "creator-kit:validate": "node scripts/creator-kit/validate.mjs creator-kit",
     "creator-kit:test": "node --test scripts/creator-kit/creator-kit.test.mjs",
     "creator-kit:evaluate": "node scripts/creator-kit/evaluate-agents.mjs",

@@ -1,21 +1,61 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.spectoda.com/creator-kit/manifest.v1.json",
-  "title": "Spectoda Creator Kit manifest",
+  "title": "Spectoda Creator Kit document manifest",
   "type": "object",
-  "required": ["schemaVersion", "bundleName", "bundleVersion", "locale", "contentScope", "source", "documents", "examples"],
+  "required": [
+    "schemaVersion",
+    "bundleName",
+    "bundleVersion",
+    "locale",
+    "contentScope",
+    "source",
+    "documents",
+    "assets",
+    "examples"
+  ],
   "properties": {
-    "schemaVersion": { "const": "creator-kit-manifest.v1" },
-    "bundleName": { "const": "Spectoda Creator Kit" },
-    "bundleVersion": { "type": "string" },
-    "locale": { "const": "en" },
-    "contentScope": { "enum": ["synthetic-fixture-with-public-examples", "licensed-documentation"] },
+    "schemaVersion": {
+      "const": "creator-kit-manifest.v1"
+    },
+    "bundleName": {
+      "const": "Spectoda Creator Kit"
+    },
+    "bundleVersion": {
+      "type": "string"
+    },
+    "locale": {
+      "const": "en"
+    },
+    "contentScope": {
+      "enum": [
+        "synthetic-fixture",
+        "licensed-documentation",
+        "licensed-documentation-with-public-examples"
+      ]
+    },
     "source": {
       "type": "object",
-      "required": ["repository", "commit"],
+      "required": [
+        "repository",
+        "commit"
+      ],
       "properties": {
-        "repository": { "type": "string", "minLength": 1 },
-        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            {
+              "pattern": "^synthetic-[a-z0-9-]+$"
+            }
+          ]
+        }
       },
       "additionalProperties": false
     },
@@ -23,24 +63,218 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "path", "sourcePath", "title", "summary", "format", "sha256", "agentExport", "sourceSha256"],
+        "required": [
+          "id",
+          "path",
+          "sourcePath",
+          "title",
+          "summary",
+          "format",
+          "sha256",
+          "agentExport",
+          "sourceSha256"
+        ],
         "properties": {
-          "id": { "type": "string" },
-          "path": { "type": "string" },
-          "sourcePath": { "type": "string" },
-          "title": { "type": "string" },
-          "summary": { "type": "string" },
-          "format": { "enum": ["md", "mdx"] },
-          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-          "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "id": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "sourcePath": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "format": {
+            "enum": [
+              "md",
+              "mdx"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sourceSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
           "agentExport": {
             "type": "object",
-            "required": ["include", "audience", "license", "sourceLock"],
+            "required": [
+              "include",
+              "audience",
+              "license",
+              "sourceLock",
+              "publicDerivative",
+              "legalTraceabilityStatus",
+              "legalTraceability"
+            ],
             "properties": {
-              "include": { "const": true },
-              "audience": { "const": "partner-maker" },
-              "license": { "type": "string" },
-              "sourceLock": { "type": "string" }
+              "include": {
+                "const": true
+              },
+              "audience": {
+                "const": "partner-maker"
+              },
+              "license": {
+                "type": "string"
+              },
+              "sourceLock": {
+                "type": "string"
+              },
+              "publicDerivative": {
+                "const": true
+              },
+              "legalTraceabilityStatus": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "raw_validation_source",
+                  "validation_draft",
+                  "approved_for_publication",
+                  "published_derivative",
+                  "superseded",
+                  "not_legal_text",
+                  null
+                ]
+              },
+              "legalTraceability": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "sourcePath",
+                  "sourceCommit",
+                  "approvalTask",
+                  "status",
+                  "publicDerivative",
+                  "documentationSourcePath",
+                  "documentationSourceCommit"
+                ],
+                "properties": {
+                  "sourcePath": {
+                    "type": "string",
+                    "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*%)(?!.*[\\p{Cc}\\p{Cf}])(?!.*(?:^|/)\\.\\.?(?:/|$))[^/]+(?:/[^/]+)*$"
+                  },
+                  "sourceCommit": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{40}$"
+                  },
+                  "approvalTask": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "status": {
+                    "enum": [
+                      "approved_for_publication",
+                      "published_derivative"
+                    ]
+                  },
+                  "publicDerivative": {
+                    "const": true
+                  },
+                  "documentationSourcePath": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "documentationSourceCommit": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{40}$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "role",
+          "path",
+          "sourcePath",
+          "mediaType",
+          "sha256",
+          "sourceSha256",
+          "license",
+          "sourceLock",
+          "publicDerivative",
+          "firmwareVersion",
+          "upstreamSource"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "controller-config-contract",
+              "controller-config-schema"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^assets/(?!.*\\.\\.(?:/|$)).+\\.json$"
+          },
+          "sourcePath": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*\\.\\.(?:/|$)).+\\.json$"
+          },
+          "mediaType": {
+            "enum": [
+              "application/json",
+              "application/schema+json"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sourceSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "license": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceLock": {
+            "type": "string",
+            "minLength": 1
+          },
+          "publicDerivative": {
+            "const": true
+          },
+          "firmwareVersion": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          },
+          "upstreamSource": {
+            "type": "object",
+            "required": [
+              "repository",
+              "commit"
+            ],
+            "properties": {
+              "repository": {
+                "const": "Spectoda/firmware"
+              },
+              "commit": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{40}$"
+              }
             },
             "additionalProperties": false
           }
@@ -50,37 +284,116 @@
     },
     "examples": {
       "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
       "items": {
         "type": "object",
-        "required": ["id", "path", "title", "topic", "audience", "license", "stability", "compatibility", "files"],
+        "required": [
+          "id",
+          "path",
+          "title",
+          "topic",
+          "audience",
+          "license",
+          "stability",
+          "compatibility",
+          "source",
+          "files"
+        ],
         "properties": {
-          "id": { "type": "string" },
-          "path": { "type": "string" },
-          "title": { "type": "string" },
-          "topic": { "type": "string" },
-          "audience": { "const": "partner-maker" },
-          "license": { "const": "MIT" },
-          "stability": { "const": "firmware-0.12.11" },
+          "id": {
+            "const": "player-show-complete-cue-tracks"
+          },
+          "path": {
+            "const": "examples/player-show-complete-cue-tracks"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "topic": {
+            "const": "studio-event-player"
+          },
+          "audience": {
+            "const": "partner-maker"
+          },
+          "license": {
+            "const": "MIT"
+          },
+          "stability": {
+            "const": "firmware-0.12.11"
+          },
           "compatibility": {
             "type": "object",
-            "required": ["firmware", "wasm"],
+            "required": [
+              "firmware",
+              "wasm"
+            ],
             "properties": {
-              "firmware": { "const": "0.12.11" },
-              "wasm": { "const": "DEBUG_UNIVERSAL_0.12.11_20260808" }
+              "firmware": {
+                "const": "0.12.11"
+              },
+              "wasm": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "source": {
+            "type": "object",
+            "required": [
+              "repository",
+              "commit"
+            ],
+            "properties": {
+              "repository": {
+                "const": "Spectoda/examples"
+              },
+              "commit": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{40}$"
+              }
             },
             "additionalProperties": false
           },
           "files": {
             "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
             "items": {
               "type": "object",
-              "required": ["sourcePath", "path", "format", "sourceSha256", "sha256"],
+              "required": [
+                "sourcePath",
+                "path",
+                "format",
+                "sourceSha256",
+                "sha256"
+              ],
               "properties": {
-                "sourcePath": { "type": "string" },
-                "path": { "type": "string" },
-                "format": { "enum": ["md", "yaml", "be"] },
-                "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-                "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                "sourcePath": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "path": {
+                  "type": "string",
+                  "pattern": "^examples/"
+                },
+                "format": {
+                  "enum": [
+                    "md",
+                    "yaml",
+                    "be"
+                  ]
+                },
+                "sourceSha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
               },
               "additionalProperties": false
             }

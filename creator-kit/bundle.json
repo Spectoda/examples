@@ -1,14 +1,11 @@
 {
   "schemaVersion": "creator-kit-bundle.v1",
   "name": "Spectoda Creator Kit",
-  "version": "0.1.0-rc.2",
+  "version": "0.1.0-rc.3",
   "status": "candidate",
   "locale": "en",
-  "contentScope": "synthetic-fixture-with-public-examples",
-  "sourceOfTruth": {
-    "documents": "synthetic-fixture",
-    "examples": "Spectoda/examples"
-  },
+  "contentScope": "licensed-documentation-with-public-examples",
+  "sourceOfTruth": "Spectoda/documentation",
   "transport": {
     "apiVersion": "github-release-v1",
     "stableChannelDescriptor": "stable-channel.json"

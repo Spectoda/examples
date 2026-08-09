@@ -1,145 +1,158 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
 
 import { buildReleaseCandidate } from "./build-release-candidate.mjs";
-import { CreatorKitBuildError, buildCreatorKitCandidate, sha256 } from "./build.mjs";
+import { createChecksums, sha256, verifyChecksums } from "./build.mjs";
 import { evaluateAllAgents } from "./evaluate-agents.mjs";
+import { importDocumentationSnapshot } from "./import-documentation-snapshot.mjs";
 import { promoteStableChannel } from "./promote-stable-channel.mjs";
 import { validateBundle } from "./validate.mjs";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
-const FIXTURE_ROOT = path.join(ROOT, "creator-kit-fixtures");
-const NEGATIVE_ROOT = path.join(ROOT, "creator-kit-negative-fixtures");
+const BUNDLE_ROOT = path.join(ROOT, "creator-kit");
+const TEST_DOCUMENT_PATH = "documents/en/pro-vyrobce-a-tvurce/controller-config/index.md";
 
-test("double-builds a reproducible candidate and deterministic tar archive", async () => {
-  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-examples-"));
+async function replaceDocumentAndRehash(bundle, content) {
+  await writeFile(path.join(bundle, TEST_DOCUMENT_PATH), content, "utf8");
+  const digest = sha256(Buffer.from(content));
+  const manifestPath = path.join(bundle, "manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  const document = manifest.documents.find((entry) => entry.path === TEST_DOCUMENT_PATH);
+  document.sha256 = digest;
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+  const sourceLockPath = path.join(bundle, "source-lock.json");
+  const sourceLock = JSON.parse(await readFile(sourceLockPath, "utf8"));
+  const lock = sourceLock.files.find((entry) => `documents/${entry.sourcePath}` === TEST_DOCUMENT_PATH);
+  lock.normalizedSha256 = digest;
+  await writeFile(sourceLockPath, `${JSON.stringify(sourceLock, null, 2)}\n`, "utf8");
+  const indexPath = path.join(bundle, "indexes/documents.json");
+  const documentIndex = JSON.parse(await readFile(indexPath, "utf8"));
+  documentIndex.documents.find((entry) => entry.path === TEST_DOCUMENT_PATH).sha256 = digest;
+  await writeFile(indexPath, `${JSON.stringify(documentIndex, null, 2)}\n`, "utf8");
+  await writeFile(path.join(bundle, "checksums.sha256"), await createChecksums(bundle), "utf8");
+}
+
+test("validates the committed licensed Creator Kit snapshot", async () => {
+  const result = await validateBundle(BUNDLE_ROOT);
+  assert.equal(result.bundleVersion, "0.1.0-rc.3");
+  assert.equal(result.documentCount, 7);
+  assert.equal(result.assetCount, 2);
+  assert.equal(result.exampleCount, 1);
+  assert.equal(result.stableState, "unpublished");
+  assert.ok(result.totalBytes <= 8 * 1024 * 1024);
+});
+
+test("double-builds a deterministic prerelease archive without mutating the snapshot", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-release-"));
   try {
-    const first = await buildReleaseCandidate({
-      outputDir: path.join(root, "first-bundle"),
-      releaseDir: path.join(root, "first-release"),
-    });
-    const second = await buildReleaseCandidate({
-      outputDir: path.join(root, "second-bundle"),
-      releaseDir: path.join(root, "second-release"),
-    });
-    assert.equal(first.validation.checksumDigest, second.validation.checksumDigest);
+    const first = await buildReleaseCandidate({ releaseDir: path.join(root, "first") });
+    const second = await buildReleaseCandidate({ releaseDir: path.join(root, "second") });
     assert.equal(first.archive.sha256, second.archive.sha256);
-    assert.equal(first.provenance.releaseNotPublished, true);
+    assert.equal(first.provenance.bundleDigest, second.provenance.bundleDigest);
+    assert.equal(first.provenance.releaseType, "prerelease");
     assert.equal(first.provenance.stableChannelState, "unpublished");
-    assert.equal((await validateBundle(path.join(root, "first-bundle"))).documentCount, 2);
-    assert.equal(first.validation.exampleCount, 1);
-    const sourcePlugin = await readFile(path.join(ROOT, "data/v2/examples/player-show-complete-cue-tracks/player.be"));
-    const bundledPlugin = await readFile(path.join(root, "first-bundle/examples/player-show-complete-cue-tracks/player.be"));
-    assert.deepEqual(bundledPlugin, sourcePlugin);
-    assert.match(bundledPlugin.toString("utf8"), /timeline[.]at/u);
-    assert.doesNotMatch(bundledPlugin.toString("utf8"), /timeline[.]toMillis/u);
-    const sourceLock = JSON.parse(await readFile(path.join(root, "first-bundle/source-lock.json"), "utf8"));
-    const pluginLock = sourceLock.files.find((file) => file.sourcePath.endsWith("/player.be"));
-    assert.equal(pluginLock.sourceSha256, sha256(sourcePlugin));
-    assert.equal(pluginLock.bundleSha256, sha256(bundledPlugin));
-    assert.equal(await readFile(first.archive.archivePath).then((value) => value.length), await readFile(second.archive.archivePath).then((value) => value.length));
+    assert.equal(first.provenance.documentationSource.commit, "6f6051686fe556a85318c7dd529ac061ab48c38d");
+    assert.deepEqual(await readFile(first.archive.archivePath), await readFile(second.archive.archivePath));
   } finally {
     await rm(root, { recursive: true, force: true });
   }
 });
 
-test("agent-objective harness passes Codex and Claude-shaped fixtures without claiming a pilot", async () => {
+test("fails closed when the committed snapshot is tampered", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-tamper-"));
+  try {
+    const bundle = path.join(root, "bundle");
+    await cp(BUNDLE_ROOT, bundle, { recursive: true });
+    await writeFile(path.join(bundle, "documents/en/pro-vyrobce-a-tvurce/controller-config/index.md"), "tampered\n", "utf8");
+    await assert.rejects(validateBundle(bundle), /reviewed Documentation hash|checksums[.]sha256/u);
+    await assert.rejects(verifyChecksums(bundle), /does not match/u);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("rejects credential assignments and bare non-public URLs after valid rehashing", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-public-safety-"));
+  try {
+    const credentialBundle = path.join(root, "credential");
+    await cp(BUNDLE_ROOT, credentialBundle, { recursive: true });
+    await replaceDocumentAndRehash(credentialBundle, "# Unsafe\n\npassword: abcdefghijklmnopqrstuvwxyz\n");
+    await assert.rejects(validateBundle(credentialBundle), /public-safety validation/u);
+
+    const linkBundle = path.join(root, "link");
+    await cp(BUNDLE_ROOT, linkBundle, { recursive: true });
+    await replaceDocumentAndRehash(linkBundle, "# Unsafe\n\nVisit https://service.internal/private for details.\n");
+    await assert.rejects(validateBundle(linkBundle), /non-public HTTPS link/u);
+
+    const metadataBundle = path.join(root, "metadata");
+    await cp(BUNDLE_ROOT, metadataBundle, { recursive: true });
+    const manifestPath = path.join(metadataBundle, "manifest.json");
+    const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+    manifest.documents[0].title = "token: abcdefghijklmnopqrstuvwxyz";
+    await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+    await writeFile(path.join(metadataBundle, "checksums.sha256"), await createChecksums(metadataBundle), "utf8");
+    await assert.rejects(validateBundle(metadataBundle), /metadata failed public-safety validation/u);
+
+    const executableBundle = path.join(root, "executable");
+    await cp(BUNDLE_ROOT, executableBundle, { recursive: true });
+    await replaceDocumentAndRehash(executableBundle, "# Unsafe\n\n<script>alert(1)</script>\n");
+    await assert.rejects(validateBundle(executableBundle), /executable Markdown\/MDX content/u);
+
+    const rehashedBundle = path.join(root, "rehashed");
+    await cp(BUNDLE_ROOT, rehashedBundle, { recursive: true });
+    await replaceDocumentAndRehash(rehashedBundle, "# Harmless but unauthorized rewrite\n");
+    await assert.rejects(validateBundle(rehashedBundle), /reviewed Documentation hash/u);
+
+    const extraFileBundle = path.join(root, "extra-file");
+    await cp(BUNDLE_ROOT, extraFileBundle, { recursive: true });
+    await writeFile(path.join(extraFileBundle, "unselected-private-note.txt"), "not selected for publication\n", "utf8");
+    await writeFile(path.join(extraFileBundle, "checksums.sha256"), await createChecksums(extraFileBundle), "utf8");
+    await assert.rejects(validateBundle(extraFileBundle), /unmanifested or missing file/u);
+
+    const readmeBundle = path.join(root, "readme-secret");
+    await cp(BUNDLE_ROOT, readmeBundle, { recursive: true });
+    await writeFile(path.join(readmeBundle, "README.md"), "api_key: abcdefghijklmnopqrstuvwxyz\n", "utf8");
+    await writeFile(path.join(readmeBundle, "checksums.sha256"), await createChecksums(readmeBundle), "utf8");
+    await assert.rejects(validateBundle(readmeBundle), /whole-bundle public-safety validation/u);
+
+    const releaseNotesBundle = path.join(root, "release-notes-url");
+    await cp(BUNDLE_ROOT, releaseNotesBundle, { recursive: true });
+    await writeFile(path.join(releaseNotesBundle, "RELEASE_NOTES.md"), "Public prerelease: https://release.internal/secret\n", "utf8");
+    await writeFile(path.join(releaseNotesBundle, "checksums.sha256"), await createChecksums(releaseNotesBundle), "utf8");
+    await assert.rejects(validateBundle(releaseNotesBundle), /private or unsupported URL/u);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("documentation import requires an explicit private snapshot input", async () => {
+  await assert.rejects(importDocumentationSnapshot(), /documentation-bundle is required/u);
+});
+
+test("agent-objective harness passes Codex and Claude-shaped public-bundle fixtures", async () => {
   const result = await evaluateAllAgents();
   assert.equal(result.passed, true);
-  assert.equal(result.pilotStatus, "not-run");
   assert.deepEqual(result.evaluations.map((evaluation) => evaluation.agent), ["codex", "claude"]);
 });
 
-test("refuses synthetic sources outside the tracked fixture roots", async () => {
-  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-source-boundary-"));
-  try {
-    await assert.rejects(
-      buildCreatorKitCandidate({ sourceRoot: ROOT, outputDir: path.join(root, "out"), includePublicExamples: false }),
-      (error) => error instanceof CreatorKitBuildError && error.code === "synthetic_source_required",
-    );
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
-});
-
-test("rejects output paths outside the reviewed distribution or temporary directories", async () => {
-  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-output-"));
-  try {
-    await assert.rejects(
-      buildCreatorKitCandidate({ sourceRoot: FIXTURE_ROOT, outputDir: ROOT, includePublicExamples: false }),
-      (error) => error instanceof CreatorKitBuildError && error.code === "unsafe_output",
-    );
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
-});
-
-test("stable-channel promotion is human-gated and deterministic", async () => {
+test("stable-channel promotion remains separately human-gated", async () => {
   const root = await mkdtemp(path.join(tmpdir(), "creator-kit-stable-"));
   try {
-    const candidate = await buildReleaseCandidate({ outputDir: path.join(root, "bundle"), releaseDir: path.join(root, "release") });
+    const validation = await validateBundle(BUNDLE_ROOT);
     await assert.rejects(
       promoteStableChannel({
-        bundleRoot: path.join(root, "bundle"),
-        version: "0.1.0-rc.1",
-        digest: candidate.validation.checksumDigest,
-        releaseUrl: "https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.1",
+        bundleRoot: BUNDLE_ROOT,
+        version: "0.1.0-rc.3",
+        digest: validation.checksumDigest,
+        releaseUrl: "https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.3",
         outputPath: path.join(root, "stable-channel.json"),
         confirmation: "",
       }),
       /protected human confirmation/u,
     );
-    const stable = await promoteStableChannel({
-      bundleRoot: path.join(root, "bundle"),
-      version: "0.1.0-rc.1",
-      digest: candidate.validation.checksumDigest,
-      releaseUrl: "https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.1",
-      outputPath: path.join(root, "stable-channel.json"),
-      confirmation: "PUBLISH_CREATOR_KIT_RELEASE",
-    });
-    assert.equal(stable.state, "published");
-    assert.equal(stable.digest, candidate.validation.checksumDigest);
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
-});
-
-test("tracked negative fixtures fail closed for every gate", async () => {
-  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-negative-"));
-  try {
-    const cases = [
-      ["secret", "public_safety"],
-      ["executable", "executable_mdx"],
-      ["executable-html", "executable_html"],
-      ["multiline-expression", "executable_mdx"],
-      ["multiline-jsx", "executable_mdx"],
-      ["multiline-html", "executable_html"],
-      ["unsafe-link", "unsafe_link"],
-      ["metadata", "public_safety"],
-      ["metadata-link", "unsafe_link"],
-      ["indented-pseudo-fence", "executable_html"],
-      ["invalid-fence", "executable_html"],
-      ["multiline-js-url", "unsafe_link"],
-      ["reference", "unsafe_link"],
-      ["autolink", "unsafe_link"],
-      ["html", "unsafe_link"],
-      ["srcset", "unsafe_link"],
-      ["bare-url", "unsafe_link"],
-      ["private-https", "unsafe_link"],
-      ["localhost-dot", "unsafe_link"],
-      ["resource", "unsafe_link"],
-      ["dynamic-resource", "unsafe_link"],
-      ["collision", "duplicate_document_id"],
-    ];
-    for (const [name, code] of cases) {
-      await assert.rejects(
-        buildCreatorKitCandidate({ sourceRoot: path.join(NEGATIVE_ROOT, name), outputDir: path.join(root, name), includePublicExamples: false }),
-        (error) => error instanceof CreatorKitBuildError && error.code === code,
-      );
-    }
   } finally {
     await rm(root, { recursive: true, force: true });
   }

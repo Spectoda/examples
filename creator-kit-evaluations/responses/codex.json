@@ -8,9 +8,9 @@
       "abstained": false
     },
     {
-      "id": "bundle-scope",
-      "answer": "The bundle describes a small public-safe creator workflow.",
-      "citations": ["documents/en/synthetic-creator.md"],
+      "id": "controller-config-source",
+      "answer": "Use the pinned FW 0.12.11 keyword reference and the machine-readable contract bundled with it.",
+      "citations": ["documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md"],
       "abstained": false
     },
     {

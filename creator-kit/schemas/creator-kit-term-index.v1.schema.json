@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/term-index.v1.json",
+  "title": "Spectoda Creator Kit term index",
+  "type": "object",
+  "required": ["schemaVersion", "terms"],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-term-index.v1" },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["term", "documentIds"],
+        "properties": {
+          "term": { "type": "string", "minLength": 1 },
+          "documentIds": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

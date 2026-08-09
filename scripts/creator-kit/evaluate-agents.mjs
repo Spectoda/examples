@@ -29,7 +29,7 @@ export async function evaluateAgent(agent) {
 
 export async function evaluateAllAgents() {
   const evaluations = await Promise.all([evaluateAgent("codex"), evaluateAgent("claude")]);
-  return { harness: "synthetic-agent-objective-v1", pilotStatus: "not-run", passed: evaluations.every((evaluation) => evaluation.passed), evaluations };
+  return { harness: "public-bundle-agent-objective-v1", pilotStatus: "not-run", passed: evaluations.every((evaluation) => evaluation.passed), evaluations };
 }
 
 async function main() {

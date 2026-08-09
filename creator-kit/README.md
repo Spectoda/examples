@@ -1,39 +1,38 @@
-# Spectoda Creator Kit
+# Spectoda Creator Kit 0.1.0-rc.3
 
-This directory is a reviewable **release candidate** for the English Spectoda
-Creator Kit. It is read-only and intentionally contains synthetic public-safe
-fixture content plus one public MIT-licensed Event Player example. It is not a published GitHub Release and it must not be
-installed into a partner Organization until a Steward/Admin approves a release
-and the Documentation redistribution license is recorded.
+This directory is the immutable source snapshot of the public Spectoda Creator
+Kit prerelease. Download the packaged artifact from the matching
+`creator-kit-v0.1.0-rc.3` GitHub prerelease in `Spectoda/examples`.
 
-The bundle is generated from one exact source commit. Verify the version,
-`source-lock.json`, `checksums.sha256` and the bundle digest before use. Updates
-are exact-version and partner-approved. `stable-channel.json` is the v1
-read-only transport descriptor; its current state is `unpublished`.
+The bundle contains:
 
-The Documentation repository remains the private document authority. The
-copy-ready Event Player plugin under
-`examples/player-show-complete-cue-tracks/` is copied byte-for-byte from
-its canonical `Spectoda/examples` source at the locked commit. Partner-local product
-knowledge belongs in a separate sibling directory and is never overwritten by
-Creator Kit updates or rollback.
+- seven selected English Controller Config and Creator Kit documents;
+- the complete FW 0.12.11 Controller Config contract and JSON Schema under
+  `assets/docs/controller-config/0.12.11/`;
+- one copy-ready Event Player example under
+  `examples/player-show-complete-cue-tracks/`.
+
+Read `bundle.json`, `manifest.json`, `source-lock.json`, `licenses.json` and
+`checksums.sha256` before use. Documentation content is locked to
+`Spectoda/documentation@6f6051686fe556a85318c7dd529ac061ab48c38d`; the
+example is locked to
+`Spectoda/examples@667b238349cc635792f0e42130a08a4bde701fdf`. The firmware
+config assets identify their own exact `Spectoda/firmware` provenance.
+
+## Licensing
+
+The selected documentation and Controller Config data are available under
+CC BY 4.0; see `LICENSES/CC-BY-4.0.md` for attribution and scope. The bundled
+example is available under MIT; see `LICENSES/MIT.txt`. Spectoda names, logos
+and trademarks are not licensed by either content grant.
 
 ## Agent use
 
-Codex and Claude may search `manifest.json` and `indexes/` first, then cite the
-exact `documents/...` path. They must say when a fact is missing or stale,
-abstain on private partner-local questions and request a current source for
-time-sensitive information. The bundle has no write path to Documentation or
-to an Organization.
+Codex and Claude should search `indexes/` and `manifest.json`, then cite exact
+`documents/...`, `assets/...` or `examples/...` paths. The bundle is read-only
+and must not be used to infer partner-local networks, credentials or current
+installation state.
 
-For the firmware 0.12.11 Event Player setup, cite and follow
-`examples/player-show-complete-cue-tracks/README.md`. Add the accompanying
-`player.be` to each Controller Project; uploading Event Player files does
-not install the Project Berry plugin.
-
-## Supported transport
-
-v1 uses GitHub Releases plus a stable-channel descriptor. A native Lazurio
-installer is not part of this candidate. Do not invent Lazurio commands; the
-generic verified install/pin/update/rollback contract must be approved by the
-HumanAndMachines/Lazurio owner in a separate planning flow.
+The GitHub prerelease does not publish the stable channel.
+`stable-channel.json` deliberately remains `unpublished`; installing, updating
+or rolling back an exact bundle version still requires partner approval.
