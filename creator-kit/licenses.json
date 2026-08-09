@@ -1,10 +1,10 @@
 {
   "schemaVersion": "creator-kit-licenses.v1",
-  "publicationAllowed": false,
-  "realDocumentationExportAllowed": false,
-  "scope": "synthetic-fixture-and-public-examples",
+  "publicationAllowed": true,
+  "realDocumentationExportAllowed": true,
+  "scope": "licensed-documentation-with-public-examples",
   "entries": [
-    "spectoda-creator-kit-synthetic",
+    "CC-BY-4.0",
     "MIT"
   ]
 }

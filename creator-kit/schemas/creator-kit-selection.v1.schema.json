@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/selection.v1.json",
+  "title": "Spectoda Creator Kit export selection",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "failClosed",
+    "entries",
+    "rejectedCounts",
+    "assets",
+    "selectedExamples"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "creator-kit-selection.v1"
+    },
+    "failClosed": {
+      "const": true
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sourcePath",
+          "selected",
+          "reason"
+        ],
+        "properties": {
+          "sourcePath": {
+            "type": "string",
+            "pattern": "^[^/].*"
+          },
+          "selected": {
+            "const": true
+          },
+          "reason": {
+            "const": "explicit_agent_export"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "rejectedCounts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "role",
+          "sourcePath",
+          "bundlePath",
+          "sourceLock"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "controller-config-contract",
+              "controller-config-schema"
+            ]
+          },
+          "sourcePath": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bundlePath": {
+            "type": "string",
+            "pattern": "^assets/"
+          },
+          "sourceLock": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "selectedExamples": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "selectionSourcePath",
+          "source",
+          "files"
+        ],
+        "properties": {
+          "id": {
+            "const": "player-show-complete-cue-tracks"
+          },
+          "selectionSourcePath": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "required": [
+              "repository",
+              "commit"
+            ],
+            "properties": {
+              "repository": {
+                "const": "Spectoda/examples"
+              },
+              "commit": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{40}$"
+              }
+            },
+            "additionalProperties": false
+          },
+          "files": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

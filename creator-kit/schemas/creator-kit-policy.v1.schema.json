@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/policy.v1.json",
+  "title": "Spectoda Creator Kit export policy",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "bundleName",
+    "requiredLocale",
+    "publicationAllowed",
+    "realDocumentationExportAllowed",
+    "allowedAudiences",
+    "allowedLicenses",
+    "allowedSourceLocks",
+    "authorizedRealVersions",
+    "allowedAssets",
+    "maxBundleBytes",
+    "stableTransport"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-policy.v1" },
+    "bundleName": { "const": "Spectoda Creator Kit" },
+    "requiredLocale": { "const": "en" },
+    "publicationAllowed": { "type": "boolean" },
+    "realDocumentationExportAllowed": { "type": "boolean" },
+    "allowedAudiences": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "allowedLicenses": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "allowedSourceLocks": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "authorizedRealVersions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-[0-9A-Za-z.-]+$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "allowedAssets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "role",
+          "sourcePath",
+          "bundlePath",
+          "mediaType",
+          "license",
+          "sourceLock",
+          "publicDerivative",
+          "sourceSha256",
+          "firmwareVersion",
+          "upstreamRepository",
+          "upstreamCommit"
+        ],
+        "properties": {
+          "role": { "enum": ["controller-config-contract", "controller-config-schema"] },
+          "sourcePath": { "type": "string", "pattern": "^(?!/)(?!.*\\.\\.(?:/|$)).+\\.json$" },
+          "bundlePath": { "type": "string", "pattern": "^assets/(?!.*\\.\\.(?:/|$)).+\\.json$" },
+          "mediaType": { "enum": ["application/json", "application/schema+json"] },
+          "license": { "type": "string", "minLength": 1 },
+          "sourceLock": { "type": "string", "minLength": 1 },
+          "publicDerivative": { "const": true },
+          "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "firmwareVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+          "upstreamRepository": { "const": "Spectoda/firmware" },
+          "upstreamCommit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "maxBundleBytes": { "type": "integer", "exclusiveMinimum": 0 },
+    "stableTransport": { "const": "github-release-v1" }
+  },
+  "additionalProperties": false
+}

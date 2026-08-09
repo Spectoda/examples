@@ -356,9 +356,9 @@
         "agents"
       ],
       "dev_code": "DEV-6455",
-      "summary": "Generate a synthetic-fixture-only English Creator Kit candidate with exact source locks, manifests, indexes, checksums, compatibility, stable-channel and provenance contracts. Keep release, generated PR, partner mutation and Lazurio installation behind explicit human gates.",
+      "summary": "Publish the approved Creator Kit 0.1.0-rc.3 prerelease with seven CC BY 4.0 Documentation derivatives, the complete FW 0.12.11 config contract/schema and one MIT example. Keep the stable channel unpublished and partner mutation or Lazurio installation outside this release.",
       "risk_notes": [
-        "No real Documentation body may enter this public repo until the authorized redistribution license is recorded.",
+        "Only the exact licensed Documentation snapshot and allowlisted FW 0.12.11 assets may enter this public repository.",
         "The stable channel is intentionally unpublished and native Lazurio distribution is a separate dependency.",
         "Canonicalized from task-2026-08-07-6455-examples-candidate on 2026-08-09; no current Mission Control plan, workspace ledger or worktree reference remains."
       ],

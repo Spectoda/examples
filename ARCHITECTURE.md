@@ -57,19 +57,20 @@ replacement.
 
 ## Creator Kit release boundary
 
-`creator-kit/` is a generated, reviewable read-only distribution artifact. Its
-source fixture and builder are intentionally synthetic-only until the
-Documentation owner records a redistribution license. The private
-`documentation` module remains the authority for Markdown/MDX and the
-`agentExport` selection contract.
+`creator-kit/` is a generated, reviewable read-only public snapshot. The
+private `documentation` module remains authoritative for Markdown/MDX and the
+`agentExport` selection contract. A licensed export crosses into this public
+repository only as an immutable, checksum-locked, one-way derivative; Examples
+does not become an authoring backchannel for Documentation.
 
-The candidate includes a versioned bundle schema, manifest, source lock,
-license posture, compatibility contract, indexes, checksums and an
-`unpublished` stable-channel descriptor. `scripts/creator-kit/validate.mjs`
-checks public safety, links, hashes, size and the human-release gate. The
-release candidate script produces a deterministic tar and provenance file but
-does not publish a release, transfer public content or mutate a partner
-Organization.
+The `0.1.0-rc.3` snapshot includes seven CC BY 4.0 documents, two hash-locked
+FW 0.12.11 config assets and one MIT example. It carries the exact
+Documentation snapshot digest, Documentation/Firmware/Examples source commits,
+license posture, compatibility contract, indexes and checksums.
+`scripts/creator-kit/validate.mjs` checks public safety, links, hashes,
+provenance, size and the unpublished stable boundary. Public CI packages the
+already committed snapshot into a deterministic tar; only the protected
+workflow may publish that tar as a GitHub prerelease.
 
 The only v1 transport contract is GitHub Releases plus the stable descriptor.
 No embeddings, hosted dynamic RAG, central MCP gateway, writable

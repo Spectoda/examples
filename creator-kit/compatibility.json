@@ -8,7 +8,5 @@
     "claude"
   ],
   "transport": "github-release-v1",
-  "updatePolicy": "exact-version-partner-approved",
-  "firmware": "0.12.11",
-  "wasm": "DEBUG_UNIVERSAL_0.12.11_20260808"
+  "updatePolicy": "exact-version-partner-approved"
 }

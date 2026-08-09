@@ -8,9 +8,9 @@
       "abstained": false
     },
     {
-      "id": "bundle-scope",
-      "answer": "The fixture is a small creator workflow with no private Network state.",
-      "citations": ["documents/en/synthetic-creator.md"],
+      "id": "controller-config-source",
+      "answer": "The complete FW 0.12.11 keyword reference is included in the pinned Controller Config documentation.",
+      "citations": ["documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md"],
       "abstained": false
     },
     {

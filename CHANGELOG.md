@@ -2,6 +2,21 @@
 
 Date-based versions use `YYYYMMDD`.
 
+## 20260809
+
+### Added
+
+- Published the immutable Creator Kit `0.1.0-rc.3` source snapshot with seven
+  CC BY 4.0 Controller Config/Creator Kit documents, the complete FW 0.12.11
+  config contract plus JSON Schema, and one MIT Event Player example.
+
+### Changed
+
+- Release automation now publishes an explicit GitHub prerelease while the
+  stable-channel descriptor remains unpublished.
+- Public CI verifies Documentation, Firmware and Examples provenance plus all
+  bundle/archive checksums without requiring access to private Documentation.
+
 ## 20260808
 
 ### Changed

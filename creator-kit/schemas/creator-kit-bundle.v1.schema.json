@@ -3,24 +3,63 @@
   "$id": "https://schemas.spectoda.com/creator-kit/bundle.v1.json",
   "title": "Spectoda Creator Kit bundle",
   "type": "object",
-  "required": ["schemaVersion", "name", "version", "status", "locale", "contentScope", "sourceOfTruth", "transport"],
+  "required": [
+    "schemaVersion",
+    "name",
+    "version",
+    "status",
+    "locale",
+    "contentScope",
+    "sourceOfTruth",
+    "transport"
+  ],
   "properties": {
-    "schemaVersion": { "const": "creator-kit-bundle.v1" },
-    "name": { "const": "Spectoda Creator Kit" },
-    "version": { "type": "string" },
-    "status": { "enum": ["candidate", "released", "revoked"] },
-    "locale": { "const": "en" },
-    "contentScope": { "enum": ["synthetic-fixture-with-public-examples", "licensed-documentation"] },
+    "schemaVersion": {
+      "const": "creator-kit-bundle.v1"
+    },
+    "name": {
+      "const": "Spectoda Creator Kit"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$"
+    },
+    "status": {
+      "enum": [
+        "candidate",
+        "released",
+        "revoked"
+      ]
+    },
+    "locale": {
+      "const": "en"
+    },
+    "contentScope": {
+      "enum": [
+        "synthetic-fixture",
+        "licensed-documentation",
+        "licensed-documentation-with-public-examples"
+      ]
+    },
     "sourceOfTruth": {
+      "const": "Spectoda/documentation"
+    },
+    "transport": {
       "type": "object",
-      "required": ["documents", "examples"],
+      "required": [
+        "apiVersion",
+        "stableChannelDescriptor"
+      ],
       "properties": {
-        "documents": { "type": "string" },
-        "examples": { "const": "Spectoda/examples" }
+        "apiVersion": {
+          "const": "github-release-v1"
+        },
+        "stableChannelDescriptor": {
+          "const": "stable-channel.json"
+        }
       },
       "additionalProperties": false
-    },
-    "transport": { "type": "object" }
+    }
   },
   "additionalProperties": false
 }

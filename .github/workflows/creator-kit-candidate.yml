@@ -28,18 +28,12 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: oven-sh/setup-bun@v2
-      - name: Resolve the committed source lock
-        id: source
+      - run: bun run creator-kit:check
+      - name: Build the deterministic archive twice
         run: |
           set -euo pipefail
-          source_commit="$(jq -r .commit creator-kit/source-lock.json)"
-          [[ "$source_commit" =~ ^[a-f0-9]{40}$ ]]
-          git merge-base --is-ancestor "$source_commit" "$GITHUB_SHA"
-          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
-      - name: Rebuild the exact committed candidate
-        env:
-          SOURCE_COMMIT: ${{ steps.source.outputs.source_commit }}
-        run: bun run creator-kit:build -- --source-commit "$SOURCE_COMMIT"
-      - name: Verify committed candidate matches the generator
-        run: git diff --exit-code -- creator-kit
-      - run: bun run creator-kit:check
+          node scripts/creator-kit/build-release-candidate.mjs --release-dir .creator-kit-tmp/first --source-commit "$GITHUB_SHA"
+          node scripts/creator-kit/build-release-candidate.mjs --release-dir .creator-kit-tmp/second --source-commit "$GITHUB_SHA"
+          cmp .creator-kit-tmp/first/spectoda-creator-kit-0.1.0-rc.3.tar .creator-kit-tmp/second/spectoda-creator-kit-0.1.0-rc.3.tar
+          cmp .creator-kit-tmp/first/provenance.json .creator-kit-tmp/second/provenance.json
+          git diff --exit-code -- creator-kit

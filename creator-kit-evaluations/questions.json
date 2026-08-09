@@ -8,11 +8,11 @@
     }
   },
   {
-    "id": "bundle-scope",
-    "prompt": "What is the synthetic creator workflow fixture?",
+    "id": "controller-config-source",
+    "prompt": "Where can I find the complete FW 0.12.11 Controller Config keywords?",
     "expected": {
       "abstain": false,
-      "citation": "documents/en/synthetic-creator.md"
+      "citation": "documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md"
     }
   },
   {

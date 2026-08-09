@@ -1,34 +1,73 @@
 {
   "schemaVersion": "creator-kit-selection.v1",
   "failClosed": true,
-  "selectedDocuments": [
+  "entries": [
     {
-      "sourcePath": "en/synthetic-creator.md",
-      "agentExport": {
-        "include": true,
-        "audience": "partner-maker",
-        "license": "spectoda-creator-kit-synthetic",
-        "sourceLock": "synthetic-fixture-2026-08-07"
-      }
+      "sourcePath": "en/pro-vyrobce-a-tvurce/controller-config/ethernet.md",
+      "selected": true,
+      "reason": "explicit_agent_export"
     },
     {
-      "sourcePath": "en/synthetic-creator.mdx",
-      "agentExport": {
-        "include": true,
-        "audience": "partner-maker",
-        "license": "spectoda-creator-kit-synthetic",
-        "sourceLock": "synthetic-fixture-2026-08-07"
-      }
+      "sourcePath": "en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md",
+      "selected": true,
+      "reason": "explicit_agent_export"
+    },
+    {
+      "sourcePath": "en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md",
+      "selected": true,
+      "reason": "explicit_agent_export"
+    },
+    {
+      "sourcePath": "en/pro-vyrobce-a-tvurce/controller-config/index.md",
+      "selected": true,
+      "reason": "explicit_agent_export"
+    },
+    {
+      "sourcePath": "en/pro-vyrobce-a-tvurce/controller-config/io-type-dali.md",
+      "selected": true,
+      "reason": "explicit_agent_export"
+    },
+    {
+      "sourcePath": "en/pro-vyrobce-a-tvurce/controller-config/wasm-schema.md",
+      "selected": true,
+      "reason": "explicit_agent_export"
+    },
+    {
+      "sourcePath": "en/pro-vyrobce-a-tvurce/spectoda-creator-kit.md",
+      "selected": true,
+      "reason": "explicit_agent_export"
+    }
+  ],
+  "rejectedCounts": {
+    "locale_not_allowed": 134,
+    "no_explicit_agent_export": 126
+  },
+  "assets": [
+    {
+      "role": "controller-config-contract",
+      "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.contract.json",
+      "bundlePath": "assets/docs/controller-config/0.12.11/controller-config.contract.json",
+      "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11"
+    },
+    {
+      "role": "controller-config-schema",
+      "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.schema.json",
+      "bundlePath": "assets/docs/controller-config/0.12.11/controller-config.schema.json",
+      "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11"
     }
   ],
   "selectedExamples": [
     {
       "id": "player-show-complete-cue-tracks",
       "selectionSourcePath": "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json",
+      "source": {
+        "repository": "Spectoda/examples",
+        "commit": "667b238349cc635792f0e42130a08a4bde701fdf"
+      },
       "files": [
+        "data/v2/examples/player-show-complete-cue-tracks/README.md",
         "data/v2/examples/player-show-complete-cue-tracks/example.yaml",
-        "data/v2/examples/player-show-complete-cue-tracks/player.be",
-        "data/v2/examples/player-show-complete-cue-tracks/README.md"
+        "data/v2/examples/player-show-complete-cue-tracks/player.be"
       ]
     }
   ]

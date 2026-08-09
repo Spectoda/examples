@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.spectoda.com/creator-kit/stable-channel.v1.json",
+  "title": "Spectoda Creator Kit stable channel descriptor",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "name",
+    "channel",
+    "state",
+    "version",
+    "digest",
+    "releaseUrl",
+    "requiredHumanApproval",
+    "updatePolicy",
+    "rollback"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "creator-kit-stable-channel.v1" },
+    "name": { "const": "Spectoda Creator Kit" },
+    "channel": { "const": "stable" },
+    "state": { "enum": ["unpublished", "published", "revoked"] },
+    "version": { "type": ["string", "null"] },
+    "digest": { "type": ["string", "null"] },
+    "releaseUrl": { "type": ["string", "null"] },
+    "requiredHumanApproval": { "const": true },
+    "updatePolicy": { "const": "exact-version-partner-approved" },
+    "rollback": {
+      "type": "object",
+      "required": ["supported", "requiresPartnerApproval"],
+      "properties": {
+        "supported": { "const": true },
+        "requiresPartnerApproval": { "const": true }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
