@@ -3,7 +3,7 @@ import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export const BUNDLE_NAME = "Spectoda Creator Kit";
-export const BUNDLE_VERSION = "0.1.0-rc.3";
+export const BUNDLE_VERSION = "0.1.0-rc.4";
 export const EXPORTER_VERSION = "examples-creator-kit-packager/1.1.0";
 
 export const sha256 = (value) => createHash("sha256").update(value).digest("hex");

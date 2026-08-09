@@ -1,6 +1,7 @@
-# Spectoda Creator Kit 0.1.0-rc.3 public prerelease
+# Spectoda Creator Kit 0.1.0-rc.4 public prerelease
 
-This is the first public, downloadable Spectoda Creator Kit prerelease.
+This candidate updates the public Creator Kit with the final FW 0.12.11 sparse
+global Event Player and its final WASM compatibility pin.
 
 It includes the complete documented FW 0.12.11 Controller Config surface,
 machine-readable contract and JSON Schema, plus the MIT-licensed Event Player

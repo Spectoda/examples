@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "spectoda.player-show-fixture.v3",
+  "description": "Synthetic global sparse Cue Groups across ID1, ID2 and global ID255.",
+  "files": [
+    {
+      "name": "player.show",
+      "version": "0198a1b2d100",
+      "hex": "53504d030c000200a0860100d4c3b2a198010000000001d0b2a1980100000100"
+    },
+    {
+      "name": "player.000",
+      "version": "0198a1b2c3d4",
+      "hex": "534542010c00070088130c003f221100d2c33c03000001000b000000cc713c14000001003f0000ffd2c33c030000ff000b105e5fcc713c14e803010014000000c8914802e80302003fff0000d2c33c03881301003f00ff00d2c33c038813ff00"
+    },
+    {
+      "name": "player.001",
+      "version": "0198a1b2d001",
+      "hex": "534542010c00020070110c000b000000cc713c147011010028000000c891480270110200"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import { BUNDLE_VERSION, bundleFiles, relativePosix, sha256, verifyChecksums } f
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const DEFAULT_BUNDLE = path.join(ROOT, "creator-kit");
+const EXAMPLE_ID = "player-show-global-sparse-cues";
 const DOCUMENTATION_COMMIT = "6f6051686fe556a85318c7dd529ac061ab48c38d";
 const DOCUMENTATION_CHECKSUM_DIGEST = "d4e2958303e3fd34dcb5e5c50a8a5c6a0266068ec2f15d88406a2a33bcb1f054";
 const EXAMPLES_COMMIT = "667b238349cc635792f0e42130a08a4bde701fdf";
@@ -43,9 +44,9 @@ const EXPECTED_ASSETS = [
   },
 ];
 const EXPECTED_EXAMPLE_FILES = [
-  "examples/player-show-complete-cue-tracks/README.md",
-  "examples/player-show-complete-cue-tracks/example.yaml",
-  "examples/player-show-complete-cue-tracks/player.be",
+  `examples/${EXAMPLE_ID}/README.md`,
+  `examples/${EXAMPLE_ID}/example.yaml`,
+  `examples/${EXAMPLE_ID}/player.be`,
 ];
 const EXPECTED_SCHEMAS = [
   "creator-kit-bundle.v1.schema.json",
@@ -322,7 +323,7 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
 
   check(manifest.examples?.length === 1, "Creator Kit must contain exactly one reviewed public example");
   const example = manifest.examples[0];
-  check(example.id === "player-show-complete-cue-tracks" && example.license === "MIT", "Event Player example identity/license is invalid");
+  check(example.id === EXAMPLE_ID && example.license === "MIT", "Event Player example identity/license is invalid");
   check(example.source?.repository === "Spectoda/examples" && example.source.commit === EXAMPLES_COMMIT, "Event Player source commit is invalid");
   check(example.compatibility?.firmware === "0.12.11", "Event Player firmware compatibility is invalid");
   check(JSON.stringify(example.files.map((file) => file.path).sort()) === JSON.stringify([...EXPECTED_EXAMPLE_FILES].sort()), "Event Player file selection is invalid");
@@ -337,14 +338,15 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     const lock = exampleLocks.get(file.sourcePath);
     check(lock?.role === "file" && lock.bundlePath === file.path && lock.bundleSha256 === file.sha256 && lock.license === "MIT", `${file.sourcePath} source lock is invalid`);
   }
-  const selectionPath = "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json";
+  const selectionPath = `data/v2/examples/${EXAMPLE_ID}/creator-kit.json`;
   const selectionLock = exampleLocks.get(selectionPath);
   check(selectionLock?.role === "selection" && selectionLock.bundlePath === null && selectionLock.license === "MIT", "Event Player selection lock is invalid");
   check(selectionLock.sourceSha256 === sha256(gitBytes(EXAMPLES_COMMIT, selectionPath)), "Event Player selection hash is invalid");
   check(selection.selectedExamples?.[0]?.source?.commit === EXAMPLES_COMMIT, "Event Player selection provenance is invalid");
 
-  const plugin = await readFile(path.join(root, "examples/player-show-complete-cue-tracks/player.be"), "utf8");
+  const plugin = await readFile(path.join(root, `examples/${EXAMPLE_ID}/player.be`), "utf8");
   check(plugin.includes("timeline.at") && !plugin.includes("timeline.toMillis"), "Event Player plugin does not use the reviewed timeline.at API");
+  check(plugin.includes('"source":"networkStorage"') && !plugin.includes('find("ids"'), "Event Player plugin must land the global stream without local ID selection");
   check((await readFile(path.join(root, "LICENSES/MIT.txt"))).equals(await readFile(path.join(ROOT, "LICENSE"))), "Bundled MIT license differs from the repository license");
   const ccLicense = await readFile(path.join(root, "LICENSES/CC-BY-4.0.md"), "utf8");
   check(ccLicense.includes("https://creativecommons.org/licenses/by/4.0/") && /trademarks are\s+not licensed/iu.test(ccLicense), "CC BY 4.0 attribution/trademark notice is incomplete");

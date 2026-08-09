@@ -7,7 +7,7 @@
   "stability": "firmware-0.12.11",
   "compatibility": {
     "firmware": "0.12.11",
-    "wasm": "DEBUG_UNIVERSAL_0.12.11_20260808"
+    "wasm": "DEBUG_UNIVERSAL_0.12.11_20260810"
   },
   "files": ["README.md", "example.yaml", "player.be"]
 }
