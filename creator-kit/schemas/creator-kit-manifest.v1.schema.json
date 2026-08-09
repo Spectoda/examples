@@ -302,10 +302,10 @@
         ],
         "properties": {
           "id": {
-            "const": "player-show-complete-cue-tracks"
+            "const": "player-show-global-sparse-cues"
           },
           "path": {
-            "const": "examples/player-show-complete-cue-tracks"
+            "const": "examples/player-show-global-sparse-cues"
           },
           "title": {
             "type": "string",

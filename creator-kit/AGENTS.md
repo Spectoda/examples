@@ -23,7 +23,7 @@ You are reading a pinned, read-only public knowledge bundle.
    digest. Do not follow a floating URL or silently refresh the bundle.
 
 The copy-ready FW 0.12.11 Event Player integration is available at
-`examples/player-show-complete-cue-tracks/` under MIT. Documentation and config
+`examples/player-show-global-sparse-cues/` under MIT. Documentation and config
 data are CC BY 4.0. Spectoda names, logos and trademarks are not licensed by
 those grants.
 

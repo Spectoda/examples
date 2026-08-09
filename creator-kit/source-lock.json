@@ -105,50 +105,50 @@
   "examples": [
     {
       "role": "selection",
-      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/creator-kit.json",
+      "sourcePath": "data/v2/examples/player-show-global-sparse-cues/creator-kit.json",
       "bundlePath": null,
-      "sourceSha256": "a8880a88792be687f233f0cab0fc345a2f834055c682ff09182034d3eef08859",
-      "bundleSha256": "a8880a88792be687f233f0cab0fc345a2f834055c682ff09182034d3eef08859",
+      "sourceSha256": "c1ee45998e2d1169f33fecb8acc5d07d8d985467c0995107e218782c63c4a891",
+      "bundleSha256": "c1ee45998e2d1169f33fecb8acc5d07d8d985467c0995107e218782c63c4a891",
       "license": "MIT",
       "source": {
         "repository": "Spectoda/examples",
-        "commit": "667b238349cc635792f0e42130a08a4bde701fdf"
+        "commit": "e4be6dd07814c1dc8816ffc0e4ea518532e411ec"
       }
     },
     {
       "role": "file",
-      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/README.md",
-      "bundlePath": "examples/player-show-complete-cue-tracks/README.md",
-      "sourceSha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de",
-      "bundleSha256": "af580f8f045e1133773f57a8d24d17a2b4072eca8c3d9cf2d1c515146d0321de",
+      "sourcePath": "data/v2/examples/player-show-global-sparse-cues/README.md",
+      "bundlePath": "examples/player-show-global-sparse-cues/README.md",
+      "sourceSha256": "35fa413fe0f59efc4a0f5689986d981bd0f739048d8183dd88dda7f3336a4803",
+      "bundleSha256": "35fa413fe0f59efc4a0f5689986d981bd0f739048d8183dd88dda7f3336a4803",
       "license": "MIT",
       "source": {
         "repository": "Spectoda/examples",
-        "commit": "667b238349cc635792f0e42130a08a4bde701fdf"
+        "commit": "e4be6dd07814c1dc8816ffc0e4ea518532e411ec"
       }
     },
     {
       "role": "file",
-      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/example.yaml",
-      "bundlePath": "examples/player-show-complete-cue-tracks/example.yaml",
-      "sourceSha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d",
-      "bundleSha256": "458b574c6fd6e8cd1e515382f35a6bf20d180541a9c2e69d83c3b084d85e9c8d",
+      "sourcePath": "data/v2/examples/player-show-global-sparse-cues/example.yaml",
+      "bundlePath": "examples/player-show-global-sparse-cues/example.yaml",
+      "sourceSha256": "3297ca221e2057b9e3d94d46eea55ec6971ff8587246b21a33373b43fe4650e9",
+      "bundleSha256": "3297ca221e2057b9e3d94d46eea55ec6971ff8587246b21a33373b43fe4650e9",
       "license": "MIT",
       "source": {
         "repository": "Spectoda/examples",
-        "commit": "667b238349cc635792f0e42130a08a4bde701fdf"
+        "commit": "e4be6dd07814c1dc8816ffc0e4ea518532e411ec"
       }
     },
     {
       "role": "file",
-      "sourcePath": "data/v2/examples/player-show-complete-cue-tracks/player.be",
-      "bundlePath": "examples/player-show-complete-cue-tracks/player.be",
-      "sourceSha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948",
-      "bundleSha256": "a537ea02342dc335f4d5b7b478a1217b6d35ca72ad6aeff638e46aa105e44948",
+      "sourcePath": "data/v2/examples/player-show-global-sparse-cues/player.be",
+      "bundlePath": "examples/player-show-global-sparse-cues/player.be",
+      "sourceSha256": "2d144a4e77d7fc6f4e6253fcd22cb9a6ec89bf3d7c9485269d0de42ce8ef3024",
+      "bundleSha256": "2d144a4e77d7fc6f4e6253fcd22cb9a6ec89bf3d7c9485269d0de42ce8ef3024",
       "license": "MIT",
       "source": {
         "repository": "Spectoda/examples",
-        "commit": "667b238349cc635792f0e42130a08a4bde701fdf"
+        "commit": "e4be6dd07814c1dc8816ffc0e4ea518532e411ec"
       }
     }
   ]
