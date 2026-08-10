@@ -11,6 +11,9 @@ Date-based versions use `YYYYMMDD`.
 
 ### Changed
 
+- Hardened Creator Kit publication validation across every bundled Markdown/
+  MDX file and recursively decoded JSON content, including nested credential
+  keys and JSON-escaped private URLs.
 - Simplified the Event Player to one global mixed-ID stream. Tracks remain
   per-ID authoring lanes while sparse Cues contain only the Event values
   selected for that moment.
