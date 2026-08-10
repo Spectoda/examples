@@ -105,7 +105,7 @@ test("rejects credential assignments and bare non-public URLs after valid rehash
     const linkBundle = path.join(root, "link");
     await cp(BUNDLE_ROOT, linkBundle, { recursive: true });
     await replaceDocumentAndRehash(linkBundle, "# Unsafe\n\nVisit https://service.internal/private for details.\n");
-    await assert.rejects(validateBundle(linkBundle), /non-public HTTPS link/u);
+    await assert.rejects(validateBundle(linkBundle), /private or unsupported URL/u);
 
     const metadataBundle = path.join(root, "metadata");
     await cp(BUNDLE_ROOT, metadataBundle, { recursive: true });
@@ -114,7 +114,7 @@ test("rejects credential assignments and bare non-public URLs after valid rehash
     manifest.documents[0].title = "token: abcdefghijklmnopqrstuvwxyz";
     await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
     await writeFile(path.join(metadataBundle, "checksums.sha256"), await createChecksums(metadataBundle), "utf8");
-    await assert.rejects(validateBundle(metadataBundle), /metadata failed public-safety validation/u);
+    await assert.rejects(validateBundle(metadataBundle), /public-safety validation/u);
 
     const executableBundle = path.join(root, "executable");
     await cp(BUNDLE_ROOT, executableBundle, { recursive: true });
@@ -143,6 +143,66 @@ test("rejects credential assignments and bare non-public URLs after valid rehash
     await writeFile(path.join(releaseNotesBundle, "RELEASE_NOTES.md"), "Public prerelease: https://release.internal/secret\n", "utf8");
     await writeFile(path.join(releaseNotesBundle, "checksums.sha256"), await createChecksums(releaseNotesBundle), "utf8");
     await assert.rejects(validateBundle(releaseNotesBundle), /private or unsupported URL/u);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("rejects executable public Markdown and decoded JSON safety bypasses after rehashing", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-decoded-safety-"));
+  try {
+    const readmeBundle = path.join(root, "root-readme-executable");
+    await cp(BUNDLE_ROOT, readmeBundle, { recursive: true });
+    await writeFile(path.join(readmeBundle, "README.md"), "# Unsafe\n\n<script>alert(1)</script>\n", "utf8");
+    await writeFile(path.join(readmeBundle, "checksums.sha256"), await createChecksums(readmeBundle), "utf8");
+    await assert.rejects(validateBundle(readmeBundle), /executable Markdown\/MDX content/u);
+
+    const exampleReadmeBundle = path.join(root, "example-readme-executable");
+    await cp(BUNDLE_ROOT, exampleReadmeBundle, { recursive: true });
+    await writeFile(
+      path.join(exampleReadmeBundle, `examples/player-show-global-sparse-cues/README.md`),
+      "# Unsafe\n\n<iframe src=\"https://example.com\"></iframe>\n",
+      "utf8",
+    );
+    await writeFile(path.join(exampleReadmeBundle, "checksums.sha256"), await createChecksums(exampleReadmeBundle), "utf8");
+    await assert.rejects(validateBundle(exampleReadmeBundle), /executable Markdown\/MDX content/u);
+
+    const escapedUrlBundle = path.join(root, "escaped-private-url");
+    await cp(BUNDLE_ROOT, escapedUrlBundle, { recursive: true });
+    const urlSchemaPath = path.join(escapedUrlBundle, "schemas/creator-kit-policy.v1.schema.json");
+    const urlSchema = JSON.parse(await readFile(urlSchemaPath, "utf8"));
+    urlSchema.$id = "https://127.0.0.1/private-policy";
+    await writeFile(urlSchemaPath, `${JSON.stringify(urlSchema, null, 2).replaceAll("/", "\\/")}\n`, "utf8");
+    await writeFile(path.join(escapedUrlBundle, "checksums.sha256"), await createChecksums(escapedUrlBundle), "utf8");
+    await assert.rejects(validateBundle(escapedUrlBundle), /private or unsupported URL after JSON decoding/u);
+
+    const escapedCredentialBundle = path.join(root, "escaped-credential");
+    await cp(BUNDLE_ROOT, escapedCredentialBundle, { recursive: true });
+    const credentialSchemaPath = path.join(escapedCredentialBundle, "schemas/creator-kit-policy.v1.schema.json");
+    const credentialSchema = JSON.parse(await readFile(credentialSchemaPath, "utf8"));
+    credentialSchema.$comment = "token: abcdefghijklmnopqrstuvwxyz";
+    const encodedCredentialSchema = JSON.stringify(credentialSchema, null, 2).replace("token:", "\\u0074oken:");
+    await writeFile(credentialSchemaPath, `${encodedCredentialSchema}\n`, "utf8");
+    await writeFile(path.join(escapedCredentialBundle, "checksums.sha256"), await createChecksums(escapedCredentialBundle), "utf8");
+    await assert.rejects(validateBundle(escapedCredentialBundle), /public-safety validation after JSON decoding/u);
+
+    const credentialArrayBundle = path.join(root, "credential-array");
+    await cp(BUNDLE_ROOT, credentialArrayBundle, { recursive: true });
+    const credentialArraySchemaPath = path.join(credentialArrayBundle, "schemas/creator-kit-policy.v1.schema.json");
+    const credentialArraySchema = JSON.parse(await readFile(credentialArraySchemaPath, "utf8"));
+    credentialArraySchema.token = ["abcdefghijklmnopqrstuvwxyz"];
+    await writeFile(credentialArraySchemaPath, `${JSON.stringify(credentialArraySchema, null, 2)}\n`, "utf8");
+    await writeFile(path.join(credentialArrayBundle, "checksums.sha256"), await createChecksums(credentialArrayBundle), "utf8");
+    await assert.rejects(validateBundle(credentialArrayBundle), /public-safety validation after JSON decoding/u);
+
+    const nestedCredentialBundle = path.join(root, "nested-credential");
+    await cp(BUNDLE_ROOT, nestedCredentialBundle, { recursive: true });
+    const nestedCredentialSchemaPath = path.join(nestedCredentialBundle, "schemas/creator-kit-policy.v1.schema.json");
+    const nestedCredentialSchema = JSON.parse(await readFile(nestedCredentialSchemaPath, "utf8"));
+    nestedCredentialSchema.token = { examples: ["abcdefghijklmnopqrstuvwxyz"] };
+    await writeFile(nestedCredentialSchemaPath, `${JSON.stringify(nestedCredentialSchema, null, 2)}\n`, "utf8");
+    await writeFile(path.join(nestedCredentialBundle, "checksums.sha256"), await createChecksums(nestedCredentialBundle), "utf8");
+    await assert.rejects(validateBundle(nestedCredentialBundle), /public-safety validation after JSON decoding/u);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

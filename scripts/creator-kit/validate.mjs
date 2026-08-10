@@ -158,6 +158,44 @@ function executableContentFinding(content, sourcePath) {
   return null;
 }
 
+function* decodedJsonSafetyContent(value, propertyNames = []) {
+  if (typeof value === "string") {
+    yield value;
+    for (const propertyName of propertyNames) yield `${propertyName}: ${value}`;
+    return;
+  }
+  if (Array.isArray(value)) {
+    for (const entry of value) yield* decodedJsonSafetyContent(entry, propertyNames);
+    return;
+  }
+  if (value && typeof value === "object") {
+    for (const [key, entry] of Object.entries(value)) {
+      yield key;
+      yield* decodedJsonSafetyContent(entry, [...propertyNames, key]);
+    }
+  }
+}
+
+function validatePublicBundleFile(relative, content) {
+  check(!publicSafetyFinding(content), `${relative} failed whole-bundle public-safety validation`);
+  check(!privateUrlFinding(content), `${relative} contains a private or unsupported URL`);
+  if (/\.(?:md|mdx)$/iu.test(relative)) {
+    check(!executableContentFinding(content, relative), `${relative} contains executable Markdown/MDX content`);
+  }
+  if (relative.endsWith(".json")) {
+    let value;
+    try {
+      value = JSON.parse(content);
+    } catch {
+      throw new Error(`${relative} contains invalid JSON`);
+    }
+    for (const decoded of decodedJsonSafetyContent(value)) {
+      check(!publicSafetyFinding(decoded), `${relative} failed whole-bundle public-safety validation after JSON decoding`);
+      check(!privateUrlFinding(decoded), `${relative} contains a private or unsupported URL after JSON decoding`);
+    }
+  }
+}
+
 function findLinks(content) {
   content = outsideCodeContent(content);
   const links = [];
@@ -245,6 +283,12 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     "indexes/documents.json", "indexes/terms.json", "LICENSES/CC-BY-4.0.md", "LICENSES/MIT.txt",
   ];
   for (const relative of required) check(await exists(path.join(root, relative)), `Missing bundle file ${relative}`);
+
+  const files = await bundleFiles(root);
+  const actualFiles = [...files.map((file) => relativePosix(root, file)), "checksums.sha256"].sort();
+  for (const relative of actualFiles) {
+    validatePublicBundleFile(relative, await readFile(path.join(root, relative), "utf8"));
+  }
 
   const bundle = await readJson(path.join(root, "bundle.json"));
   const manifest = await readJson(path.join(root, "manifest.json"));
@@ -364,8 +408,6 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   check(ccLicense.includes("https://creativecommons.org/licenses/by/4.0/") && /trademarks are\s+not licensed/iu.test(ccLicense), "CC BY 4.0 attribution/trademark notice is incomplete");
   check(/public prerelease/iu.test(await readFile(path.join(root, "RELEASE_NOTES.md"), "utf8")), "Release notes do not describe the public prerelease");
 
-  const files = await bundleFiles(root);
-  const actualFiles = [...files.map((file) => relativePosix(root, file)), "checksums.sha256"].sort();
   const expectedFiles = [
     ...required,
     ...manifest.documents.map((document) => document.path),
@@ -377,11 +419,6 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     new Set(expectedFiles).size === expectedFiles.length && JSON.stringify(actualFiles) === JSON.stringify(expectedFiles.sort()),
     "Creator Kit contains an unmanifested or missing file",
   );
-  for (const relative of actualFiles) {
-    const content = await readFile(path.join(root, relative), "utf8");
-    check(!publicSafetyFinding(content), `${relative} failed whole-bundle public-safety validation`);
-    check(!privateUrlFinding(content), `${relative} contains a private or unsupported URL`);
-  }
   const checksums = await verifyChecksums(root);
   const totalBytes = (await Promise.all(files.map(async (file) => (await stat(file)).size))).reduce((sum, size) => sum + size, 0);
   check(totalBytes <= 8 * 1024 * 1024, `Creator Kit is larger than 8 MiB: ${totalBytes}`);
