@@ -56,8 +56,8 @@ customer-specific data that is not meant to be public.
 
 ## Spectoda Creator Kit public prerelease
 
-`creator-kit/` is the review candidate for the public English Spectoda Creator
-Kit `0.1.0-rc.4` prerelease. It contains the complete selected
+`creator-kit/` is the immutable review candidate for the public English
+Spectoda Creator Kit `0.1.0-rc.4` prerelease. It contains the complete selected
 FW 0.12.11 Controller Config documentation and machine-readable config
 contract/schema under CC BY 4.0, plus one MIT-licensed Event Player example.
 Documentation remains the private authoring source of truth; this repository

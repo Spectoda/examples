@@ -148,7 +148,8 @@
           "publicDerivative",
           "firmwareVersion",
           "upstreamRepository",
-          "upstreamCommit"
+          "upstreamCommit",
+          "upstreamRevisionCommit"
         ],
         "properties": {
           "role": {
@@ -192,6 +193,10 @@
             "const": "Spectoda/firmware"
           },
           "upstreamCommit": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          },
+          "upstreamRevisionCommit": {
             "type": "string",
             "pattern": "^[a-f0-9]{40}$"
           }

@@ -34,6 +34,7 @@ jobs:
           set -euo pipefail
           node scripts/creator-kit/build-release-candidate.mjs --release-dir .creator-kit-tmp/first --source-commit "$GITHUB_SHA"
           node scripts/creator-kit/build-release-candidate.mjs --release-dir .creator-kit-tmp/second --source-commit "$GITHUB_SHA"
-          cmp .creator-kit-tmp/first/spectoda-creator-kit-0.1.0-rc.4.tar .creator-kit-tmp/second/spectoda-creator-kit-0.1.0-rc.4.tar
+          candidate_version="$(jq -r .version creator-kit/bundle.json)"
+          cmp ".creator-kit-tmp/first/spectoda-creator-kit-${candidate_version}.tar" ".creator-kit-tmp/second/spectoda-creator-kit-${candidate_version}.tar"
           cmp .creator-kit-tmp/first/provenance.json .creator-kit-tmp/second/provenance.json
           git diff --exit-code -- creator-kit

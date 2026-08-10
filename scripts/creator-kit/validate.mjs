@@ -9,10 +9,11 @@ import { BUNDLE_VERSION, bundleFiles, relativePosix, sha256, verifyChecksums } f
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const DEFAULT_BUNDLE = path.join(ROOT, "creator-kit");
 const EXAMPLE_ID = "player-show-global-sparse-cues";
-const DOCUMENTATION_COMMIT = "6f6051686fe556a85318c7dd529ac061ab48c38d";
-const DOCUMENTATION_CHECKSUM_DIGEST = "d4e2958303e3fd34dcb5e5c50a8a5c6a0266068ec2f15d88406a2a33bcb1f054";
-const EXAMPLES_COMMIT = "e4be6dd07814c1dc8816ffc0e4ea518532e411ec";
+const DOCUMENTATION_COMMIT = "08cb4e5f8155178c18a86edd4a515f7d6c8fb835";
+const DOCUMENTATION_CHECKSUM_DIGEST = "155ce7c6a14581672e4a83f981a4e08e78e98c31b26c2f9c7f6bdfc2a331ed31";
+const EXAMPLES_COMMIT = "97fd90afbc9839830b3dc7f73df36f385f66564d";
 const FIRMWARE_COMMIT = "51a8d6337d968b47f563bf2decb8f7404d93c27a";
+const FIRMWARE_REVISION_COMMIT = "f1c48452350413166dd19d28d5aaf9b9a89152d5";
 const EXPECTED_DOCUMENTS = [
   "en/pro-vyrobce-a-tvurce/controller-config/ethernet.md",
   "en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md",
@@ -24,23 +25,23 @@ const EXPECTED_DOCUMENTS = [
 ];
 const EXPECTED_DOCUMENT_HASHES = new Map([
   ["en/pro-vyrobce-a-tvurce/controller-config/ethernet.md", { normalized: "d6441fd0b663b8f77cf9c6acee73dd4d475cbcb1abf1f56118f67ff5294b1e1b", source: "1ada69f668140b497925ca13f7000f94800a967b896d6bcf17e69033a2bb4152" }],
-  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md", { normalized: "c392c1c2289eeaad6b0f3e0c77ea821ea455ee9c688b893adb8204e4523c61a0", source: "5caf1cd413f1fc0f6809f593f29ffb0ecd14839f60e26cadf113480e03f1f826" }],
-  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md", { normalized: "acc885a529f405ac2047fadbb0de9b431f5ab841677f3b47f83db5c354d4ba0e", source: "23be2a096a1aedbb233cddb0700e21a1fcfe3d6746124c705fd05abb30cfb47f" }],
+  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md", { normalized: "8bd0702d439b573fea4c89d4af3c2a2109e09586dd0e738eefd4c693c8e04780", source: "0c3fcbb0a1047e5e2931a801c9e9d0f07c8b81a8fd6fcb30df19fc9ed8b44e9a" }],
+  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md", { normalized: "3006cd6917a01761a60b8b26e04367b9a36e1dd39b1889c7c57a4bd3aadf0f9a", source: "20171c17728142cfb9b754c06f7b279e54cd717124e22db83c2335759833904e" }],
   ["en/pro-vyrobce-a-tvurce/controller-config/index.md", { normalized: "3655bdaac1de00eed7d21b28a00a452aa7163abfe620c477ff021dfdd738d48c", source: "1e51564d970ed526a1c01dfa2e9445d46090cf13e99e8ae409ca47d7efcc01d4" }],
   ["en/pro-vyrobce-a-tvurce/controller-config/io-type-dali.md", { normalized: "e29e767380b857be6295bef82fc4878f005a025b3ec9d537de427e1b06c98ec3", source: "fe41a923e09eb0b5a7466b6a8b2226d3bdcad1357286ffc6188491905e2eddec" }],
   ["en/pro-vyrobce-a-tvurce/controller-config/wasm-schema.md", { normalized: "7b97193f4ce1f58c46e2e1eb6e5d9eb929747e2326844c8e19b9a8d5c79390b3", source: "de03ed774fa7ac3f0c820593f10f489435f2293a10fbc02b092cfe825f997668" }],
-  ["en/pro-vyrobce-a-tvurce/spectoda-creator-kit.md", { normalized: "9f14dd2893688637f440a16432f947609d68267549288f6c96be354ce4c7a7fd", source: "834752ec0bc4fc8f739c00cbbd56f82a790ea8ecabacf890d5358841f78e7809" }],
+  ["en/pro-vyrobce-a-tvurce/spectoda-creator-kit.md", { normalized: "780a43eea5a64b8d5ba72637ed7260a8fb07b89fae4ad34ed54f57bd772ec8df", source: "acedc127c99c862153cd4ba4edccf867cf919bef6d270a3c8055bb775573467c" }],
 ]);
 const EXPECTED_ASSETS = [
   {
     role: "controller-config-contract",
     path: "assets/docs/controller-config/0.12.11/controller-config.contract.json",
-    sha256: "760cbcde5038f98bae60aea96f6f36f2b4b01aae04c33571b26cfbe2fcd1b38f",
+    sha256: "a2f6fc92495902723a89f89d223e5bf61e4c5ad704b3909aee0cee9d342c6f0b",
   },
   {
     role: "controller-config-schema",
     path: "assets/docs/controller-config/0.12.11/controller-config.schema.json",
-    sha256: "d9ee689ad41bb0b845070d77dfe6eb061976f9e077c293a730e5f520ea8f037c",
+    sha256: "be1d8dad5262ecfa22f8b4415b4bffce6a897a0cc315d5975811f66cd521594b",
   },
 ];
 const EXPECTED_EXAMPLE_FILES = [
@@ -157,6 +158,44 @@ function executableContentFinding(content, sourcePath) {
   return null;
 }
 
+function* decodedJsonSafetyContent(value, propertyNames = []) {
+  if (typeof value === "string") {
+    yield value;
+    for (const propertyName of propertyNames) yield `${propertyName}: ${value}`;
+    return;
+  }
+  if (Array.isArray(value)) {
+    for (const entry of value) yield* decodedJsonSafetyContent(entry, propertyNames);
+    return;
+  }
+  if (value && typeof value === "object") {
+    for (const [key, entry] of Object.entries(value)) {
+      yield key;
+      yield* decodedJsonSafetyContent(entry, [...propertyNames, key]);
+    }
+  }
+}
+
+function validatePublicBundleFile(relative, content) {
+  check(!publicSafetyFinding(content), `${relative} failed whole-bundle public-safety validation`);
+  check(!privateUrlFinding(content), `${relative} contains a private or unsupported URL`);
+  if (/\.(?:md|mdx)$/iu.test(relative)) {
+    check(!executableContentFinding(content, relative), `${relative} contains executable Markdown/MDX content`);
+  }
+  if (relative.endsWith(".json")) {
+    let value;
+    try {
+      value = JSON.parse(content);
+    } catch {
+      throw new Error(`${relative} contains invalid JSON`);
+    }
+    for (const decoded of decodedJsonSafetyContent(value)) {
+      check(!publicSafetyFinding(decoded), `${relative} failed whole-bundle public-safety validation after JSON decoding`);
+      check(!privateUrlFinding(decoded), `${relative} contains a private or unsupported URL after JSON decoding`);
+    }
+  }
+}
+
 function findLinks(content) {
   content = outsideCodeContent(content);
   const links = [];
@@ -245,6 +284,12 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   ];
   for (const relative of required) check(await exists(path.join(root, relative)), `Missing bundle file ${relative}`);
 
+  const files = await bundleFiles(root);
+  const actualFiles = [...files.map((file) => relativePosix(root, file)), "checksums.sha256"].sort();
+  for (const relative of actualFiles) {
+    validatePublicBundleFile(relative, await readFile(path.join(root, relative), "utf8"));
+  }
+
   const bundle = await readJson(path.join(root, "bundle.json"));
   const manifest = await readJson(path.join(root, "manifest.json"));
   const sourceLock = await readJson(path.join(root, "source-lock.json"));
@@ -304,11 +349,22 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     const asset = manifest.assets.find((entry) => entry.role === expected.role);
     check(asset?.path === expected.path && asset.sha256 === expected.sha256 && asset.sourceSha256 === expected.sha256, `${expected.role} manifest entry is invalid`);
     check(asset.license === "CC-BY-4.0" && asset.publicDerivative === true && asset.firmwareVersion === "0.12.11", `${expected.role} license/firmware metadata is invalid`);
-    check(asset.upstreamSource?.repository === "Spectoda/firmware" && asset.upstreamSource.commit === FIRMWARE_COMMIT, `${expected.role} firmware provenance is invalid`);
+    check(
+      asset.upstreamSource?.repository === "Spectoda/firmware" &&
+        asset.upstreamSource.commit === FIRMWARE_COMMIT &&
+        asset.upstreamSource.revisionCommit === FIRMWARE_REVISION_COMMIT,
+      `${expected.role} firmware provenance is invalid`,
+    );
     const bytes = await readFile(path.join(root, asset.path));
     check(sha256(bytes) === expected.sha256, `${expected.role} bundled bytes are invalid`);
     const lock = assetLocks.get(expected.role);
-    check(lock?.bundlePath === asset.path && lock.bundleSha256 === expected.sha256 && lock.upstreamCommit === FIRMWARE_COMMIT, `${expected.role} source lock is invalid`);
+    check(
+      lock?.bundlePath === asset.path &&
+        lock.bundleSha256 === expected.sha256 &&
+        lock.upstreamCommit === FIRMWARE_COMMIT &&
+        lock.upstreamRevisionCommit === FIRMWARE_REVISION_COMMIT,
+      `${expected.role} source lock is invalid`,
+    );
     selectedAssetPaths.add(asset.path);
   }
   for (const document of manifest.documents) await assertDocumentLinks(root, document, selectedDocumentPaths, selectedAssetPaths);
@@ -352,8 +408,6 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   check(ccLicense.includes("https://creativecommons.org/licenses/by/4.0/") && /trademarks are\s+not licensed/iu.test(ccLicense), "CC BY 4.0 attribution/trademark notice is incomplete");
   check(/public prerelease/iu.test(await readFile(path.join(root, "RELEASE_NOTES.md"), "utf8")), "Release notes do not describe the public prerelease");
 
-  const files = await bundleFiles(root);
-  const actualFiles = [...files.map((file) => relativePosix(root, file)), "checksums.sha256"].sort();
   const expectedFiles = [
     ...required,
     ...manifest.documents.map((document) => document.path),
@@ -365,11 +419,6 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     new Set(expectedFiles).size === expectedFiles.length && JSON.stringify(actualFiles) === JSON.stringify(expectedFiles.sort()),
     "Creator Kit contains an unmanifested or missing file",
   );
-  for (const relative of actualFiles) {
-    const content = await readFile(path.join(root, relative), "utf8");
-    check(!publicSafetyFinding(content), `${relative} failed whole-bundle public-safety validation`);
-    check(!privateUrlFinding(content), `${relative} contains a private or unsupported URL`);
-  }
   const checksums = await verifyChecksums(root);
   const totalBytes = (await Promise.all(files.map(async (file) => (await stat(file)).size))).reduce((sum, size) => sum + size, 0);
   check(totalBytes <= 8 * 1024 * 1024, `Creator Kit is larger than 8 MiB: ${totalBytes}`);

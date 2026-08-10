@@ -4,8 +4,16 @@ Date-based versions use `YYYYMMDD`.
 
 ## 20260810
 
+### Added
+
+- Prepared the immutable Creator Kit `0.1.0-rc.4` candidate from the exact
+  Documentation snapshot with universal `-1` disconnected-pin semantics.
+
 ### Changed
 
+- Hardened Creator Kit publication validation across every bundled Markdown/
+  MDX file and recursively decoded JSON content, including nested credential
+  keys and JSON-escaped private URLs.
 - Simplified the Event Player to one global mixed-ID stream. Tracks remain
   per-ID authoring lanes while sparse Cues contain only the Event values
   selected for that moment.
@@ -23,6 +31,10 @@ Date-based versions use `YYYYMMDD`.
 - Prepared Creator Kit `0.1.0-rc.4` with the final
   `DEBUG_UNIVERSAL_0.12.11_20260810` compatibility pin. No release or stable
   channel promotion is implied by the candidate.
+- Locked both the historical parser baseline and the merged firmware semantic
+  revision into the public Controller Config asset provenance.
+- Kept `0.1.0-rc.3` immutable and the stable-channel descriptor unpublished;
+  this preparation does not publish a GitHub release.
 
 ## 20260809
 

@@ -4,11 +4,12 @@ be used by a person together with Codex or Claude.
 
 ## Release status
 
-The first public artifact is `creator-kit-v0.1.0-rc.3`, published as a GitHub
-prerelease from the public `Spectoda/examples` repository. It contains the
-complete firmware 0.12.11 Controller Config reference and machine-readable
-contract plus one MIT-licensed Event Player example. It is not installed into a
-partner Organization automatically.
+Public artifacts use exact `creator-kit-v<version>` GitHub prerelease tags in
+the public `Spectoda/examples` repository. The initial public artifact was
+`creator-kit-v0.1.0-rc.3`; later candidates must use a new immutable version
+instead of replacing it. Read `bundle.json` and `source-lock.json` to identify
+the exact installed version, source revisions and hashes. A prerelease is not
+installed into a partner Organization automatically.
 
 The supported v1 transport is a GitHub Release plus its read-only
 `stable-channel.json` descriptor. Every installation must name an exact bundle
