@@ -4,12 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host localhost --port 5305 --strictPort",
-    "dev:filesystem": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host localhost --port 5305 --strictPort",
-    "dev:production": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host localhost --port 5305 --strictPort",
+    "dev": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort",
+    "dev:filesystem": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort",
+    "dev:production": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort",
     "build": "tsc -b && bun ./node_modules/vite/bin/vite.js build",
-    "preview": "bun ./node_modules/vite/bin/vite.js preview --host localhost --port 5305 --strictPort",
-    "dev:launchpad": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host 127.0.0.1 --port 5314 --strictPort"
+    "preview": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js preview --host \"$HOST\" --port \"$PORT\" --strictPort",
+    "dev:launchpad": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort"
   },
   "dependencies": {
     "dompurify": "^3.2.4",
@@ -26,23 +26,32 @@
     "typescript": "~5.9.3",
     "vite": "^8.0.0"
   },
-  "companyascode": {
-    "app": {
-      "schema_version": "companyascode.launchpad_app.v1",
+  "lazurio": {
+    "runtime": {
+      "schema_version": "lazurio.runtime.v1",
       "id": "spectoda-examples-v2",
       "title": "Examples v2",
       "company": "Spectoda",
       "module": "examples",
       "surface": "public-preview",
-      "port": 5314,
-      "host": "127.0.0.1",
-      "health_path": "/",
       "dev_script": "dev:launchpad",
       "build_script": "build",
       "tags": [
         "examples",
         "filesystem-db-v2",
         "public-preview"
+      ],
+      "listeners": [
+        {
+          "id": "app",
+          "role": "entrypoint",
+          "lease": "main",
+          "protocol": "http",
+          "health": {
+            "kind": "http",
+            "path": "/"
+          }
+        }
       ]
     }
   }
