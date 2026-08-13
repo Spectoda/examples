@@ -41,7 +41,7 @@ rules for adding an example are documented in `data/v2/README.md`.
 ## App
 
 `app/v2/` is the Examples v2 browsing app (React + Vite + TS), registered in the
-Launchpad app registry on port `5305`. It reads `data/v2/examples/*/example.yaml`
+Launchpad app registry on port `24708`. It reads `data/v2/examples/*/example.yaml`
 and the referenced source files at build time via Vite `import.meta.glob` (no
 runtime fetch, no Firebase) and renders a browsable, copyable catalog.
 
