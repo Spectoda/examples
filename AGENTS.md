@@ -23,7 +23,7 @@ scriptů, projektových patternů a integračních snippetů.
   summary, tags, hardware, seznam souborů). `data/v2/` je source of truth;
   obsahový model a postup přidání příkladu drží `data/v2/README.md`.
 - `app/v2/` je prohlížecí appka Examples v2 (React + Vite + TS, Launchpad port
-  `5305`). Čte `data/v2` build-time přes `import.meta.glob`. Je read-only:
+  `24708`). Čte `data/v2` build-time přes `import.meta.glob`. Je read-only:
   autoring příkladů zůstává Git-native, ne přes appku.
 - Lehký obsahový model záměrně NEpoužívá striktní `module-data.v2.json`
   yaml-only kolekci — ta by odmítla kopírovatelné `.be`/`.tngl`/`.json` soubory.

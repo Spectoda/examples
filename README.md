@@ -10,13 +10,13 @@ developer can see why the pieces are connected that way.
 ## Browsing app
 
 `app/v2/` is the **Examples v2** browsing app — a React + Vite + TS single-page
-app, launchable from the Spectoda Launchpad (port `5305`). It reads the examples
+app, launchable from the Spectoda Launchpad (port `24708`). It reads the examples
 from `data/v2/` at build time and lets Spectoda people browse them by category,
 filter by name/tag/keyword, read each example's notes, and copy its source files.
 
-```bash
-cd app/v2 && bun install && bun run dev   # http://localhost:5305
-```
+Runtime otevři přes **Start/Open** u Examples v centrálním Conglomerate
+Launchpadu. Závislosti lze připravit přes `cd app/v2 && bun install`; port
+`24708` vlastní kořenový module lease.
 
 ## Structure
 
