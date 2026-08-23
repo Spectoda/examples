@@ -176,11 +176,19 @@ function* decodedJsonSafetyContent(value, propertyNames = []) {
   }
 }
 
+function decodedJsonUrlFinding(content) {
+  const normalized = content.replace(/^[\u0000-\u0020\u007f]+/gu, "");
+  if (normalized.startsWith("//")) return "protocol_relative_url";
+  if (/^(?:javascript|vbscript|data):/iu.test(normalized)) return "executable_url_scheme";
+  return null;
+}
+
 function validatePublicBundleFile(relative, content) {
   check(!publicSafetyFinding(content), `${relative} failed whole-bundle public-safety validation`);
   check(!privateUrlFinding(content), `${relative} contains a private or unsupported URL`);
   if (/\.(?:md|mdx)$/iu.test(relative)) {
     check(!executableContentFinding(content, relative), `${relative} contains executable Markdown/MDX content`);
+    for (const rawHref of findLinks(content)) validatePublicLinkTarget(relative, rawHref);
   }
   if (relative.endsWith(".json")) {
     let value;
@@ -192,6 +200,7 @@ function validatePublicBundleFile(relative, content) {
     for (const decoded of decodedJsonSafetyContent(value)) {
       check(!publicSafetyFinding(decoded), `${relative} failed whole-bundle public-safety validation after JSON decoding`);
       check(!privateUrlFinding(decoded), `${relative} contains a private or unsupported URL after JSON decoding`);
+      check(!decodedJsonUrlFinding(decoded), `${relative} contains an unsupported URL after JSON decoding`);
     }
   }
 }
@@ -214,6 +223,71 @@ function findLinks(content) {
   return links;
 }
 
+const LINK_CHARACTER_REFERENCES = new Map([
+  ["amp", "&"],
+  ["AMP", "&"],
+  ["apos", "'"],
+  ["colon", ":"],
+  ["gt", ">"],
+  ["GT", ">"],
+  ["lt", "<"],
+  ["LT", "<"],
+  ["NewLine", "\n"],
+  ["quot", "\""],
+  ["QUOT", "\""],
+  ["Tab", "\t"],
+]);
+
+function decodeLinkCharacterReferences(value, sourcePath) {
+  return value.replace(/&(?:#(?:x([0-9a-f]+)|([0-9]+));?|([A-Za-z][A-Za-z0-9]+);)/giu, (reference, hexadecimal, decimal, named) => {
+    if (named) {
+      check(LINK_CHARACTER_REFERENCES.has(named), `${sourcePath} contains an unsupported named character reference ${reference} in a link`);
+      return LINK_CHARACTER_REFERENCES.get(named);
+    }
+    const codePoint = Number.parseInt(hexadecimal ?? decimal, hexadecimal ? 16 : 10);
+    if (!Number.isInteger(codePoint) || codePoint === 0 || codePoint > 0x10ffff || (codePoint >= 0xd800 && codePoint <= 0xdfff)) {
+      return "\uFFFD";
+    }
+    return String.fromCodePoint(codePoint);
+  });
+}
+
+function validatePublicLinkTarget(sourcePath, rawHref) {
+  const decodedHref = decodeLinkCharacterReferences(rawHref, sourcePath);
+  const href = decodedHref.replace(/[\u0000-\u0020\u007f]/gu, "");
+  check(href === decodedHref, `${sourcePath} contains ASCII whitespace or a control character in a link`);
+  check(!href.startsWith("//"), `${sourcePath} contains an unsupported protocol-relative link ${href}`);
+  if (/^https?:\/\//iu.test(href)) {
+    let url;
+    try {
+      url = new URL(href);
+    } catch {
+      throw new Error(`${sourcePath} contains an invalid external link ${href}`);
+    }
+    const hostname = url.hostname.toLowerCase().replace(/^\[|\]$/gu, "").replace(/\.$/u, "");
+    check(
+      url.protocol === "https:" &&
+        url.username === "" &&
+        url.password === "" &&
+        isIP(hostname) === 0 &&
+        !["localhost", "127.0.0.1", "0.0.0.0"].includes(hostname) &&
+        !hostname.endsWith(".localhost") &&
+        !hostname.endsWith(".invalid") &&
+        !hostname.endsWith(".local") &&
+        !hostname.endsWith(".internal") &&
+        !hostname.endsWith(".lan") &&
+        !hostname.endsWith(".home.arpa"),
+      `${sourcePath} contains a non-public HTTPS link ${href}`,
+    );
+    return href;
+  }
+  check(
+    !/^[a-z][a-z0-9+.-]*:/iu.test(href),
+    `${sourcePath} contains an unsupported external link ${href}`,
+  );
+  return href;
+}
+
 function sourceCandidates(target) {
   const pageTarget = target.replace(/\/+$/u, "");
   return [pageTarget, path.posix.join(pageTarget, "index.md"), path.posix.join(pageTarget, "index.mdx"), `${pageTarget}.md`, `${pageTarget}.mdx`];
@@ -222,28 +296,9 @@ function sourceCandidates(target) {
 async function assertDocumentLinks(root, document, selectedDocumentPaths, selectedAssetPaths) {
   const body = await readFile(path.join(root, document.path), "utf8");
   for (const rawHref of findLinks(body)) {
-    const href = rawHref.replace(/[\t\n\f\r]/gu, "");
-    check(href === rawHref, `${document.path} contains control whitespace in a link`);
+    const href = validatePublicLinkTarget(document.path, rawHref);
     if (href.startsWith("#")) continue;
-    if (/^https?:\/\//iu.test(href)) {
-      const url = new URL(href);
-      const hostname = url.hostname.toLowerCase().replace(/^\[|\]$/gu, "").replace(/\.$/u, "");
-      check(
-        url.protocol === "https:" &&
-          url.username === "" &&
-          url.password === "" &&
-          isIP(hostname) === 0 &&
-          !["localhost", "127.0.0.1", "0.0.0.0"].includes(hostname) &&
-          !hostname.endsWith(".localhost") &&
-          !hostname.endsWith(".invalid") &&
-          !hostname.endsWith(".local") &&
-          !hostname.endsWith(".internal") &&
-          !hostname.endsWith(".lan") &&
-          !hostname.endsWith(".home.arpa"),
-        `${document.path} contains a non-public HTTPS link ${href}`,
-      );
-      continue;
-    }
+    if (/^https?:\/\//iu.test(href)) continue;
     check(!/^[a-z][a-z0-9+.-]*:/iu.test(href), `${document.path} contains an unsupported external link ${href}`);
     const pathOnly = href.split("#", 1)[0];
     if (pathOnly.startsWith("/assets/")) {
