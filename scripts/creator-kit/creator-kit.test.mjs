@@ -157,6 +157,90 @@ test("rejects executable public Markdown and decoded JSON safety bypasses after 
     await writeFile(path.join(readmeBundle, "checksums.sha256"), await createChecksums(readmeBundle), "utf8");
     await assert.rejects(validateBundle(readmeBundle), /executable Markdown\/MDX content/u);
 
+    const inlineLinkBundle = path.join(root, "root-readme-inline-executable-link");
+    await cp(BUNDLE_ROOT, inlineLinkBundle, { recursive: true });
+    await writeFile(path.join(inlineLinkBundle, "README.md"), "# Unsafe\n\n[Run](javascript:alert(1))\n", "utf8");
+    await writeFile(path.join(inlineLinkBundle, "checksums.sha256"), await createChecksums(inlineLinkBundle), "utf8");
+    await assert.rejects(validateBundle(inlineLinkBundle), /unsupported external link/u);
+
+    const referenceLinkBundle = path.join(root, "root-readme-reference-executable-link");
+    await cp(BUNDLE_ROOT, referenceLinkBundle, { recursive: true });
+    await writeFile(
+      path.join(referenceLinkBundle, "README.md"),
+      "# Unsafe\n\n[Run][payload]\n\n[payload]: javascript:alert(1)\n",
+      "utf8",
+    );
+    await writeFile(path.join(referenceLinkBundle, "checksums.sha256"), await createChecksums(referenceLinkBundle), "utf8");
+    await assert.rejects(validateBundle(referenceLinkBundle), /unsupported external link/u);
+
+    const encodedInlineLinkBundle = path.join(root, "root-readme-encoded-inline-executable-link");
+    await cp(BUNDLE_ROOT, encodedInlineLinkBundle, { recursive: true });
+    await writeFile(path.join(encodedInlineLinkBundle, "README.md"), "# Unsafe\n\n[Run](java&#115;cript:alert(1))\n", "utf8");
+    await writeFile(path.join(encodedInlineLinkBundle, "checksums.sha256"), await createChecksums(encodedInlineLinkBundle), "utf8");
+    await assert.rejects(validateBundle(encodedInlineLinkBundle), /unsupported external link/u);
+
+    const encodedReferenceLinkBundle = path.join(root, "root-readme-encoded-reference-executable-link");
+    await cp(BUNDLE_ROOT, encodedReferenceLinkBundle, { recursive: true });
+    await writeFile(
+      path.join(encodedReferenceLinkBundle, "README.md"),
+      "# Unsafe\n\n[Run][payload]\n\n[payload]: java&#x73;cript:alert(1)\n",
+      "utf8",
+    );
+    await writeFile(path.join(encodedReferenceLinkBundle, "checksums.sha256"), await createChecksums(encodedReferenceLinkBundle), "utf8");
+    await assert.rejects(validateBundle(encodedReferenceLinkBundle), /unsupported external link/u);
+
+    const encodedHtmlLinkBundle = path.join(root, "root-readme-encoded-html-executable-link");
+    await cp(BUNDLE_ROOT, encodedHtmlLinkBundle, { recursive: true });
+    await writeFile(
+      path.join(encodedHtmlLinkBundle, "README.md"),
+      "# Unsafe\n\n<a href=\"javascript&colon;alert(1)\">Run</a>\n",
+      "utf8",
+    );
+    await writeFile(path.join(encodedHtmlLinkBundle, "checksums.sha256"), await createChecksums(encodedHtmlLinkBundle), "utf8");
+    await assert.rejects(validateBundle(encodedHtmlLinkBundle), /unsupported external link/u);
+
+    const encodedWhitespaceLinkBundle = path.join(root, "root-readme-encoded-whitespace-executable-link");
+    await cp(BUNDLE_ROOT, encodedWhitespaceLinkBundle, { recursive: true });
+    await writeFile(
+      path.join(encodedWhitespaceLinkBundle, "README.md"),
+      "# Unsafe\n\n[Run](&#32;java&#115;cript:alert(1))\n",
+      "utf8",
+    );
+    await writeFile(path.join(encodedWhitespaceLinkBundle, "checksums.sha256"), await createChecksums(encodedWhitespaceLinkBundle), "utf8");
+    await assert.rejects(validateBundle(encodedWhitespaceLinkBundle), /ASCII whitespace or a control character/u);
+
+    const encodedPrivateHostBundle = path.join(root, "root-readme-encoded-private-host");
+    await cp(BUNDLE_ROOT, encodedPrivateHostBundle, { recursive: true });
+    await writeFile(
+      path.join(encodedPrivateHostBundle, "README.md"),
+      "# Unsafe\n\n<a href=\"https://service.intern&#97;l/private\">Private</a>\n",
+      "utf8",
+    );
+    await writeFile(path.join(encodedPrivateHostBundle, "checksums.sha256"), await createChecksums(encodedPrivateHostBundle), "utf8");
+    await assert.rejects(validateBundle(encodedPrivateHostBundle), /non-public HTTPS link/u);
+
+    const encodedHttpBundle = path.join(root, "root-readme-encoded-http-link");
+    await cp(BUNDLE_ROOT, encodedHttpBundle, { recursive: true });
+    await writeFile(path.join(encodedHttpBundle, "README.md"), "# Unsafe\n\n[Public](htt&#112;://example.com)\n", "utf8");
+    await writeFile(path.join(encodedHttpBundle, "checksums.sha256"), await createChecksums(encodedHttpBundle), "utf8");
+    await assert.rejects(validateBundle(encodedHttpBundle), /non-public HTTPS link/u);
+
+    const unknownEntityBundle = path.join(root, "root-readme-unknown-link-entity");
+    await cp(BUNDLE_ROOT, unknownEntityBundle, { recursive: true });
+    await writeFile(
+      path.join(unknownEntityBundle, "README.md"),
+      "# Unsafe\n\n[Private](https://service&period;internal/private)\n",
+      "utf8",
+    );
+    await writeFile(path.join(unknownEntityBundle, "checksums.sha256"), await createChecksums(unknownEntityBundle), "utf8");
+    await assert.rejects(validateBundle(unknownEntityBundle), /unsupported named character reference/u);
+
+    const protocolRelativeBundle = path.join(root, "root-readme-protocol-relative-link");
+    await cp(BUNDLE_ROOT, protocolRelativeBundle, { recursive: true });
+    await writeFile(path.join(protocolRelativeBundle, "README.md"), "# Unsafe\n\n[Private](//service.internal/private)\n", "utf8");
+    await writeFile(path.join(protocolRelativeBundle, "checksums.sha256"), await createChecksums(protocolRelativeBundle), "utf8");
+    await assert.rejects(validateBundle(protocolRelativeBundle), /unsupported protocol-relative link/u);
+
     const exampleReadmeBundle = path.join(root, "example-readme-executable");
     await cp(BUNDLE_ROOT, exampleReadmeBundle, { recursive: true });
     await writeFile(
@@ -203,6 +287,25 @@ test("rejects executable public Markdown and decoded JSON safety bypasses after 
     await writeFile(nestedCredentialSchemaPath, `${JSON.stringify(nestedCredentialSchema, null, 2)}\n`, "utf8");
     await writeFile(path.join(nestedCredentialBundle, "checksums.sha256"), await createChecksums(nestedCredentialBundle), "utf8");
     await assert.rejects(validateBundle(nestedCredentialBundle), /public-safety validation after JSON decoding/u);
+
+    const protocolRelativeJsonBundle = path.join(root, "protocol-relative-json-url");
+    await cp(BUNDLE_ROOT, protocolRelativeJsonBundle, { recursive: true });
+    const protocolRelativeSchemaPath = path.join(protocolRelativeJsonBundle, "schemas/creator-kit-policy.v1.schema.json");
+    const protocolRelativeSchema = JSON.parse(await readFile(protocolRelativeSchemaPath, "utf8"));
+    protocolRelativeSchema.$comment = "//service.internal/private";
+    await writeFile(protocolRelativeSchemaPath, `${JSON.stringify(protocolRelativeSchema, null, 2).replaceAll("/", "\\/")}\n`, "utf8");
+    await writeFile(path.join(protocolRelativeJsonBundle, "checksums.sha256"), await createChecksums(protocolRelativeJsonBundle), "utf8");
+    await assert.rejects(validateBundle(protocolRelativeJsonBundle), /unsupported URL after JSON decoding/u);
+
+    const executableJsonBundle = path.join(root, "executable-json-url");
+    await cp(BUNDLE_ROOT, executableJsonBundle, { recursive: true });
+    const executableSchemaPath = path.join(executableJsonBundle, "schemas/creator-kit-policy.v1.schema.json");
+    const executableSchema = JSON.parse(await readFile(executableSchemaPath, "utf8"));
+    executableSchema.$comment = "javascript:alert(1)";
+    const encodedExecutableSchema = JSON.stringify(executableSchema, null, 2).replace("javascript:", "java\\u0073cript:");
+    await writeFile(executableSchemaPath, `${encodedExecutableSchema}\n`, "utf8");
+    await writeFile(path.join(executableJsonBundle, "checksums.sha256"), await createChecksums(executableJsonBundle), "utf8");
+    await assert.rejects(validateBundle(executableJsonBundle), /unsupported URL after JSON decoding/u);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
