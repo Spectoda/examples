@@ -1,9 +1,9 @@
 import { execFileSync } from "node:child_process";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { BUNDLE_VERSION, EXPORTER_VERSION, createDeterministicTar } from "./build.mjs";
+import { BUNDLE_VERSION, EXPORTER_VERSION, createChecksums, createDeterministicTar } from "./build.mjs";
 import { validateBundle } from "./validate.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -24,34 +24,53 @@ export async function buildReleaseCandidate({
   releaseDir = path.join(ROOT, ".creator-kit-tmp", "release"),
   version = BUNDLE_VERSION,
   sourceCommit = gitHead(),
+  expectedCandidateDigest,
+  expectedReleasedDigest,
 } = {}) {
-  if (version !== BUNDLE_VERSION) throw new Error(`Only the reviewed ${BUNDLE_VERSION} prerelease is authorized`);
+  if (version !== BUNDLE_VERSION) throw new Error(`Only the reviewed ${BUNDLE_VERSION} release is authorized`);
   if (!/^[a-f0-9]{40}$/u.test(sourceCommit) || sourceCommit !== gitHead()) {
     throw new Error("Release assets must be built from the exact checked-out Examples commit");
   }
-  const validation = await validateBundle(bundleRoot);
-  if (validation.bundleVersion !== version) throw new Error("Requested release version does not match the committed bundle");
+  const candidateValidation = await validateBundle(bundleRoot, { expectedStatus: "candidate" });
+  if (candidateValidation.bundleVersion !== version) throw new Error("Requested release version does not match the committed bundle");
+  if (expectedCandidateDigest && candidateValidation.checksumDigest !== expectedCandidateDigest) {
+    throw new Error("Reviewed candidate bundle digest does not match the release request");
+  }
   await rm(releaseDir, { recursive: true, force: true });
   await mkdir(releaseDir, { recursive: true });
+  const releasedBundleRoot = path.join(releaseDir, ".released-bundle");
+  await cp(bundleRoot, releasedBundleRoot, { recursive: true });
+  const bundlePath = path.join(releasedBundleRoot, "bundle.json");
+  const bundle = JSON.parse(await readFile(bundlePath, "utf8"));
+  if (bundle.status !== "candidate") throw new Error("Only an exact candidate snapshot can be promoted for release");
+  bundle.status = "released";
+  await writeFile(bundlePath, `${JSON.stringify(bundle, null, 2)}\n`, "utf8");
+  await writeFile(path.join(releasedBundleRoot, "checksums.sha256"), await createChecksums(releasedBundleRoot), "utf8");
+  const releasedValidation = await validateBundle(releasedBundleRoot, { expectedStatus: "released" });
+  if (expectedReleasedDigest && releasedValidation.checksumDigest !== expectedReleasedDigest) {
+    throw new Error("Released bundle digest does not match the release request");
+  }
   const archivePath = path.join(releaseDir, `spectoda-creator-kit-${version}.tar`);
-  const archive = await createDeterministicTar(bundleRoot, archivePath, 0);
+  const archive = await createDeterministicTar(releasedBundleRoot, archivePath, 0);
+  await rm(releasedBundleRoot, { recursive: true, force: true });
   await writeFile(`${archivePath}.sha256`, `${archive.sha256}  ${path.basename(archivePath)}\n`, "utf8");
   const sourceLock = JSON.parse(await readFile(path.join(bundleRoot, "source-lock.json"), "utf8"));
   const provenance = {
     schemaVersion: "creator-kit-provenance.v1",
     name: "Spectoda Creator Kit",
     version,
-    releaseType: "prerelease",
+    releaseType: "release",
     publicationStatus: "prepared",
     source: { repository: "Spectoda/examples", commit: sourceCommit },
     documentationSource: sourceLock.documentationBundle,
     packagerVersion: EXPORTER_VERSION,
-    bundleDigest: validation.checksumDigest,
+    candidateBundleDigest: candidateValidation.checksumDigest,
+    bundleDigest: releasedValidation.checksumDigest,
     archiveDigest: archive.sha256,
-    stableChannelState: validation.stableState,
+    stableChannelState: releasedValidation.stableState,
   };
   await writeFile(path.join(releaseDir, "provenance.json"), `${JSON.stringify(provenance, null, 2)}\n`, "utf8");
-  return { validation, archive, provenance, releaseDir };
+  return { candidateValidation, releasedValidation, archive, provenance, releaseDir };
 }
 
 async function main() {
@@ -61,6 +80,8 @@ async function main() {
     releaseDir: argValue(argv, "release-dir", path.join(ROOT, ".creator-kit-tmp", "release")),
     version: argValue(argv, "version", BUNDLE_VERSION),
     sourceCommit: argValue(argv, "source-commit", gitHead()),
+    expectedCandidateDigest: argValue(argv, "candidate-digest"),
+    expectedReleasedDigest: argValue(argv, "released-digest"),
   });
   console.log(JSON.stringify({
     version: result.provenance.version,
@@ -70,6 +91,7 @@ async function main() {
     archiveBytes: result.archive.bytes,
     stableChannelState: result.provenance.stableChannelState,
     releaseType: result.provenance.releaseType,
+    candidateBundleDigest: result.provenance.candidateBundleDigest,
   }, null, 2));
 }
 

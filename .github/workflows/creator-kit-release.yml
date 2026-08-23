@@ -15,9 +15,21 @@ on:
         description: "Exact reviewed Examples commit"
         required: true
         type: string
+      candidate_digest:
+        description: "Exact SHA-256 of the reviewed candidate checksums.sha256"
+        required: true
+        type: string
+      released_digest:
+        description: "Exact SHA-256 after deterministic candidate-to-released promotion"
+        required: true
+        type: string
 
 permissions:
   contents: read
+
+concurrency:
+  group: creator-kit-release
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -45,12 +57,18 @@ jobs:
       - name: Validate release inputs
         env:
           CREATOR_KIT_VERSION: ${{ inputs.version }}
+          CANDIDATE_DIGEST: ${{ inputs.candidate_digest }}
+          RELEASED_DIGEST: ${{ inputs.released_digest }}
         run: |
           set -euo pipefail
-          test "$CREATOR_KIT_VERSION" = "0.1.0-rc.4"
+          test "$CREATOR_KIT_VERSION" = "0.1.0"
           test "$(jq -r .version creator-kit/bundle.json)" = "$CREATOR_KIT_VERSION"
+          test "$(jq -r .status creator-kit/bundle.json)" = "candidate"
+          [[ "$CANDIDATE_DIGEST" =~ ^[a-f0-9]{64}$ ]]
+          [[ "$RELEASED_DIGEST" =~ ^[a-f0-9]{64}$ ]]
+          test "$(sha256sum creator-kit/checksums.sha256 | awk '{print $1}')" = "$CANDIDATE_DIGEST"
       - run: bun run creator-kit:check
-      - name: Require the approved prerelease license and channel posture
+      - name: Require the approved stable release license and channel posture
         run: |
           set -euo pipefail
           jq -e '.publicationAllowed == true and .realDocumentationExportAllowed == true and .entries == ["CC-BY-4.0", "MIT"]' creator-kit/licenses.json
@@ -59,21 +77,101 @@ jobs:
         env:
           CREATOR_KIT_VERSION: ${{ inputs.version }}
           SOURCE_COMMIT: ${{ inputs.source_sha }}
-        run: node scripts/creator-kit/build-release-candidate.mjs --bundle creator-kit --release-dir .creator-kit-tmp/release --version "$CREATOR_KIT_VERSION" --source-commit "$SOURCE_COMMIT"
+          CANDIDATE_DIGEST: ${{ inputs.candidate_digest }}
+          RELEASED_DIGEST: ${{ inputs.released_digest }}
+        run: node scripts/creator-kit/build-release-candidate.mjs --bundle creator-kit --release-dir .creator-kit-tmp/release --version "$CREATOR_KIT_VERSION" --source-commit "$SOURCE_COMMIT" --candidate-digest "$CANDIDATE_DIGEST" --released-digest "$RELEASED_DIGEST"
       - name: Verify release asset build preserved the reviewed candidate
         run: git diff --exit-code -- creator-kit
-      - name: Publish the explicitly approved GitHub prerelease
+      - name: Stage the explicitly approved assets in a draft GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
           CREATOR_KIT_VERSION: ${{ inputs.version }}
         run: |
           set -euo pipefail
-          if gh release view "creator-kit-v${CREATOR_KIT_VERSION}" >/dev/null 2>&1; then
-            echo "Release creator-kit-v${CREATOR_KIT_VERSION} already exists" >&2
+          release_tag="creator-kit-v${CREATOR_KIT_VERSION}"
+          existing_release_ids="$(
+            gh api --paginate "repos/${GITHUB_REPOSITORY}/releases?per_page=100" |
+              jq -r --arg tag "$release_tag" '.[] | select(.tag_name == $tag) | .id'
+          )"
+          if test -n "$existing_release_ids"; then
+            echo "Release or draft $release_tag already exists (ids: $existing_release_ids)" >&2
             exit 1
           fi
-          gh release create "creator-kit-v${CREATOR_KIT_VERSION}" .creator-kit-tmp/release/* \
+          set +e
+          tag_probe="$(git ls-remote --exit-code --tags origin "refs/tags/$release_tag" 2>&1)"
+          tag_probe_status=$?
+          set -e
+          case "$tag_probe_status" in
+            2) ;;
+            0) echo "Tag $release_tag already exists" >&2; exit 1 ;;
+            *) echo "Unable to prove tag $release_tag is absent: $tag_probe" >&2; exit 1 ;;
+          esac
+          gh release create "$release_tag" .creator-kit-tmp/release/* \
+            --draft \
             --target "$GITHUB_SHA" \
             --title "Spectoda Creator Kit ${CREATOR_KIT_VERSION}" \
-            --notes-file creator-kit/RELEASE_NOTES.md \
-            --prerelease
+            --notes-file creator-kit/RELEASE_NOTES.md
+      - name: Verify the exact assets read back from the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+          SOURCE_COMMIT: ${{ inputs.source_sha }}
+          CANDIDATE_DIGEST: ${{ inputs.candidate_digest }}
+          RELEASED_DIGEST: ${{ inputs.released_digest }}
+        run: |
+          set -euo pipefail
+          release_tag="creator-kit-v${CREATOR_KIT_VERSION}"
+          test "$(gh release view "$release_tag" --json isDraft --jq .isDraft)" = "true"
+          test "$(gh release view "$release_tag" --json isPrerelease --jq .isPrerelease)" = "false"
+          test "$(gh release view "$release_tag" --json targetCommitish --jq .targetCommitish)" = "$SOURCE_COMMIT"
+          mkdir .creator-kit-tmp/draft-download
+          gh release download "$release_tag" --dir .creator-kit-tmp/draft-download
+          for asset in "spectoda-creator-kit-${CREATOR_KIT_VERSION}.tar" "spectoda-creator-kit-${CREATOR_KIT_VERSION}.tar.sha256" provenance.json; do
+            cmp ".creator-kit-tmp/release/$asset" ".creator-kit-tmp/draft-download/$asset"
+          done
+          node scripts/creator-kit/verify-release-assets.mjs \
+            --asset-dir .creator-kit-tmp/draft-download \
+            --version "$CREATOR_KIT_VERSION" \
+            --source-commit "$SOURCE_COMMIT" \
+            --candidate-digest "$CANDIDATE_DIGEST" \
+            --released-digest "$RELEASED_DIGEST"
+      - name: Publish the verified stable GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+        run: gh release edit "creator-kit-v${CREATOR_KIT_VERSION}" --draft=false
+      - name: Verify the public release anonymously
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+          SOURCE_COMMIT: ${{ inputs.source_sha }}
+          CANDIDATE_DIGEST: ${{ inputs.candidate_digest }}
+          RELEASED_DIGEST: ${{ inputs.released_digest }}
+        run: |
+          set -euo pipefail
+          release_tag="creator-kit-v${CREATOR_KIT_VERSION}"
+          test "$(gh release view "$release_tag" --json isDraft --jq .isDraft)" = "false"
+          test "$(gh release view "$release_tag" --json isPrerelease --jq .isPrerelease)" = "false"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/commits/${release_tag}" --jq .sha)" = "$SOURCE_COMMIT"
+          mkdir .creator-kit-tmp/public-download
+          for asset in "spectoda-creator-kit-${CREATOR_KIT_VERSION}.tar" "spectoda-creator-kit-${CREATOR_KIT_VERSION}.tar.sha256" provenance.json; do
+            curl --fail --location --silent --show-error --retry 5 --retry-all-errors \
+              "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/download/${release_tag}/${asset}" \
+              --output ".creator-kit-tmp/public-download/$asset"
+          done
+          node scripts/creator-kit/verify-release-assets.mjs \
+            --asset-dir .creator-kit-tmp/public-download \
+            --version "$CREATOR_KIT_VERSION" \
+            --source-commit "$SOURCE_COMMIT" \
+            --candidate-digest "$CANDIDATE_DIGEST" \
+            --released-digest "$RELEASED_DIGEST"
+      - name: Remove a failed draft release
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CREATOR_KIT_VERSION: ${{ inputs.version }}
+        run: |
+          release_tag="creator-kit-v${CREATOR_KIT_VERSION}"
+          if test "$(gh release view "$release_tag" --json isDraft --jq .isDraft 2>/dev/null)" = "true"; then
+            gh release delete "$release_tag" --yes --cleanup-tag
+          fi

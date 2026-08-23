@@ -1,8 +1,11 @@
 # Spectoda Creator Kit {{BUNDLE_VERSION}}
 
-This directory is the immutable source snapshot of the public Spectoda Creator
-Kit prerelease. Download the packaged artifact from the matching
-`creator-kit-v{{BUNDLE_VERSION}}` GitHub prerelease in `Spectoda/examples`.
+This directory is an immutable reviewed snapshot for the public Spectoda
+Creator Kit stable release. The copy committed in `Spectoda/examples` remains
+`candidate`. The protected release workflow creates a deterministic `released`
+copy, verifies it in a draft release and only then publishes the packaged
+artifact under the matching `creator-kit-v{{BUNDLE_VERSION}}` GitHub Release in
+`Spectoda/examples`.
 
 The bundle contains:
 
@@ -14,7 +17,7 @@ The bundle contains:
 
 Read `bundle.json`, `manifest.json`, `source-lock.json`, `licenses.json` and
 `checksums.sha256` before use. Documentation content is locked to
-`Spectoda/documentation@08cb4e5f8155178c18a86edd4a515f7d6c8fb835`; the
+`Spectoda/documentation@{{DOCUMENTATION_COMMIT}}`; the
 example is locked to
 `Spectoda/examples@{{EXAMPLES_COMMIT}}`. The firmware
 config assets identify their own exact `Spectoda/firmware` provenance.
@@ -33,6 +36,6 @@ Codex and Claude should search `indexes/` and `manifest.json`, then cite exact
 and must not be used to infer partner-local networks, credentials or current
 installation state.
 
-The GitHub prerelease does not publish the stable channel.
+The stable GitHub Release does not publish the separate stable channel.
 `stable-channel.json` deliberately remains `unpublished`; installing, updating
 or rolling back an exact bundle version still requires partner approval.

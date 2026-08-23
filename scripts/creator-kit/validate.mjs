@@ -9,11 +9,11 @@ import { BUNDLE_VERSION, bundleFiles, relativePosix, sha256, verifyChecksums } f
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const DEFAULT_BUNDLE = path.join(ROOT, "creator-kit");
 const EXAMPLE_ID = "player-show-global-sparse-cues";
-const DOCUMENTATION_COMMIT = "08cb4e5f8155178c18a86edd4a515f7d6c8fb835";
-const DOCUMENTATION_CHECKSUM_DIGEST = "155ce7c6a14581672e4a83f981a4e08e78e98c31b26c2f9c7f6bdfc2a331ed31";
+const DOCUMENTATION_COMMIT = "67827bf5d2680de8bbb7a3a7e73773441669cbf3";
+const DOCUMENTATION_CHECKSUM_DIGEST = "296e1aae0f73c007cfca46b773b030c8939b7140fe57804cc11617f937eee2fe";
 const EXAMPLES_COMMIT = "97fd90afbc9839830b3dc7f73df36f385f66564d";
 const FIRMWARE_COMMIT = "51a8d6337d968b47f563bf2decb8f7404d93c27a";
-const FIRMWARE_REVISION_COMMIT = "f1c48452350413166dd19d28d5aaf9b9a89152d5";
+const FIRMWARE_REVISION_COMMIT = "dc36700e77845254a3e075cb086e6db76049f9ab";
 const EXPECTED_DOCUMENTS = [
   "en/pro-vyrobce-a-tvurce/controller-config/ethernet.md",
   "en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md",
@@ -25,23 +25,23 @@ const EXPECTED_DOCUMENTS = [
 ];
 const EXPECTED_DOCUMENT_HASHES = new Map([
   ["en/pro-vyrobce-a-tvurce/controller-config/ethernet.md", { normalized: "d6441fd0b663b8f77cf9c6acee73dd4d475cbcb1abf1f56118f67ff5294b1e1b", source: "1ada69f668140b497925ca13f7000f94800a967b896d6bcf17e69033a2bb4152" }],
-  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md", { normalized: "8bd0702d439b573fea4c89d4af3c2a2109e09586dd0e738eefd4c693c8e04780", source: "0c3fcbb0a1047e5e2931a801c9e9d0f07c8b81a8fd6fcb30df19fc9ed8b44e9a" }],
-  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md", { normalized: "3006cd6917a01761a60b8b26e04367b9a36e1dd39b1889c7c57a4bd3aadf0f9a", source: "20171c17728142cfb9b754c06f7b279e54cd717124e22db83c2335759833904e" }],
-  ["en/pro-vyrobce-a-tvurce/controller-config/index.md", { normalized: "3655bdaac1de00eed7d21b28a00a452aa7163abfe620c477ff021dfdd738d48c", source: "1e51564d970ed526a1c01dfa2e9445d46090cf13e99e8ae409ca47d7efcc01d4" }],
+  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md", { normalized: "be46c6310b87bcfeccea6edd9777ed4cf499487f1465982ac70b5779d9cf5824", source: "2ae57764310ac4eb1d03e7ad19d7feb862580ccfc4745cd909d0a36977a0f175" }],
+  ["en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md", { normalized: "df4c7c27d4bc24e92ce7f615232be6ade609a31db207c31ee54640de89f5034e", source: "f30b1802181640bfc3655e0592107041ff7d917a3f7f6db2f934cb9f6d314399" }],
+  ["en/pro-vyrobce-a-tvurce/controller-config/index.md", { normalized: "4d732a088bfa28cd9743285d26155a34f7a60d8990785a763c99b8a77cc67d9d", source: "e06be5e5b5ddb5788bc8bb5ce239684fe622f0106d92051a1fe8af47bf60f18e" }],
   ["en/pro-vyrobce-a-tvurce/controller-config/io-type-dali.md", { normalized: "e29e767380b857be6295bef82fc4878f005a025b3ec9d537de427e1b06c98ec3", source: "fe41a923e09eb0b5a7466b6a8b2226d3bdcad1357286ffc6188491905e2eddec" }],
-  ["en/pro-vyrobce-a-tvurce/controller-config/wasm-schema.md", { normalized: "7b97193f4ce1f58c46e2e1eb6e5d9eb929747e2326844c8e19b9a8d5c79390b3", source: "de03ed774fa7ac3f0c820593f10f489435f2293a10fbc02b092cfe825f997668" }],
-  ["en/pro-vyrobce-a-tvurce/spectoda-creator-kit.md", { normalized: "780a43eea5a64b8d5ba72637ed7260a8fb07b89fae4ad34ed54f57bd772ec8df", source: "acedc127c99c862153cd4ba4edccf867cf919bef6d270a3c8055bb775573467c" }],
+  ["en/pro-vyrobce-a-tvurce/controller-config/wasm-schema.md", { normalized: "dbd12189e36f6bb177efa500bdfa376b0829cbdd26369dff4c0889e2fc736ee5", source: "a6a295184e54d7d8610d07d902d7a46d3242951b2be97c56bda2e4247e6240d0" }],
+  ["en/pro-vyrobce-a-tvurce/spectoda-creator-kit.md", { normalized: "6851992c84fb10663b32f55c1d85c876ba0b54fbf0a63bcc86a7fcd79ea44aca", source: "787b4a475b6578a2416c934aca94198ee65b8e87354bf4d9133c8d82354d9aa2" }],
 ]);
 const EXPECTED_ASSETS = [
   {
     role: "controller-config-contract",
     path: "assets/docs/controller-config/0.12.11/controller-config.contract.json",
-    sha256: "a2f6fc92495902723a89f89d223e5bf61e4c5ad704b3909aee0cee9d342c6f0b",
+    sha256: "15cc88fe7cd1de9b68d75f45f3c5fa8fb305317f1e43b0173487b54af58bf112",
   },
   {
     role: "controller-config-schema",
     path: "assets/docs/controller-config/0.12.11/controller-config.schema.json",
-    sha256: "be1d8dad5262ecfa22f8b4415b4bffce6a897a0cc315d5975811f66cd521594b",
+    sha256: "e7cfe63edbf7942c138596ed36e60154b8839a7e0056fe07a516c02811afcfec",
   },
 ];
 const EXPECTED_EXAMPLE_FILES = [
@@ -330,8 +330,9 @@ function gitBytes(commit, repositoryPath) {
   }
 }
 
-export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
+export async function validateBundle(bundleRoot = DEFAULT_BUNDLE, { expectedStatus = "candidate" } = {}) {
   const root = path.resolve(bundleRoot);
+  check(["candidate", "released"].includes(expectedStatus), `Unsupported expected bundle status ${expectedStatus}`);
   const required = [
     "README.md", "AGENTS.md", "RELEASE_NOTES.md", "bundle.json", "manifest.json", "source-lock.json",
     "licenses.json", "compatibility.json", "selection.json", "stable-channel.json", "checksums.sha256",
@@ -342,7 +343,9 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   const files = await bundleFiles(root);
   const actualFiles = [...files.map((file) => relativePosix(root, file)), "checksums.sha256"].sort();
   for (const relative of actualFiles) {
-    validatePublicBundleFile(relative, await readFile(path.join(root, relative), "utf8"));
+    const content = await readFile(path.join(root, relative), "utf8");
+    check(!content.includes("{{"), `${relative} contains an unresolved template placeholder`);
+    validatePublicBundleFile(relative, content);
   }
 
   const bundle = await readJson(path.join(root, "bundle.json"));
@@ -356,7 +359,7 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   const termIndex = await readJson(path.join(root, "indexes/terms.json"));
 
   check(bundle.schemaVersion === "creator-kit-bundle.v1" && bundle.name === "Spectoda Creator Kit", "Bundle identity is invalid");
-  check(bundle.version === BUNDLE_VERSION && bundle.status === "candidate" && bundle.locale === "en", "Bundle version/status/locale is invalid");
+  check(bundle.version === BUNDLE_VERSION && bundle.status === expectedStatus && bundle.locale === "en", "Bundle version/status/locale is invalid");
   check(bundle.contentScope === "licensed-documentation-with-public-examples", "Bundle content scope is invalid");
   check(bundle.sourceOfTruth === "Spectoda/documentation", "Documentation must remain the bundle source of truth");
   check(bundle.transport?.apiVersion === "github-release-v1", "Bundle transport is invalid");
@@ -365,6 +368,8 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   check(sourceLock.repository === "Spectoda/documentation" && sourceLock.commit === DOCUMENTATION_COMMIT, "Source lock does not match Documentation");
   check(sourceLock.documentationBundle?.commit === DOCUMENTATION_COMMIT, "Documentation snapshot commit is invalid");
   check(sourceLock.documentationBundle?.checksumDigest === DOCUMENTATION_CHECKSUM_DIGEST, "Documentation snapshot digest is invalid");
+  const readme = await readFile(path.join(root, "README.md"), "utf8");
+  check(readme.includes(`Spectoda/documentation@${DOCUMENTATION_COMMIT}`), "README Documentation source commit is invalid");
   check(licenses.publicationAllowed === true && licenses.realDocumentationExportAllowed === true, "Publication license gate is not open");
   check(licenses.scope === "licensed-documentation-with-public-examples", "License scope is invalid");
   check(JSON.stringify(licenses.entries) === JSON.stringify(["CC-BY-4.0", "MIT"]), "License entries must be CC BY 4.0 and MIT only");
@@ -461,7 +466,7 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
   check((await readFile(path.join(root, "LICENSES/MIT.txt"))).equals(await readFile(path.join(ROOT, "LICENSE"))), "Bundled MIT license differs from the repository license");
   const ccLicense = await readFile(path.join(root, "LICENSES/CC-BY-4.0.md"), "utf8");
   check(ccLicense.includes("https://creativecommons.org/licenses/by/4.0/") && /trademarks are\s+not licensed/iu.test(ccLicense), "CC BY 4.0 attribution/trademark notice is incomplete");
-  check(/public prerelease/iu.test(await readFile(path.join(root, "RELEASE_NOTES.md"), "utf8")), "Release notes do not describe the public prerelease");
+  check(/public stable release/iu.test(await readFile(path.join(root, "RELEASE_NOTES.md"), "utf8")), "Release notes do not describe the public stable release");
 
   const expectedFiles = [
     ...required,
@@ -489,12 +494,22 @@ export async function validateBundle(bundleRoot = DEFAULT_BUNDLE) {
     fileCount: files.length,
     checksumCount: checksums.count,
     checksumDigest: checksums.digest,
+    bundleStatus: bundle.status,
     stableState: stable.state,
   };
 }
 
 async function main() {
-  console.log(JSON.stringify(await validateBundle(process.argv[2] ?? DEFAULT_BUNDLE), null, 2));
+  const argv = process.argv.slice(2);
+  const statusIndex = argv.findIndex((argument) => argument === "--expected-status" || argument.startsWith("--expected-status="));
+  const expectedStatus = statusIndex === -1
+    ? "candidate"
+    : argv[statusIndex].includes("=")
+      ? argv[statusIndex].slice(argv[statusIndex].indexOf("=") + 1)
+      : argv[statusIndex + 1];
+  const statusValueIndex = statusIndex >= 0 && !argv[statusIndex].includes("=") ? statusIndex + 1 : -1;
+  const bundleRoot = argv.find((argument, index) => !argument.startsWith("--") && index !== statusValueIndex) ?? DEFAULT_BUNDLE;
+  console.log(JSON.stringify(await validateBundle(bundleRoot, { expectedStatus }), null, 2));
 }
 
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {

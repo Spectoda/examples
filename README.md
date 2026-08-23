@@ -54,16 +54,16 @@ Each example should include:
 Do not commit secrets, client credentials, private network keys, or
 customer-specific data that is not meant to be public.
 
-## Spectoda Creator Kit public prerelease
+## Spectoda Creator Kit stable release
 
 `creator-kit/` is the immutable review candidate for the public English
-Spectoda Creator Kit `0.1.0-rc.4` prerelease. It contains the complete selected
+Spectoda Creator Kit `0.1.0` stable release. It contains the complete selected
 FW 0.12.11 Controller Config documentation and machine-readable config
 contract/schema under CC BY 4.0, plus one MIT-licensed Event Player example.
 Documentation remains the private authoring source of truth; this repository
 holds only the reviewed one-way public derivative.
 
-The prerelease is read-only and uses exact source commits, firmware provenance,
+The release is read-only and uses exact source commits, firmware provenance,
 manifests, indexes, checksums and a protected release gate. The stable-channel
 descriptor remains `unpublished`; partner-local knowledge stays outside the
 bundle. Native Lazurio installation is intentionally not implemented here.
@@ -75,8 +75,11 @@ bun run creator-kit:build
 bun run creator-kit:check
 ```
 
-`creator-kit:build` creates only a local deterministic archive under the
-ignored `.creator-kit-tmp/`; it does not call GitHub Releases. The public
-latest published prerelease remains
-[`creator-kit-v0.1.0-rc.3`](https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.3)
-until the protected publication workflow is explicitly approved for rc.4.
+`creator-kit:build` creates only a local deterministic `released` archive from
+the unchanged committed `candidate` under the ignored `.creator-kit-tmp/`; it
+does not call GitHub Releases. It reports both bundle digests so the protected
+workflow can require the reviewed candidate digest, stage the resulting asset
+in a draft release, read it back and verify the released digest before making
+the release public. The latest published candidate remains
+[`creator-kit-v0.1.0-rc.4`](https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.4)
+until the protected publication workflow publishes the reviewed `0.1.0` head.

@@ -1,8 +1,8 @@
-These tables are generated from the parser contract. Studio uses `additionalProperties: false` to prevent writes containing typos or firmware-ignored fields.
+These tables are generated from the parser contract. `additionalProperties: false` marks typos and firmware-ignored fields as warnings; only invalid JSON or a non-object top-level value blocks a write.
 
 ## Top-level
 
-`controller`, `wifi`, `rtc`, `pwm`, `ports`, `io`, `segments`, `script`, `scripts`, `plugins`, `sensors`, `ble`, `console`, `serial`, `espnow`, `ethernet`
+`controller`, `wifi`, `rtc`, `pwm`, `ports`, `io`, `segments`, `canvases`, `temperature`, `script`, `scripts`, `plugins`, `sensors`, `ble`, `console`, `serial`, `espnow`, `ethernet`
 
 ## `controller`
 
@@ -20,10 +20,11 @@ These tables are generated from the parser contract. Studio uses `additionalProp
 | `websocket` | `boolean` | supported |
 | `btn` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
 | `!btn+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
-| `button` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
-| `!button+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
+| `_btn` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
 | `led` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
 | `!led+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
+| `_led` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
+| `button` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
 
 ## `wifi`
 
@@ -90,6 +91,28 @@ This top-level section is retained for backward compatibility only. It is schedu
 | `to` | `integer [1..2048]` | supported |
 | `step` | `integer [1..2048]` | supported |
 
+## `canvases`
+
+:::note[Reserved for future firmware]
+Reserved forward-compatible canvas map. Each canvas label lists segment labels. Firmware 0.12.11 preserves but does not act on this section.
+:::
+
+| Keyword | Type / allowed values | Status |
+| --- | --- | --- |
+| `<LABEL>` | `array<string /^[A-Za-z0-9_]{1,5}$/>` | reserved |
+
+## `temperature`
+
+:::note[Reserved for future firmware]
+Reserved forward-compatible Controller temperature sensor configuration. Firmware 0.12.11 preserves but does not act on it; a future firmware can publish temperature warnings through Controller notifications without rewriting the config.
+:::
+
+| Keyword | Type / allowed values | Status |
+| --- | --- | --- |
+| `type` | `"NTC"` | reserved |
+| `pin` | `-1 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | reserved |
+| `resistance` | `integer [1..∞]` | reserved |
+
 ## `script`
 
 This section is a scalar value or collection; see the JSON Schema for its exact shape.
@@ -107,12 +130,14 @@ This section is a scalar value or collection; see the JSON Schema for its exact 
 | `alive` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | deprecated |
 | `en` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
 | `!en+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
+| `_en` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
 | `btn` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
 | `!btn+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
-| `button` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
-| `!button+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
+| `_btn` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
 | `pin` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
 | `!pin+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
+| `_pin` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
+| `button` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
 
 ## `sensors`
 
@@ -127,12 +152,14 @@ This top-level section is retained for backward compatibility only. It is schedu
 | `alive` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | deprecated |
 | `en` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
 | `!en+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
+| `_en` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33` | supported |
 | `btn` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
 | `!btn+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
-| `button` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
-| `!button+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
+| `_btn` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
 | `pin` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
 | `!pin+` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
+| `_pin` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | supported |
+| `button` | `-1 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20 \| 21 \| 22 \| 23 \| 25 \| 26 \| 27 \| 32 \| 33 \| 34 \| 35 \| 36 \| 37 \| 38 \| 39` | deprecated |
 
 ## `ble`
 
@@ -201,17 +228,41 @@ This top-level section is retained for backward compatibility only. It is schedu
 | `timeout` | `integer` | supported |
 | `enable` | `boolean` | supported |
 
+## Common warnings and guidance
+
+- `io.*.fade` — Use `fadetime`; `fade` is not a firmware 0.12.11 keyword.
+- `segments.*.brightness` — Segment brightness is not supported. Set `brightness` on the referenced `io.<label>` object instead.
+- `controller.!button` — Decorated `button` is invalid. Use `!btn`; only bare `button` remains as a deprecated alias.
+- `controller.button!` — Decorated `button` is invalid. Use `btn!`; only bare `button` remains as a deprecated alias.
+- `controller.!button+` — Decorated `button` is invalid. Use `!btn+`; only bare `button` remains as a deprecated alias.
+- `controller.button-` — Decorated `button` is invalid. Use `btn-`; only bare `button` remains as a deprecated alias.
+- `controller._button` — Decorated `button` is invalid. Use `_btn`; only bare `button` remains as a deprecated alias.
+- `plugins.*.!button` — Decorated `button` is invalid. Use `!btn`; only bare `button` remains as a deprecated alias.
+- `plugins.*.button!` — Decorated `button` is invalid. Use `btn!`; only bare `button` remains as a deprecated alias.
+- `plugins.*.!button+` — Decorated `button` is invalid. Use `!btn+`; only bare `button` remains as a deprecated alias.
+- `plugins.*.button-` — Decorated `button` is invalid. Use `btn-`; only bare `button` remains as a deprecated alias.
+- `plugins.*._button` — Decorated `button` is invalid. Use `_btn`; only bare `button` remains as a deprecated alias.
+- `sensors.*.!button` — Decorated `button` is invalid. Use `!btn`; only bare `button` remains as a deprecated alias.
+- `sensors.*.button!` — Decorated `button` is invalid. Use `btn!`; only bare `button` remains as a deprecated alias.
+- `sensors.*.!button+` — Decorated `button` is invalid. Use `!btn+`; only bare `button` remains as a deprecated alias.
+- `sensors.*.button-` — Decorated `button` is invalid. Use `btn-`; only bare `button` remains as a deprecated alias.
+- `sensors.*._button` — Decorated `button` is invalid. Use `_btn`; only bare `button` remains as a deprecated alias.
+
 ## Cross-section rules
 
 - I/O and segment labels contain 1..5 characters from A-Z, a-z, 0-9 or underscore.
+- A longer segment-map key is truncated to its first five characters by firmware. Studio warns but keeps the config writable so multiple definitions can intentionally share one five-character segment identifier.
 - Only one I2C I/O entry can be active.
 - DALI maxcolortemp must be greater than or equal to mincolortemp.
-- A segment section must refer to an existing I/O label.
+- The I/O referenced by this segment is not defined in this Controller config.
 - Segment size is shorthand for from=1,to=size.
+- Segment brightness is unsupported; brightness belongs on the referenced I/O object.
 - Pin value -1 means not connected for every GPIO pin schema.
+- A leading underscore disables a decorated GPIO member while preserving its pin and electrical decorators in JSON. It must be the first character; use type NC to disable a complete I/O because an underscore in an I/O label is an ordinary label character.
 - DAC order W requires exactly one GPIO 25/26 or -1; RB or an omitted order requires two values from -1, 25 and 26, and connected GPIOs must be unique.
 - ADC inputs are limited to ADC1 GPIOs 32..39 or -1; RTC I2C pins must be output-capable or -1.
-- controller.btn wins over deprecated controller.button when both are present.
-- plugins PowerManage btn wins over deprecated button and pin aliases.
+- controller.btn wins over deprecated bare controller.button when both are present. Decorated button aliases are invalid for authoring and must use the btn base; firmware 0.12.11 still tolerates deployed occurrences with a warning.
+- A disabled controller._btn member does not override a separate deprecated controller.button member; remove or rename the legacy member when disabling the button.
+- plugins PowerManage btn wins over deprecated bare button and pin aliases. Decorated button aliases are invalid for authoring and must use the btn base; firmware 0.12.11 still tolerates deployed occurrences with a warning.
 
 _Generated from the versioned `Spectoda/firmware` contract for FW 0.12.11. Do not maintain these tables separately from the firmware contract._

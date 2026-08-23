@@ -12,11 +12,11 @@ const TEMPLATE_ROOT = path.join(ROOT, "creator-kit-templates");
 const EXAMPLE_ID = "player-show-global-sparse-cues";
 const EXAMPLE_ROOT = path.join(ROOT, `data/v2/examples/${EXAMPLE_ID}`);
 const EXAMPLE_DESTINATION = `examples/${EXAMPLE_ID}`;
-const DOCUMENTATION_COMMIT = "08cb4e5f8155178c18a86edd4a515f7d6c8fb835";
-const DOCUMENTATION_CHECKSUM_DIGEST = "155ce7c6a14581672e4a83f981a4e08e78e98c31b26c2f9c7f6bdfc2a331ed31";
+const DOCUMENTATION_COMMIT = "67827bf5d2680de8bbb7a3a7e73773441669cbf3";
+const DOCUMENTATION_CHECKSUM_DIGEST = "296e1aae0f73c007cfca46b773b030c8939b7140fe57804cc11617f937eee2fe";
 const EXAMPLES_COMMIT = "97fd90afbc9839830b3dc7f73df36f385f66564d";
 const FIRMWARE_COMMIT = "51a8d6337d968b47f563bf2decb8f7404d93c27a";
-const FIRMWARE_REVISION_COMMIT = "f1c48452350413166dd19d28d5aaf9b9a89152d5";
+const FIRMWARE_REVISION_COMMIT = "dc36700e77845254a3e075cb086e6db76049f9ab";
 const EXAMPLE_FILES = ["README.md", "example.yaml", "player.be"];
 
 const json = (value) => `${JSON.stringify(value, null, 2)}\n`;
@@ -205,7 +205,7 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
     licenses.entries?.join("\n") !== "CC-BY-4.0" ||
     stable.state !== "unpublished"
   ) {
-    throw new Error("Documentation bundle does not match the authorized rc.4 candidate contract");
+    throw new Error("Documentation bundle does not match the authorized 0.1.0 release contract");
   }
   if (
     !manifest.assets.every((asset) =>
@@ -323,6 +323,7 @@ export async function importDocumentationSnapshot({ documentationBundle, outputD
       path.join(staging, "README.md"),
       (await readFile(path.join(TEMPLATE_ROOT, "README.md"), "utf8"))
         .replaceAll("{{BUNDLE_VERSION}}", BUNDLE_VERSION)
+        .replaceAll("{{DOCUMENTATION_COMMIT}}", DOCUMENTATION_COMMIT)
         .replaceAll("{{EXAMPLES_COMMIT}}", EXAMPLES_COMMIT),
     );
     await writeFile(path.join(staging, "AGENTS.md"), await readFile(path.join(TEMPLATE_ROOT, "AGENTS.md")));

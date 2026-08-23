@@ -12,22 +12,22 @@
       "id": "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-io-types__md",
       "path": "documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md",
       "title": "FW 0.12.11 – I/O types",
-      "summary": "All 23 available I/O types, their keywords, variants and compile-time limitations.",
-      "sha256": "8bd0702d439b573fea4c89d4af3c2a2109e09586dd0e738eefd4c693c8e04780"
+      "summary": "All 24 available I/O types, their keywords, variants and compile-time limitations.",
+      "sha256": "be46c6310b87bcfeccea6edd9777ed4cf499487f1465982ac70b5779d9cf5824"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
       "path": "documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-keywords.md",
       "title": "FW 0.12.11 – complete keywords",
       "summary": "Every top-level section and nested keyword processed by Controller config in firmware 0.12.11.",
-      "sha256": "3006cd6917a01761a60b8b26e04367b9a36e1dd39b1889c7c57a4bd3aadf0f9a"
+      "sha256": "df4c7c27d4bc24e92ce7f615232be6ade609a31db207c31ee54640de89f5034e"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__index__md",
       "path": "documents/en/pro-vyrobce-a-tvurce/controller-config/index.md",
       "title": "Controller config",
       "summary": "Complete Controller config map for firmware 0.12.11, including Studio and the WASM schema contract.",
-      "sha256": "3655bdaac1de00eed7d21b28a00a452aa7163abfe620c477ff021dfdd738d48c"
+      "sha256": "4d732a088bfa28cd9743285d26155a34f7a60d8990785a763c99b8a77cc67d9d"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md",
@@ -41,14 +41,14 @@
       "path": "documents/en/pro-vyrobce-a-tvurce/controller-config/wasm-schema.md",
       "title": "WASM schema and Studio",
       "summary": "How firmware supplies a versioned Controller config contract to Studio validation and autocomplete.",
-      "sha256": "7b97193f4ce1f58c46e2e1eb6e5d9eb929747e2326844c8e19b9a8d5c79390b3"
+      "sha256": "dbd12189e36f6bb177efa500bdfa376b0829cbdd26369dff4c0889e2fc736ee5"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md",
       "path": "documents/en/pro-vyrobce-a-tvurce/spectoda-creator-kit.md",
       "title": "Spectoda Creator Kit",
       "summary": "The Spectoda Creator Kit is an exact-version, reviewable knowledge bundle for makers and their coding agents.",
-      "sha256": "780a43eea5a64b8d5ba72637ed7260a8fb07b89fae4ad34ed54f57bd772ec8df"
+      "sha256": "6851992c84fb10663b32f55c1d85c876ba0b54fbf0a63bcc86a7fcd79ea44aca"
     }
   ]
 }

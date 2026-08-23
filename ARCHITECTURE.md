@@ -63,16 +63,21 @@ private `documentation` module remains authoritative for Markdown/MDX and the
 repository only as an immutable, checksum-locked, one-way derivative; Examples
 does not become an authoring backchannel for Documentation.
 
-The `0.1.0-rc.4` review candidate includes seven CC BY 4.0 documents, two
+The `0.1.0` stable release candidate includes seven CC BY 4.0 documents, two
 hash-locked FW 0.12.11 config assets and the MIT sparse global Event Player.
 It carries the exact Documentation snapshot digest,
 Documentation/Firmware/Examples source commits, license posture, compatibility
-contract, indexes and checksums. The published `0.1.0-rc.3` release remains
-immutable; a new version always produces a new snapshot and release tag.
+contract, indexes and checksums. The published `0.1.0-rc.3` and
+`0.1.0-rc.4` releases remain immutable; a new version always produces a new
+snapshot and release tag.
 `scripts/creator-kit/validate.mjs` checks public safety, links, hashes,
 provenance, size and the unpublished stable boundary. Public CI packages the
-already committed snapshot into a deterministic tar; only the protected
-workflow may publish that tar as a GitHub prerelease.
+already committed `candidate` snapshot into a deterministic `released` tar;
+only the protected workflow may perform that status transition. It verifies
+the candidate digest, regenerates checksums, reads the exact assets back from a
+draft release, verifies the resulting released digest, and only then publishes
+the stable GitHub Release. This does not publish the separate stable-channel
+descriptor, which remains a later reviewed step.
 
 The only v1 transport contract is GitHub Releases plus the stable descriptor.
 No embeddings, hosted dynamic RAG, central MCP gateway, writable
