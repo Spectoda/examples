@@ -9,7 +9,7 @@ flowchart LR
   W --> S["Studio Config Editor"]
   C --> D["This documentation"]
   S --> M["Monaco autocomplete"]
-  S --> V["Ajv pre-write validation"]
+  S --> V["Ajv schema warnings"]
 ```
 
 ## Version changes
@@ -19,17 +19,18 @@ the schema for the Controller Config Editor model and recompiles its validator.
 Autocomplete and accepted keywords therefore follow the active WASM artifact,
 not the Studio release.
 
-## Fail-closed behavior
+## Writes and warnings
 
-Config writes are disabled when:
-
-- the WASM contract is missing or has an unsupported version,
-- JSON cannot be parsed,
-- a value does not match the JSON Schema,
-- a cross-section rule fails, such as multiple I2C entries, an unknown I/O
-  label in a segment or a reversed DALI temperature range.
-
-Reading config, history, copying and exporting remain available.
+A config write is disabled only when JSON cannot be parsed or the top-level
+value is not an object. A missing or incompatible WASM contract shows an
+`unvalidated` state. A JSON Schema or cross-section mismatch produces a
+warning while leaving writes available. Examples include an unknown keyword,
+multiple I2C entries, an I/O referenced by a segment but not defined in the
+Controller config, or a reversed DALI temperature range. The contract can also
+attach versioned remediation guidance,
+for example renaming `fade` to `fadetime` or moving segment `brightness` to the
+referenced I/O object. A long segment label is likewise warning-only; firmware
+uses its first five characters.
 
 ## Machine-readable files
 

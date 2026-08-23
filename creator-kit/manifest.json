@@ -1,12 +1,12 @@
 {
   "schemaVersion": "creator-kit-manifest.v1",
   "bundleName": "Spectoda Creator Kit",
-  "bundleVersion": "0.1.0-rc.4",
+  "bundleVersion": "0.1.0",
   "locale": "en",
   "contentScope": "licensed-documentation-with-public-examples",
   "source": {
     "repository": "Spectoda/documentation",
-    "commit": "08cb4e5f8155178c18a86edd4a515f7d6c8fb835"
+    "commit": "67827bf5d2680de8bbb7a3a7e73773441669cbf3"
   },
   "documents": [
     {
@@ -33,9 +33,9 @@
       "path": "documents/en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md",
       "sourcePath": "en/pro-vyrobce-a-tvurce/controller-config/fw-01211-io-types.md",
       "title": "FW 0.12.11 – I/O types",
-      "summary": "All 23 available I/O types, their keywords, variants and compile-time limitations.",
+      "summary": "All 24 available I/O types, their keywords, variants and compile-time limitations.",
       "format": "md",
-      "sha256": "8bd0702d439b573fea4c89d4af3c2a2109e09586dd0e738eefd4c693c8e04780",
+      "sha256": "be46c6310b87bcfeccea6edd9777ed4cf499487f1465982ac70b5779d9cf5824",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -45,7 +45,7 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "0c3fcbb0a1047e5e2931a801c9e9d0f07c8b81a8fd6fcb30df19fc9ed8b44e9a"
+      "sourceSha256": "2ae57764310ac4eb1d03e7ad19d7feb862580ccfc4745cd909d0a36977a0f175"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__fw-01211-keywords__md",
@@ -54,7 +54,7 @@
       "title": "FW 0.12.11 – complete keywords",
       "summary": "Every top-level section and nested keyword processed by Controller config in firmware 0.12.11.",
       "format": "md",
-      "sha256": "3006cd6917a01761a60b8b26e04367b9a36e1dd39b1889c7c57a4bd3aadf0f9a",
+      "sha256": "df4c7c27d4bc24e92ce7f615232be6ade609a31db207c31ee54640de89f5034e",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -64,7 +64,7 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "20171c17728142cfb9b754c06f7b279e54cd717124e22db83c2335759833904e"
+      "sourceSha256": "f30b1802181640bfc3655e0592107041ff7d917a3f7f6db2f934cb9f6d314399"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__index__md",
@@ -73,7 +73,7 @@
       "title": "Controller config",
       "summary": "Complete Controller config map for firmware 0.12.11, including Studio and the WASM schema contract.",
       "format": "md",
-      "sha256": "3655bdaac1de00eed7d21b28a00a452aa7163abfe620c477ff021dfdd738d48c",
+      "sha256": "4d732a088bfa28cd9743285d26155a34f7a60d8990785a763c99b8a77cc67d9d",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -83,7 +83,7 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "1e51564d970ed526a1c01dfa2e9445d46090cf13e99e8ae409ca47d7efcc01d4"
+      "sourceSha256": "e06be5e5b5ddb5788bc8bb5ce239684fe622f0106d92051a1fe8af47bf60f18e"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__controller-config__io-type-dali__md",
@@ -111,7 +111,7 @@
       "title": "WASM schema and Studio",
       "summary": "How firmware supplies a versioned Controller config contract to Studio validation and autocomplete.",
       "format": "md",
-      "sha256": "7b97193f4ce1f58c46e2e1eb6e5d9eb929747e2326844c8e19b9a8d5c79390b3",
+      "sha256": "dbd12189e36f6bb177efa500bdfa376b0829cbdd26369dff4c0889e2fc736ee5",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -121,7 +121,7 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "de03ed774fa7ac3f0c820593f10f489435f2293a10fbc02b092cfe825f997668"
+      "sourceSha256": "a6a295184e54d7d8610d07d902d7a46d3242951b2be97c56bda2e4247e6240d0"
     },
     {
       "id": "en__pro-vyrobce-a-tvurce__spectoda-creator-kit__md",
@@ -130,7 +130,7 @@
       "title": "Spectoda Creator Kit",
       "summary": "The Spectoda Creator Kit is an exact-version, reviewable knowledge bundle for makers and their coding agents.",
       "format": "md",
-      "sha256": "780a43eea5a64b8d5ba72637ed7260a8fb07b89fae4ad34ed54f57bd772ec8df",
+      "sha256": "6851992c84fb10663b32f55c1d85c876ba0b54fbf0a63bcc86a7fcd79ea44aca",
       "agentExport": {
         "include": true,
         "audience": "partner-maker",
@@ -140,17 +140,17 @@
         "legalTraceabilityStatus": null,
         "legalTraceability": null
       },
-      "sourceSha256": "acedc127c99c862153cd4ba4edccf867cf919bef6d270a3c8055bb775573467c"
+      "sourceSha256": "787b4a475b6578a2416c934aca94198ee65b8e87354bf4d9133c8d82354d9aa2"
     }
   ],
   "assets": [
     {
       "role": "controller-config-contract",
       "path": "assets/docs/controller-config/0.12.11/controller-config.contract.json",
-      "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.contract.json",
+      "sourcePath": "data/v2/public/assets/docs/controller-config/0.12.11/controller-config.contract.json",
       "mediaType": "application/json",
-      "sha256": "a2f6fc92495902723a89f89d223e5bf61e4c5ad704b3909aee0cee9d342c6f0b",
-      "sourceSha256": "a2f6fc92495902723a89f89d223e5bf61e4c5ad704b3909aee0cee9d342c6f0b",
+      "sha256": "15cc88fe7cd1de9b68d75f45f3c5fa8fb305317f1e43b0173487b54af58bf112",
+      "sourceSha256": "15cc88fe7cd1de9b68d75f45f3c5fa8fb305317f1e43b0173487b54af58bf112",
       "license": "CC-BY-4.0",
       "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11",
       "publicDerivative": true,
@@ -158,16 +158,16 @@
       "upstreamSource": {
         "repository": "Spectoda/firmware",
         "commit": "51a8d6337d968b47f563bf2decb8f7404d93c27a",
-        "revisionCommit": "f1c48452350413166dd19d28d5aaf9b9a89152d5"
+        "revisionCommit": "dc36700e77845254a3e075cb086e6db76049f9ab"
       }
     },
     {
       "role": "controller-config-schema",
       "path": "assets/docs/controller-config/0.12.11/controller-config.schema.json",
-      "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.schema.json",
+      "sourcePath": "data/v2/public/assets/docs/controller-config/0.12.11/controller-config.schema.json",
       "mediaType": "application/schema+json",
-      "sha256": "be1d8dad5262ecfa22f8b4415b4bffce6a897a0cc315d5975811f66cd521594b",
-      "sourceSha256": "be1d8dad5262ecfa22f8b4415b4bffce6a897a0cc315d5975811f66cd521594b",
+      "sha256": "e7cfe63edbf7942c138596ed36e60154b8839a7e0056fe07a516c02811afcfec",
+      "sourceSha256": "e7cfe63edbf7942c138596ed36e60154b8839a7e0056fe07a516c02811afcfec",
       "license": "CC-BY-4.0",
       "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11",
       "publicDerivative": true,
@@ -175,7 +175,7 @@
       "upstreamSource": {
         "repository": "Spectoda/firmware",
         "commit": "51a8d6337d968b47f563bf2decb8f7404d93c27a",
-        "revisionCommit": "f1c48452350413166dd19d28d5aaf9b9a89152d5"
+        "revisionCommit": "dc36700e77845254a3e075cb086e6db76049f9ab"
       }
     }
   ],

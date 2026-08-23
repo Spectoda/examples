@@ -27,6 +27,6 @@ The copy-ready FW 0.12.11 Event Player integration is available at
 data are CC BY 4.0. Spectoda names, logos and trademarks are not licensed by
 those grants.
 
-The prerelease is not a stable-channel promotion. Embeddings, hosted dynamic
+The stable GitHub Release is not a stable-channel promotion. Embeddings, hosted dynamic
 RAG, a central MCP gateway, a writable Documentation API and a generic Lazurio
 installer are not part of Creator Kit v1.

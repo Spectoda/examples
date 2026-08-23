@@ -45,13 +45,13 @@
   "assets": [
     {
       "role": "controller-config-contract",
-      "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.contract.json",
+      "sourcePath": "data/v2/public/assets/docs/controller-config/0.12.11/controller-config.contract.json",
       "bundlePath": "assets/docs/controller-config/0.12.11/controller-config.contract.json",
       "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11"
     },
     {
       "role": "controller-config-schema",
-      "sourcePath": "app/v1/public/assets/docs/controller-config/0.12.11/controller-config.schema.json",
+      "sourcePath": "data/v2/public/assets/docs/controller-config/0.12.11/controller-config.schema.json",
       "bundlePath": "assets/docs/controller-config/0.12.11/controller-config.schema.json",
       "sourceLock": "dev-6455-cc-by-4.0-fw-0.12.11"
     }

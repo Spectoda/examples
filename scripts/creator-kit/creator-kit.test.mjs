@@ -10,10 +10,30 @@ import { evaluateAllAgents } from "./evaluate-agents.mjs";
 import { importDocumentationSnapshot } from "./import-documentation-snapshot.mjs";
 import { promoteStableChannel } from "./promote-stable-channel.mjs";
 import { validateBundle } from "./validate.mjs";
+import { verifyReleaseAssets } from "./verify-release-assets.mjs";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
 const BUNDLE_ROOT = path.join(ROOT, "creator-kit");
 const TEST_DOCUMENT_PATH = "documents/en/pro-vyrobce-a-tvurce/controller-config/index.md";
+
+async function rewriteArchiveTrust(assetDir, archiveBytes) {
+  const archiveName = "spectoda-creator-kit-0.1.0.tar";
+  const archiveDigest = sha256(archiveBytes);
+  await writeFile(path.join(assetDir, archiveName), archiveBytes);
+  await writeFile(path.join(assetDir, `${archiveName}.sha256`), `${archiveDigest}  ${archiveName}\n`, "utf8");
+  const provenancePath = path.join(assetDir, "provenance.json");
+  const provenance = JSON.parse(await readFile(provenancePath, "utf8"));
+  provenance.archiveDigest = archiveDigest;
+  await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`, "utf8");
+}
+
+function rewriteFirstTarPath(archive, relative) {
+  archive.fill(0, 0, 100);
+  Buffer.from(relative).copy(archive, 0);
+  archive.fill(0x20, 148, 156);
+  const checksum = [...archive.subarray(0, 512)].reduce((total, byte) => total + byte, 0);
+  Buffer.from(`${checksum.toString(8).padStart(6, "0")}\0 `).copy(archive, 148);
+}
 
 async function replaceDocumentAndRehash(bundle, content) {
   await writeFile(path.join(bundle, TEST_DOCUMENT_PATH), content, "utf8");
@@ -37,25 +57,90 @@ async function replaceDocumentAndRehash(bundle, content) {
 
 test("validates the committed licensed Creator Kit snapshot", async () => {
   const result = await validateBundle(BUNDLE_ROOT);
-  assert.equal(result.bundleVersion, "0.1.0-rc.4");
+  assert.equal(result.bundleVersion, "0.1.0");
   assert.equal(result.documentCount, 7);
   assert.equal(result.assetCount, 2);
   assert.equal(result.exampleCount, 1);
+  assert.equal(result.bundleStatus, "candidate");
   assert.equal(result.stableState, "unpublished");
   assert.ok(result.totalBytes <= 8 * 1024 * 1024);
 });
 
-test("double-builds a deterministic prerelease archive without mutating the snapshot", async () => {
+test("double-builds a deterministic stable release archive without mutating the snapshot", async () => {
   const root = await mkdtemp(path.join(tmpdir(), "creator-kit-release-"));
   try {
     const first = await buildReleaseCandidate({ releaseDir: path.join(root, "first") });
     const second = await buildReleaseCandidate({ releaseDir: path.join(root, "second") });
     assert.equal(first.archive.sha256, second.archive.sha256);
     assert.equal(first.provenance.bundleDigest, second.provenance.bundleDigest);
-    assert.equal(first.provenance.releaseType, "prerelease");
+    assert.equal(first.provenance.candidateBundleDigest, first.candidateValidation.checksumDigest);
+    assert.equal(first.provenance.bundleDigest, first.releasedValidation.checksumDigest);
+    assert.notEqual(first.provenance.candidateBundleDigest, first.provenance.bundleDigest);
+    assert.equal(first.candidateValidation.bundleStatus, "candidate");
+    assert.equal(first.releasedValidation.bundleStatus, "released");
+    assert.equal(first.provenance.releaseType, "release");
     assert.equal(first.provenance.stableChannelState, "unpublished");
-    assert.equal(first.provenance.documentationSource.commit, "08cb4e5f8155178c18a86edd4a515f7d6c8fb835");
+    assert.equal(first.provenance.documentationSource.commit, "67827bf5d2680de8bbb7a3a7e73773441669cbf3");
     assert.deepEqual(await readFile(first.archive.archivePath), await readFile(second.archive.archivePath));
+    const verified = await verifyReleaseAssets({
+      assetDir: path.join(root, "first"),
+      sourceCommit: first.provenance.source.commit,
+      candidateDigest: first.provenance.candidateBundleDigest,
+      releasedDigest: first.provenance.bundleDigest,
+    });
+    assert.equal(verified.validation.bundleStatus, "released");
+    assert.equal((JSON.parse(await readFile(path.join(BUNDLE_ROOT, "bundle.json"), "utf8"))).status, "candidate");
+    await assert.rejects(
+      buildReleaseCandidate({
+        releaseDir: path.join(root, "digest-mismatch"),
+        expectedCandidateDigest: "0".repeat(64),
+      }),
+      /candidate bundle digest does not match/u,
+    );
+    await assert.rejects(
+      buildReleaseCandidate({
+        releaseDir: path.join(root, "released-digest-mismatch"),
+        expectedCandidateDigest: first.provenance.candidateBundleDigest,
+        expectedReleasedDigest: "0".repeat(64),
+      }),
+      /Released bundle digest does not match/u,
+    );
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("release verification rejects unsafe tar paths and a mismatched released digest", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "creator-kit-release-negative-"));
+  try {
+    const originalDir = path.join(root, "original");
+    const built = await buildReleaseCandidate({ releaseDir: originalDir });
+    const verification = {
+      sourceCommit: built.provenance.source.commit,
+      candidateDigest: built.provenance.candidateBundleDigest,
+      releasedDigest: built.provenance.bundleDigest,
+    };
+
+    const unsafeDir = path.join(root, "unsafe-path");
+    await cp(originalDir, unsafeDir, { recursive: true });
+    const unsafeArchive = Buffer.from(await readFile(path.join(unsafeDir, "spectoda-creator-kit-0.1.0.tar")));
+    rewriteFirstTarPath(unsafeArchive, "../escape");
+    await rewriteArchiveTrust(unsafeDir, unsafeArchive);
+    await assert.rejects(
+      verifyReleaseAssets({ assetDir: unsafeDir, ...verification }),
+      /unsafe or duplicate path/u,
+    );
+
+    const digestDir = path.join(root, "released-digest");
+    await cp(originalDir, digestDir, { recursive: true });
+    const provenancePath = path.join(digestDir, "provenance.json");
+    const provenance = JSON.parse(await readFile(provenancePath, "utf8"));
+    provenance.bundleDigest = "0".repeat(64);
+    await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`, "utf8");
+    await assert.rejects(
+      verifyReleaseAssets({ assetDir: digestDir, ...verification, releasedDigest: "0".repeat(64) }),
+      /Released archive bundle digest is invalid/u,
+    );
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -138,9 +223,26 @@ test("rejects credential assignments and bare non-public URLs after valid rehash
     await writeFile(path.join(readmeBundle, "checksums.sha256"), await createChecksums(readmeBundle), "utf8");
     await assert.rejects(validateBundle(readmeBundle), /whole-bundle public-safety validation/u);
 
+    const placeholderBundle = path.join(root, "unresolved-template-placeholder");
+    await cp(BUNDLE_ROOT, placeholderBundle, { recursive: true });
+    await writeFile(path.join(placeholderBundle, "README.md"), "# Creator Kit {{DOCUMENTATION_COMMIT}}\n", "utf8");
+    await writeFile(path.join(placeholderBundle, "checksums.sha256"), await createChecksums(placeholderBundle), "utf8");
+    await assert.rejects(validateBundle(placeholderBundle), /unresolved template placeholder/u);
+
+    const wrongReadmeCommitBundle = path.join(root, "wrong-readme-commit");
+    await cp(BUNDLE_ROOT, wrongReadmeCommitBundle, { recursive: true });
+    const lockedDocumentationCommit = JSON.parse(
+      await readFile(path.join(wrongReadmeCommitBundle, "source-lock.json"), "utf8"),
+    ).commit;
+    const wrongReadme = (await readFile(path.join(wrongReadmeCommitBundle, "README.md"), "utf8"))
+      .replace(lockedDocumentationCommit, "0".repeat(40));
+    await writeFile(path.join(wrongReadmeCommitBundle, "README.md"), wrongReadme, "utf8");
+    await writeFile(path.join(wrongReadmeCommitBundle, "checksums.sha256"), await createChecksums(wrongReadmeCommitBundle), "utf8");
+    await assert.rejects(validateBundle(wrongReadmeCommitBundle), /README Documentation source commit is invalid/u);
+
     const releaseNotesBundle = path.join(root, "release-notes-url");
     await cp(BUNDLE_ROOT, releaseNotesBundle, { recursive: true });
-    await writeFile(path.join(releaseNotesBundle, "RELEASE_NOTES.md"), "Public prerelease: https://release.internal/secret\n", "utf8");
+    await writeFile(path.join(releaseNotesBundle, "RELEASE_NOTES.md"), "Public stable release: https://release.internal/secret\n", "utf8");
     await writeFile(path.join(releaseNotesBundle, "checksums.sha256"), await createChecksums(releaseNotesBundle), "utf8");
     await assert.rejects(validateBundle(releaseNotesBundle), /private or unsupported URL/u);
   } finally {
@@ -328,9 +430,9 @@ test("stable-channel promotion remains separately human-gated", async () => {
     await assert.rejects(
       promoteStableChannel({
         bundleRoot: BUNDLE_ROOT,
-        version: "0.1.0-rc.4",
+        version: "0.1.0",
         digest: validation.checksumDigest,
-        releaseUrl: "https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0-rc.4",
+        releaseUrl: "https://github.com/Spectoda/examples/releases/tag/creator-kit-v0.1.0",
         outputPath: path.join(root, "stable-channel.json"),
         confirmation: "",
       }),
