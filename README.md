@@ -14,7 +14,7 @@ app, launchable from the Spectoda Launchpad (port `24708`). It reads the example
 from `data/v2/` at build time and lets Spectoda people browse them by category,
 filter by name/tag/keyword, read each example's notes, and copy its source files.
 
-Runtime otevři přes **Start/Open** u Examples v centrálním Conglomerate
+Runtime otevři přes **Start/Open** u Examples v centrálním Lazurio
 Launchpadu. Závislosti lze připravit přes `cd app/v2 && bun install`; port
 `24708` vlastní kořenový module lease.
 
