@@ -1,3 +1,4 @@
+import { withModuleListener } from "../../runtime-listener.mjs";
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
@@ -8,7 +9,7 @@ import { defineConfig } from 'vite';
 const appRoot = fileURLToPath(new URL('.', import.meta.url));
 const examplesData = fileURLToPath(new URL('../../data/v2', import.meta.url));
 
-export default defineConfig({
+export default defineConfig(withModuleListener({
   plugins: [react()],
   server: {
     allowedHosts: ['examples.launchpad.spectoda.com'],
@@ -16,4 +17,4 @@ export default defineConfig({
       allow: [appRoot, examplesData],
     },
   },
-});
+}));

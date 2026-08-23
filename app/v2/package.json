@@ -4,12 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort",
-    "dev:filesystem": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort",
-    "dev:production": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort",
+    "dev": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2",
+    "dev:filesystem": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2",
+    "dev:production": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2",
     "build": "tsc -b && bun ./node_modules/vite/bin/vite.js build",
-    "preview": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js preview --host \"$HOST\" --port \"$PORT\" --strictPort",
-    "dev:launchpad": "bun -e \"process.exit(process.env.HOST && process.env.PORT ? 0 : 1)\" && bun ./node_modules/vite/bin/vite.js --mode filesystem-v2 --host \"$HOST\" --port \"$PORT\" --strictPort"
+    "preview": "bun ./node_modules/vite/bin/vite.js preview",
+    "dev:launchpad": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2"
   },
   "dependencies": {
     "dompurify": "^3.2.4",
