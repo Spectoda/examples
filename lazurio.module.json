@@ -11,5 +11,9 @@
       "host": "127.0.0.1",
       "port": 24708
     }
-  ]
+  ],
+  "apps": [
+    "app/v2/package.json"
+  ],
+  "default_app": "app/v2/package.json"
 }
