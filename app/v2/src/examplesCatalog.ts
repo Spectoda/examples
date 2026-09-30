@@ -38,11 +38,7 @@ export type Example = {
   related: string[];
 };
 
-export const CATEGORY_ORDER: ExampleCategory[] = [
-  'controller',
-  'espnow-remote',
-  'network-pattern',
-];
+export const CATEGORY_ORDER: ExampleCategory[] = ['controller', 'espnow-remote', 'network-pattern'];
 
 export const CATEGORY_LABELS: Record<ExampleCategory, string> = {
   controller: 'Controller setups',
@@ -61,7 +57,9 @@ function fileNameFromKey(key: string): string {
 }
 
 // slug -> (filename -> raw content)
-function buildFileIndex(fileModules: Record<string, string>): Record<string, Record<string, string>> {
+function buildFileIndex(
+  fileModules: Record<string, string>,
+): Record<string, Record<string, string>> {
   const index: Record<string, Record<string, string>> = {};
   for (const [key, content] of Object.entries(fileModules)) {
     const slug = slugFromKey(key);
@@ -127,4 +125,3 @@ export function buildExamples(
 
   return examples;
 }
-

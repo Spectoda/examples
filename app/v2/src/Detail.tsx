@@ -1,11 +1,7 @@
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 import { useMemo, useState } from 'react';
-import {
-  CATEGORY_LABELS,
-  findExample,
-  type ExampleFile,
-} from './examplesData';
+import { CATEGORY_LABELS, type ExampleFile, findExample } from './examplesData';
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
@@ -48,8 +44,7 @@ export function Detail({ slug }: { slug: string }) {
   const example = useMemo(() => findExample(slug), [slug]);
 
   const readmeHtml = useMemo(
-    () =>
-      example ? DOMPurify.sanitize(marked.parse(example.readme) as string) : '',
+    () => (example ? DOMPurify.sanitize(marked.parse(example.readme) as string) : ''),
     [example],
   );
 
@@ -94,6 +89,7 @@ export function Detail({ slug }: { slug: string }) {
             className="markdown"
             // README markdown is rendered with marked and sanitized with
             // DOMPurify before injection (defense-in-depth for a public repo).
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: sanitized with DOMPurify above
             dangerouslySetInnerHTML={{ __html: readmeHtml }}
           />
         </section>
@@ -111,11 +107,7 @@ export function Detail({ slug }: { slug: string }) {
           <h2>Related examples</h2>
           <div className="related-row">
             {example.related.map((rel) => (
-              <a
-                key={rel}
-                className="related-link"
-                href={`#example/${encodeURIComponent(rel)}`}
-              >
+              <a key={rel} className="related-link" href={`#example/${encodeURIComponent(rel)}`}>
                 {rel}
               </a>
             ))}

@@ -7,7 +7,8 @@ import manifest from './package.json';
 
 const names = [...Object.keys(manifest.dependencies), ...Object.keys(manifest.devDependencies)];
 const missing = names.filter(
-  (name) => !existsSync(fileURLToPath(new URL(`./node_modules/${name}/package.json`, import.meta.url))),
+  (name) =>
+    !existsSync(fileURLToPath(new URL(`./node_modules/${name}/package.json`, import.meta.url))),
 );
 if (missing.length > 0) {
   console.error(
