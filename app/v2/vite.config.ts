@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
-import { ModuleKitError, onShutdown, viteServerOptions } from '@lazurio/module-kit';
+import { ModuleKitError, viteServerOptions, viteShutdownPlugin } from '@lazurio/module-kit';
 import react from '@vitejs/plugin-react';
-import { defineConfig, type Plugin } from 'vite';
+import { defineConfig } from 'vite';
 
 // The app reads only its own files and the module's data/v2 examples. Keep the
 // dev-server filesystem allowlist scoped to exactly those two roots instead of
@@ -22,27 +22,17 @@ function appListener() {
   }
 }
 
-// SIGTERM closes the server and exits 0 (standard 4.4). Vite closes the dev
-// server on SIGTERM by itself but reports 128 + signal; a requested stop is a
-// clean exit, so the exit code is set before Vite's close finishes.
-function shutdownOnSigterm(): Plugin {
-  const stop = (server: { close(): Promise<void> }) => {
+export default defineConfig(({ command }) => {
+  const listener = command === 'serve' ? appListener() : null;
+  // Until module-kit ships the fix (Lazurio/module-kit#2), Vite's own SIGTERM
+  // handler would report 143; a requested stop is a clean exit.
+  if (listener)
     process.once('SIGTERM', () => {
       process.exitCode = 0;
     });
-    onShutdown(() => server.close());
-  };
   return {
-    name: 'lazurio-shutdown',
-    configureServer: stop,
-    configurePreviewServer: stop,
-  };
-}
-
-export default defineConfig(({ command }) => {
-  const listener = command === 'serve' ? appListener() : null;
-  return {
-    plugins: [react(), shutdownOnSigterm()],
+    // SIGTERM closes every connection and the server and exits 0 (standard 4.4).
+    plugins: [react(), viteShutdownPlugin()],
     // No .env* files on the start path (standard 4.3).
     envDir: false,
     server: {
