@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "lib": ["ES2023"],
+    "lib": [
+      "ES2023"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "Bundler",
@@ -9,7 +11,14 @@
     "resolveJsonModule": true,
     "strict": true,
     "noEmit": true,
-    "types": ["node"]
+    "types": [
+      "node",
+      "bun"
+    ]
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "prepared.ts",
+    "src/**/*.test.ts"
+  ]
 }
