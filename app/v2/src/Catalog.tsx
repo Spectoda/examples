@@ -2,9 +2,9 @@ import { useMemo, useState } from 'react';
 import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
-  loadExamples,
   type Example,
   type ExampleCategory,
+  loadExamples,
 } from './examplesData';
 
 function matches(ex: Example, query: string): boolean {
@@ -39,8 +39,8 @@ export function Catalog() {
           Spectoda <span className="gradient-text">examples</span>
         </h1>
         <p className="lead">
-          {all.length} copyable examples — controller setups, Berry scripts, TNGL
-          snippets and Spectoda App patterns. Pick one, read the notes, copy the files.
+          {all.length} copyable examples — controller setups, Berry scripts, TNGL snippets and
+          Spectoda App patterns. Pick one, read the notes, copy the files.
         </p>
         <input
           className="search"
@@ -52,9 +52,7 @@ export function Catalog() {
         />
       </section>
 
-      {filtered.length === 0 && (
-        <div className="panel empty">No example matches “{query}”.</div>
-      )}
+      {filtered.length === 0 && <div className="panel empty">No example matches “{query}”.</div>}
 
       <div className="catalog">
         {CATEGORY_ORDER.map((category) => {

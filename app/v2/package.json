@@ -3,15 +3,20 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "bun@1.4.2",
   "scripts": {
     "dev": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2",
-    "dev:filesystem": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2",
-    "dev:production": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2",
     "build": "tsc -b && bun ./node_modules/vite/bin/vite.js build",
     "preview": "bun ./node_modules/vite/bin/vite.js preview",
-    "dev:launchpad": "bun ./node_modules/vite/bin/vite.js --mode filesystem-v2"
+    "typecheck": "tsc -b",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check": "bun run typecheck && bun run lint",
+    "check:prepared": "bun run prepared.ts",
+    "test": "bun test"
   },
   "dependencies": {
+    "@lazurio/module-kit": "github:Lazurio/module-kit#v0.2.0",
     "dompurify": "^3.2.4",
     "marked": "^14.1.4",
     "react": "^19.2.4",
@@ -19,6 +24,8 @@
     "yaml": "^2.8.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.15",
+    "@types/bun": "^1.4.2",
     "@types/node": "^24.12.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -34,7 +41,7 @@
       "company": "Spectoda",
       "module": "examples",
       "surface": "public-preview",
-      "dev_script": "dev:launchpad",
+      "dev_script": "dev",
       "build_script": "build",
       "tags": [
         "examples",
@@ -53,6 +60,11 @@
           }
         }
       ]
+    },
+    "preparation": {
+      "schema_version": "lazurio.preparation.v1",
+      "owner_package": "app/v2/package.json",
+      "check_script": "check:prepared"
     }
   }
 }
