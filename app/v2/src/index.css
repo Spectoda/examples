@@ -62,7 +62,12 @@ body {
   min-height: 100vh;
   /* Brand halo glow behind the page (design-system .dark .halo) */
   background:
-    radial-gradient(120% 60% at 50% -12%, rgb(114 142 252 / 0.22) 0%, rgb(49 39 131 / 0.16) 36%, rgb(11 14 20 / 0) 70%),
+    radial-gradient(
+      120% 60% at 50% -12%,
+      rgb(114 142 252 / 0.22) 0%,
+      rgb(49 39 131 / 0.16) 36%,
+      rgb(11 14 20 / 0) 70%
+    ),
     var(--surface-bg);
   background-attachment: fixed;
 }
@@ -298,7 +303,10 @@ h4 {
   border: 1px solid var(--surface-border);
   border-radius: 16px;
   padding: 20px;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .example-card:hover {
@@ -452,7 +460,9 @@ h4 {
   color: var(--color-spectoda-200);
   font-size: 0.76rem;
   font-weight: 700;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 .copy-btn:hover {
   background: var(--accent);
@@ -487,7 +497,9 @@ h4 {
   color: var(--color-spectoda-200);
   font-size: 0.82rem;
   font-weight: 600;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 .related-link:hover {
   background: var(--surface-card-hover);
