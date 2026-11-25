@@ -43,6 +43,7 @@
       "surface": "public-preview",
       "dev_script": "dev",
       "build_script": "build",
+      "build_output": "dist",
       "tags": [
         "examples",
         "filesystem-db-v2",
